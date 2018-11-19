@@ -25,7 +25,14 @@ namespace RudyAriazHeadEssay
         {
             return true;
         }
-        
+
+
+        // Do the users share at least one interest?
+        private bool ShareSameInterest(Person user1, Person user2)
+        {
+            return user1.GetAllInterests().Intersect(user1.GetAllInterests()).Any();
+        }
+
         // Finds unique friends of friends for user
         // TODO: test if HashSet works as expected
         public HashSet<Person> FriendsOfFriends(Person user)
@@ -41,7 +48,6 @@ namespace RudyAriazHeadEssay
             return fOfF;
         }
 
-
         // All friends of friends with the same interest 
         public HashSet<Person> FriendsOfFriendsWithSameInterest(Person user)
         {
@@ -49,8 +55,24 @@ namespace RudyAriazHeadEssay
             // Remove users if they don't have the same interest 
             foreach(Person friendOfFriend in fOfFWithSameInterest)
             {
-                if(!friendOfFriend.interests)
+                // Remove the friend of friend if no shared interests
+                if(!ShareSameInterest(friendOfFriend, user))
+                {
+                    fOfFWithSameInterest.Remove(friendOfFriend);
+                }
             }
+            return fOfFWithSameInterest;
+        }
+
+        // Find up to 10 people in the same city that share at least one interest
+        public HashSet<Person> SameCitySameInterest(Person user)
+        {
+
+        }
+
+        public HashSet<Person> SameCity(Person user)
+        {
+
         }
 
         // TODO: check if there are restrictions on users size 

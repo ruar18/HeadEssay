@@ -101,7 +101,7 @@ namespace RudyAriazHeadEssay
         // TODO: need invitation parameter?
         public void SendInvitation(Person receiver, Invitation invitation)
         {
-            
+            receiver.incomingInvitations.Add(invitation);
         }
 
         // Allows a user to receive an invitation
