@@ -53,7 +53,21 @@
             this.lblInterest2 = new System.Windows.Forms.Label();
             this.lblInterest1 = new System.Windows.Forms.Label();
             this.lblInterestList = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnFriendDown = new System.Windows.Forms.Button();
+            this.btnFriendUp = new System.Windows.Forms.Button();
+            this.btnInvitationUp = new System.Windows.Forms.Button();
+            this.btnRecommendationUp = new System.Windows.Forms.Button();
+            this.btnInterestUp = new System.Windows.Forms.Button();
+            this.btnInterestDown = new System.Windows.Forms.Button();
+            this.btnRecommendationDown = new System.Windows.Forms.Button();
+            this.btnInvitationDown = new System.Windows.Forms.Button();
+            this.btnNextRecommendationList = new System.Windows.Forms.Button();
+            this.btnAddRecommendedFriend = new System.Windows.Forms.Button();
+            this.btnInviteFriend = new System.Windows.Forms.Button();
+            this.btnDeleteFriend = new System.Windows.Forms.Button();
+            this.btnAddInterest = new System.Windows.Forms.Button();
+            this.btnToggleInvitations = new System.Windows.Forms.Button();
+            this.txtAddInterest = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblFullName
@@ -113,7 +127,7 @@
             // lblFriendList
             // 
             this.lblFriendList.AutoSize = true;
-            this.lblFriendList.Location = new System.Drawing.Point(1211, 217);
+            this.lblFriendList.Location = new System.Drawing.Point(1206, 150);
             this.lblFriendList.Name = "lblFriendList";
             this.lblFriendList.Size = new System.Drawing.Size(154, 32);
             this.lblFriendList.TabIndex = 6;
@@ -122,7 +136,7 @@
             // lblInvitationList
             // 
             this.lblInvitationList.AutoSize = true;
-            this.lblInvitationList.Location = new System.Drawing.Point(875, 217);
+            this.lblInvitationList.Location = new System.Drawing.Point(873, 150);
             this.lblInvitationList.Name = "lblInvitationList";
             this.lblInvitationList.Size = new System.Drawing.Size(188, 32);
             this.lblInvitationList.TabIndex = 7;
@@ -221,7 +235,7 @@
             // lblRecommendationList
             // 
             this.lblRecommendationList.AutoSize = true;
-            this.lblRecommendationList.Location = new System.Drawing.Point(458, 217);
+            this.lblRecommendationList.Location = new System.Drawing.Point(452, 150);
             this.lblRecommendationList.Name = "lblRecommendationList";
             this.lblRecommendationList.Size = new System.Drawing.Size(296, 32);
             this.lblRecommendationList.TabIndex = 13;
@@ -275,27 +289,165 @@
             // lblInterestList
             // 
             this.lblInterestList.AutoSize = true;
-            this.lblInterestList.Location = new System.Drawing.Point(137, 217);
+            this.lblInterestList.Location = new System.Drawing.Point(137, 150);
             this.lblInterestList.Name = "lblInterestList";
             this.lblInterestList.Size = new System.Drawing.Size(167, 32);
             this.lblInterestList.TabIndex = 19;
             this.lblInterestList.Text = "My Interests";
             // 
-            // button1
+            // btnFriendDown
             // 
-            this.button1.Location = new System.Drawing.Point(1223, 636);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(115, 56);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnFriendDown.Location = new System.Drawing.Point(1223, 610);
+            this.btnFriendDown.Name = "btnFriendDown";
+            this.btnFriendDown.Size = new System.Drawing.Size(115, 56);
+            this.btnFriendDown.TabIndex = 25;
+            this.btnFriendDown.Text = "Down";
+            this.btnFriendDown.UseVisualStyleBackColor = true;
+            // 
+            // btnFriendUp
+            // 
+            this.btnFriendUp.Location = new System.Drawing.Point(1223, 204);
+            this.btnFriendUp.Name = "btnFriendUp";
+            this.btnFriendUp.Size = new System.Drawing.Size(115, 56);
+            this.btnFriendUp.TabIndex = 26;
+            this.btnFriendUp.Text = "Up";
+            this.btnFriendUp.UseVisualStyleBackColor = true;
+            // 
+            // btnInvitationUp
+            // 
+            this.btnInvitationUp.Location = new System.Drawing.Point(903, 204);
+            this.btnInvitationUp.Name = "btnInvitationUp";
+            this.btnInvitationUp.Size = new System.Drawing.Size(115, 56);
+            this.btnInvitationUp.TabIndex = 27;
+            this.btnInvitationUp.Text = "Up";
+            this.btnInvitationUp.UseVisualStyleBackColor = true;
+            // 
+            // btnRecommendationUp
+            // 
+            this.btnRecommendationUp.Location = new System.Drawing.Point(547, 204);
+            this.btnRecommendationUp.Name = "btnRecommendationUp";
+            this.btnRecommendationUp.Size = new System.Drawing.Size(115, 56);
+            this.btnRecommendationUp.TabIndex = 28;
+            this.btnRecommendationUp.Text = "Up";
+            this.btnRecommendationUp.UseVisualStyleBackColor = true;
+            // 
+            // btnInterestUp
+            // 
+            this.btnInterestUp.Location = new System.Drawing.Point(155, 204);
+            this.btnInterestUp.Name = "btnInterestUp";
+            this.btnInterestUp.Size = new System.Drawing.Size(115, 56);
+            this.btnInterestUp.TabIndex = 29;
+            this.btnInterestUp.Text = "Up";
+            this.btnInterestUp.UseVisualStyleBackColor = true;
+            // 
+            // btnInterestDown
+            // 
+            this.btnInterestDown.Location = new System.Drawing.Point(165, 610);
+            this.btnInterestDown.Name = "btnInterestDown";
+            this.btnInterestDown.Size = new System.Drawing.Size(115, 56);
+            this.btnInterestDown.TabIndex = 32;
+            this.btnInterestDown.Text = "Down";
+            this.btnInterestDown.UseVisualStyleBackColor = true;
+            // 
+            // btnRecommendationDown
+            // 
+            this.btnRecommendationDown.Location = new System.Drawing.Point(547, 610);
+            this.btnRecommendationDown.Name = "btnRecommendationDown";
+            this.btnRecommendationDown.Size = new System.Drawing.Size(115, 56);
+            this.btnRecommendationDown.TabIndex = 33;
+            this.btnRecommendationDown.Text = "Down";
+            this.btnRecommendationDown.UseVisualStyleBackColor = true;
+            // 
+            // btnInvitationDown
+            // 
+            this.btnInvitationDown.Location = new System.Drawing.Point(903, 610);
+            this.btnInvitationDown.Name = "btnInvitationDown";
+            this.btnInvitationDown.Size = new System.Drawing.Size(115, 56);
+            this.btnInvitationDown.TabIndex = 34;
+            this.btnInvitationDown.Text = "Down";
+            this.btnInvitationDown.UseVisualStyleBackColor = true;
+            // 
+            // btnNextRecommendationList
+            // 
+            this.btnNextRecommendationList.Location = new System.Drawing.Point(470, 693);
+            this.btnNextRecommendationList.Name = "btnNextRecommendationList";
+            this.btnNextRecommendationList.Size = new System.Drawing.Size(262, 80);
+            this.btnNextRecommendationList.TabIndex = 35;
+            this.btnNextRecommendationList.Text = "Next Recommendations";
+            this.btnNextRecommendationList.UseVisualStyleBackColor = true;
+            // 
+            // btnAddRecommendedFriend
+            // 
+            this.btnAddRecommendedFriend.Location = new System.Drawing.Point(547, 800);
+            this.btnAddRecommendedFriend.Name = "btnAddRecommendedFriend";
+            this.btnAddRecommendedFriend.Size = new System.Drawing.Size(115, 83);
+            this.btnAddRecommendedFriend.TabIndex = 36;
+            this.btnAddRecommendedFriend.Text = "Add Friend";
+            this.btnAddRecommendedFriend.UseVisualStyleBackColor = true;
+            // 
+            // btnInviteFriend
+            // 
+            this.btnInviteFriend.Location = new System.Drawing.Point(1167, 711);
+            this.btnInviteFriend.Name = "btnInviteFriend";
+            this.btnInviteFriend.Size = new System.Drawing.Size(115, 83);
+            this.btnInviteFriend.TabIndex = 37;
+            this.btnInviteFriend.Text = "Invite Friend";
+            this.btnInviteFriend.UseVisualStyleBackColor = true;
+            // 
+            // btnDeleteFriend
+            // 
+            this.btnDeleteFriend.Location = new System.Drawing.Point(1299, 711);
+            this.btnDeleteFriend.Name = "btnDeleteFriend";
+            this.btnDeleteFriend.Size = new System.Drawing.Size(115, 83);
+            this.btnDeleteFriend.TabIndex = 38;
+            this.btnDeleteFriend.Text = "Delete Friend";
+            this.btnDeleteFriend.UseVisualStyleBackColor = true;
+            // 
+            // btnAddInterest
+            // 
+            this.btnAddInterest.Location = new System.Drawing.Point(155, 786);
+            this.btnAddInterest.Name = "btnAddInterest";
+            this.btnAddInterest.Size = new System.Drawing.Size(139, 83);
+            this.btnAddInterest.TabIndex = 39;
+            this.btnAddInterest.Text = "Add Interest";
+            this.btnAddInterest.UseVisualStyleBackColor = true;
+            // 
+            // btnToggleInvitations
+            // 
+            this.btnToggleInvitations.Location = new System.Drawing.Point(885, 711);
+            this.btnToggleInvitations.Name = "btnToggleInvitations";
+            this.btnToggleInvitations.Size = new System.Drawing.Size(158, 83);
+            this.btnToggleInvitations.TabIndex = 40;
+            this.btnToggleInvitations.Text = "Toggle Invitations";
+            this.btnToggleInvitations.UseVisualStyleBackColor = true;
+            // 
+            // txtAddInterest
+            // 
+            this.txtAddInterest.Location = new System.Drawing.Point(143, 711);
+            this.txtAddInterest.Name = "txtAddInterest";
+            this.txtAddInterest.Size = new System.Drawing.Size(181, 38);
+            this.txtAddInterest.TabIndex = 41;
             // 
             // MainUIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1917, 1088);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.txtAddInterest);
+            this.Controls.Add(this.btnToggleInvitations);
+            this.Controls.Add(this.btnAddInterest);
+            this.Controls.Add(this.btnDeleteFriend);
+            this.Controls.Add(this.btnInviteFriend);
+            this.Controls.Add(this.btnAddRecommendedFriend);
+            this.Controls.Add(this.btnNextRecommendationList);
+            this.Controls.Add(this.btnInvitationDown);
+            this.Controls.Add(this.btnRecommendationDown);
+            this.Controls.Add(this.btnInterestDown);
+            this.Controls.Add(this.btnInterestUp);
+            this.Controls.Add(this.btnRecommendationUp);
+            this.Controls.Add(this.btnInvitationUp);
+            this.Controls.Add(this.btnFriendUp);
+            this.Controls.Add(this.btnFriendDown);
             this.Controls.Add(this.lblInterest5);
             this.Controls.Add(this.lblInterest4);
             this.Controls.Add(this.lblInterest3);
@@ -355,6 +507,20 @@
         private System.Windows.Forms.Label lblInterest2;
         private System.Windows.Forms.Label lblInterest1;
         private System.Windows.Forms.Label lblInterestList;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnFriendDown;
+        private System.Windows.Forms.Button btnFriendUp;
+        private System.Windows.Forms.Button btnInvitationUp;
+        private System.Windows.Forms.Button btnRecommendationUp;
+        private System.Windows.Forms.Button btnInterestUp;
+        private System.Windows.Forms.Button btnInterestDown;
+        private System.Windows.Forms.Button btnRecommendationDown;
+        private System.Windows.Forms.Button btnInvitationDown;
+        private System.Windows.Forms.Button btnNextRecommendationList;
+        private System.Windows.Forms.Button btnAddRecommendedFriend;
+        private System.Windows.Forms.Button btnInviteFriend;
+        private System.Windows.Forms.Button btnDeleteFriend;
+        private System.Windows.Forms.Button btnAddInterest;
+        private System.Windows.Forms.Button btnToggleInvitations;
+        private System.Windows.Forms.TextBox txtAddInterest;
     }
 }
