@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RudyAriazHeadEssay
 {
-    class Person
+    public class Person
     {
         // Store name information for the person
         public string FirstName { get; set; }
@@ -20,8 +20,12 @@ namespace RudyAriazHeadEssay
         private List<string> interests;
         // Store the person's friends
         private List<Person> friends;
+        // Store the person's friends-of-friends
+        private List<Person> friendsOfFriends;
         // Store the person's incoming pending invitations
         private List<Invitation> incomingInvitations;
+        // Store the person's outgoing invitations
+        private List<Invitation> outgoingInvitations;
 
 
         /// <summary>
@@ -39,11 +43,60 @@ namespace RudyAriazHeadEssay
             City = city;
             UserName = userName;
             Password = password;
+            // Initialize lists
+            interests = new List<string>();
+            friends = new List<Person>();
+            friendsOfFriends = new List<Person>();
+            incomingInvitations = new List<Invitation>();
+            outgoingInvitations = new List<Invitation>();
+        }
+        
+      
+        // Do a shallow copy of the friends 
+        public List<Person> GetAllFriends()
+        {
+            return Copier.CopyList(friends);
         }
 
-        public void AddFriend(Person friend) { }
+        public List<string> GetAllInterests()
+        {
+            return Copier.CopyList(interests);
+        }
 
-        public void RemoveFriend(Person friend) { }
+        // Adds the friend's friends to the person's friends-of-friends
+        // Only if not already in the person's friend list
+        // TODO: optimize with hashset?
+        private void AddFriendsOfFriend(Person friend)
+        {
+            foreach(Person friendOfFriend in friend.friends)
+            {
+                if (!this.friends.Contains(friendOfFriend))
+                {
+                    this.friendsOfFriends.Add(friendOfFriend);
+                }
+            } 
+        }
+
+        // Friend adds are not necessarily mutual
+        public void AddFriend(Person friend)
+        {
+            friends.Add(friend);
+            AddFriendsOfFriend(friend);
+        }
+
+        // TODO: Optimize
+        private void RemoveFriendsOfFriend()
+        {
+            foreach(Person friendOfFriend in this.friendsOfFriends)
+            {
+               
+            }
+        }
+
+        public void RemoveFriend(Person friend)
+        {
+            friends.Remove(friend);
+        }
 
         // TODO: need invitation parameter?
         public void SendInvitation(Person receiver, Invitation invitation)
@@ -60,5 +113,6 @@ namespace RudyAriazHeadEssay
         public void DeleteInvitation(Invitation toDelete) { }
 
         public bool IsFriend(Person other) { return true; }
+        
     }
 }
