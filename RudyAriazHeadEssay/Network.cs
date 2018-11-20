@@ -18,14 +18,31 @@ namespace RudyAriazHeadEssay
 
         /// <summary>
         /// Delete all invitations which have exceeded their lifespan.
+        /// Does this semi-lazily: only when refreshed.
         /// </summary>
-        public void DeleteInactiveInvitations() { }
+        public void DeleteInactiveInvitations()
+        {
+
+        }
+
+        public void RefreshInvitationInformation()
+        {
+
+        }
 
         public bool IsUserInNetwork(string userName, string password)
         {
             return true;
         }
 
+        // After user's friend is added/removed, update all of the recommendation lists
+        private bool RefreshAfterFriendChange(Person user)
+        {
+            FriendsOfFriends(user);
+            FriendsOfFriendsWithSameInterest(user);
+            SameCity(user);
+            SameCitySameInterest(user);
+        }
 
         // Do the users share at least one interest?
         private bool ShareSameInterest(Person user1, Person user2)
@@ -35,7 +52,7 @@ namespace RudyAriazHeadEssay
 
         // Finds unique friends of friends for user
         // TODO: test if HashSet works as expected
-        public HashSet<Person> FriendsOfFriends(Person user)
+        public void FriendsOfFriends(Person user)
         {
             HashSet<Person> fOfF = new HashSet<Person>();
             foreach(Person friend in user.GetAllFriends())
@@ -49,7 +66,7 @@ namespace RudyAriazHeadEssay
         }
 
         // All friends of friends with the same interest 
-        public HashSet<Person> FriendsOfFriendsWithSameInterest(Person user)
+        public void FriendsOfFriendsWithSameInterest(Person user)
         {
             HashSet<Person> fOfFWithSameInterest = FriendsOfFriends(user);
             // Remove users if they don't have the same interest 
@@ -65,12 +82,12 @@ namespace RudyAriazHeadEssay
         }
 
         // Find up to 10 people in the same city that share at least one interest
-        public HashSet<Person> SameCitySameInterest(Person user)
+        public void SameCitySameInterest(Person user)
         {
 
         }
 
-        public HashSet<Person> SameCity(Person user)
+        public void SameCity(Person user)
         {
 
         }

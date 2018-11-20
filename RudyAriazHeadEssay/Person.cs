@@ -110,9 +110,12 @@ namespace RudyAriazHeadEssay
             incomingInvitations.Add(invitation);
         }
 
+        // Can delete a sent or received invitation
         public void DeleteInvitation(Invitation toDelete) { }
 
         public bool IsFriend(Person other) { return true; }
+
+        public void AddInterest(string interest) { }
         
     }
 }
