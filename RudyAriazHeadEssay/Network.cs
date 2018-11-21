@@ -11,8 +11,6 @@ namespace RudyAriazHeadEssay
     {
         // Store all the users on the social network in an adjacency list
         private List<Person> users = new List<Person>();
-        private Dictionary<Person, List<Person>> connections =
-                  new Dictionary<Person, List<Person>>();
 
         public Network() { }
 
@@ -20,7 +18,7 @@ namespace RudyAriazHeadEssay
         /// Delete all invitations which have exceeded their lifespan.
         /// Does this semi-lazily: only when refreshed.
         /// </summary>
-        public void DeleteInactiveInvitations()
+        private void DeleteInactiveInvitations()
         {
 
         }
@@ -36,7 +34,7 @@ namespace RudyAriazHeadEssay
         }
 
         // After user's friend is added/removed, update all of the recommendation lists
-        private bool RefreshAfterFriendChange(Person user)
+        public bool RefreshAfterFriendChange(Person user)
         {
             FriendsOfFriends(user);
             FriendsOfFriendsWithSameInterest(user);
@@ -108,5 +106,7 @@ namespace RudyAriazHeadEssay
             }
 
         }
+
+        public void DeliverInvitation(Invitation invitation) { }
     }
 }

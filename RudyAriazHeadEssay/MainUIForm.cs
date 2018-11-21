@@ -35,11 +35,7 @@ namespace RudyAriazHeadEssay
         {
             // Populate all the lists 
         }
-
-        private void PopulateList<T>(List<T> info, List<Label> labels, int startIndex)
-        {
-
-        }
+        
 
         private void PopulateInvitation(Invitation invitation)
         {
