@@ -12,7 +12,7 @@ namespace RudyAriazHeadEssay
         public string FirstName { get; set; }
         public string LastName { get; set; }
         // Store login information for the person
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
         // Store location information for the person
         public string City { get; set; }
@@ -20,8 +20,14 @@ namespace RudyAriazHeadEssay
         private List<string> interests;
         // Store the person's friends
         private List<Person> friends;
-        // Store the person's friends-of-friends
+        // Store the person's friends of friends
         private List<Person> friendsOfFriends;
+        // Store the person's friends of friends with the same interest
+        private List<Person> friendsOfFriendsSameInterest;
+        // People in the same city as the person
+        private List<Person> sameCity;
+        // People in the same city with the same interest
+        private List<Person> sameCitySameInterest;
         // Store the person's incoming pending invitations
         private List<Invitation> incomingInvitations;
         // Store the person's outgoing invitations
@@ -33,15 +39,15 @@ namespace RudyAriazHeadEssay
         /// </summary>
         /// <param name="firstName">The person's first name.</param>
         /// <param name="lastName">The person's last name.</param>
-        /// <param name="userName">The person's user name.</param>
+        /// <param name="username">The person's user name.</param>
         /// <param name="password">The perons's password.</param>
-        public Person(string firstName, string lastName, string city, 
-                      string userName, string password)
+        public Person(string firstName, string lastName, string city,
+                      string username, string password)
         {
             FirstName = firstName;
             LastName = lastName;
             City = city;
-            UserName = userName;
+            username = username;
             Password = password;
             // Initialize lists
             interests = new List<string>();
@@ -50,8 +56,8 @@ namespace RudyAriazHeadEssay
             incomingInvitations = new List<Invitation>();
             outgoingInvitations = new List<Invitation>();
         }
-        
-      
+
+
         // Do a shallow copy of the friends 
         public List<Person> GetAllFriends()
         {
@@ -68,13 +74,13 @@ namespace RudyAriazHeadEssay
         // TODO: optimize with hashset?
         private void AddFriendsOfFriend(Person friend)
         {
-            foreach(Person friendOfFriend in friend.friends)
+            foreach (Person friendOfFriend in friend.friends)
             {
                 if (!this.friends.Contains(friendOfFriend))
                 {
                     this.friendsOfFriends.Add(friendOfFriend);
                 }
-            } 
+            }
         }
 
         // Friend adds are not necessarily mutual
@@ -84,14 +90,6 @@ namespace RudyAriazHeadEssay
             AddFriendsOfFriend(friend);
         }
 
-        // TODO: Optimize
-        private void RemoveFriendsOfFriend()
-        {
-            foreach(Person friendOfFriend in this.friendsOfFriends)
-            {
-               
-            }
-        }
 
         public void RemoveFriend(Person friend)
         {
@@ -110,12 +108,42 @@ namespace RudyAriazHeadEssay
             incomingInvitations.Add(invitation);
         }
 
-        // Can delete a sent or received invitation
-        public void DeleteInvitation(Invitation toDelete) { }
+        // Receive an incoming invitation into the person's pending list 
+        public void ReceiveInvitation(Invitation toReceive)
+        {
+
+        }
+
+        // Can delete a pending incoming or accepted invitation
+        public void DeleteIncomingInvitation(Invitation toDelete) { }
+
+        // Can delete an outgoing invitation
+        public void DeleteOutgoingInvitation(Invitation toDelete) { }
+
+        // Adds an outgoing invitation to the list of outgoing invitations
+        public void AddOutgoingInvitation(Invitation toAdd) { }
 
         public bool IsFriend(Person other) { return true; }
 
         public void AddInterest(string interest) { }
-        
+
+        public void SetFriendsOfFriends(List<Person> people) { }
+        public void SetFriendsOfFriendsSameInterest(List<Person> people) { }
+        public void SetSameCity(List<Person> people) { }
+        public void SetSameCitySameInterest(List<Person> people) { }
+
+        public List<Invitation> GetOutgoingInvitations()
+        {
+            return Copier.CopyList(outgoingInvitations);
+        }
+        public List<Invitation> GetIncomingInvitations()
+        {
+            return Copier.CopyList(incomingInvitations);
+        }
+        public List<Invitation> GetAcceptedInvitations()
+        {
+            return Copier.
+        }
+
     }
 }

@@ -6,13 +6,22 @@ using System.Threading.Tasks;
 
 namespace RudyAriazHeadEssay
 {
-    // TODO: why is this public? 
     public class Network
     {
-        // Store all the users on the social network in an adjacency list
+        // Store all the users on the social network
         private List<Person> users = new List<Person>();
+        // Explicitly store all the invitations on a social network 
+        private List<Invitation> invitations = new List<Invitation>();
 
         public Network() { }
+
+        // TODO: check if there are restrictions on users size 
+        // TODO: catch exception
+        // Add a user that was not in the graph before
+        public void AddNewUser(Person user)
+        {
+            users.Add(user);
+        }
 
         /// <summary>
         /// Delete all invitations which have exceeded their lifespan.
@@ -20,21 +29,55 @@ namespace RudyAriazHeadEssay
         /// </summary>
         private void DeleteInactiveInvitations()
         {
+            // Go through all of the invitations in the network
+            foreach(Invitation sent in invitations)
+            {
+                // Check if the current invitation is inactive
+                if (!sent.IsActive())
+                {
+                    // Delete the inactive invitation from the sent list
+                    sent.Creator.DeleteOutgoingInvitation(sent);
+                    // Delete the inactive invitation from the incoming lists
+                    foreach(Person recipient in sent.GetAllRecipients())
+                    {
+                        recipient.DeleteIncomingInvitation(sent);
+                    }
+                }
+            }
+        }
+
+        // Add the invitations to all the correct lists
+        public void DeliverInvitation(Invitation invitation)
+        {
+            // Record the invitation in the list of all invitations
+            invitations.Add(invitation);
+            // Add the invitation to the sender's list of outgoing invitations
+            invitation.Creator.AddOutgoingInvitation(invitation);
+            // Add the invitation to the recipients' recipient list 
+            foreach (Person recipient in invitation.GetAllRecipients())
+            {
+                recipient.ReceiveInvitation()
+            }
 
         }
 
-        public void RefreshInvitationInformation()
+        // Check if username and password matches that of a person in the network
+        public Person FindUserInNetwork(string username, string password)
         {
-
-        }
-
-        public bool IsUserInNetwork(string userName, string password)
-        {
-            return true;
+            foreach(Person user in users)
+            {
+                // Found a match
+                if(user.Username == username && user.Password == password)
+                {
+                    return user;
+                }
+            }
+            // Return null if user is not found 
+            return null;
         }
 
         // After user's friend is added/removed, update all of the recommendation lists
-        public bool RefreshAfterFriendChange(Person user)
+        public void RefreshAfterFriendChange(Person user)
         {
             FriendsOfFriends(user);
             FriendsOfFriendsWithSameInterest(user);
@@ -52,7 +95,7 @@ namespace RudyAriazHeadEssay
         // TODO: test if HashSet works as expected
         public void FriendsOfFriends(Person user)
         {
-            HashSet<Person> fOfF = new HashSet<Person>();
+            List<Person> fOfF = new List<Person>();
             foreach(Person friend in user.GetAllFriends())
             {
                 foreach(Person friendOfFriend in friend.GetAllFriends())
@@ -60,13 +103,13 @@ namespace RudyAriazHeadEssay
                     fOfF.Add(friendOfFriend);
                 }
             }
-            return fOfF;
+            user.SetFriendsOfFriends(fOfF);
         }
 
         // All friends of friends with the same interest 
         public void FriendsOfFriendsWithSameInterest(Person user)
         {
-            HashSet<Person> fOfFWithSameInterest = FriendsOfFriends(user);
+            HashSet<Person> fOfFWithSameInterest = FindFriendsOfFriends(user);
             // Remove users if they don't have the same interest 
             foreach(Person friendOfFriend in fOfFWithSameInterest)
             {
@@ -90,23 +133,10 @@ namespace RudyAriazHeadEssay
 
         }
 
-        // TODO: check if there are restrictions on users size 
-        // TODO: catch exception
-        // Add a user that was not in the graph before
-        public void AddNewUser(Person user)
-        {
-            if (user == null)
-            {
-                throw new System.ArgumentNullException("Parameter cannot be null", "user");
-            }
-            else
-            {
-                users.Add(user);
-                connections.Add(user, new List<Person>());
-            }
+        
 
-        }
+        
 
-        public void DeliverInvitation(Invitation invitation) { }
+
     }
 }

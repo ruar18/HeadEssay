@@ -17,16 +17,21 @@ namespace RudyAriazHeadEssay
         public Person Creator { get; }
         // The people that the invitation was sent to 
         private List<Person> recipients;
-        // The number of milliseconds a minute
+        // The number of milliseconds in a minute
         private const int MS_IN_MINUTE = 60000;
 
+        // Creates an invitation object
         public Invitation(Person creator, List<Person> recipients, 
                           string interest, int timeCreated, int lifeTime )
         {
-            Interest = "test";
+            Creator = creator;
+            this.recipients = recipients;
+            Interest = interest;
+            this.timeCreated = timeCreated;
+            this.lifeTime = lifeTime;
         }
 
-        // Checks if the invitation is still active, accurate to the milisecond
+        // Checks if the invitation is still active
         public bool IsActive()
         {
             return Environment.TickCount - timeCreated <= lifeTime * MS_IN_MINUTE;
@@ -39,6 +44,7 @@ namespace RudyAriazHeadEssay
             return lifeTime - (Environment.TickCount - timeCreated) / MS_IN_MINUTE;
         }
 
+        // Shallow copy the recipient list 
         public List<Person> GetAllRecipients()
         {
             return Copier.CopyList(recipients);

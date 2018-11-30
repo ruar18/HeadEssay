@@ -13,39 +13,41 @@ namespace RudyAriazHeadEssay
     public partial class LoginForm : Form
     {
         // HeadEssay's social network
-        private Network network;
+        private Network network = new Network();
 
-        public LoginForm(Network network)
+        public LoginForm()
         {
             InitializeComponent();
-            this.network = network;
         }
         
 
         // TODO: complete, null check
         // Logs user in if information is accurate
-        private void Login(string userName, string password)
+        private void Login(string username, string password)
         {
-            // Create user interface 
-            if(network.IsUserInNetwork(userName, password))
+            Person user = network.FindUserInNetwork(username, password);
+            // Create user interface if a user was found 
+            if(user != null)
             {
-                MainUIForm frmUI = new MainUIForm();
-
+                MainUIForm frmUI = new MainUIForm(network, user);
+                frmUI.ShowDialog();
             }
             // Print error message 
             else
             {
-               
+                MessageBox.Show("Invalid login information. Please try again.");
             }
         }
         
         // Registers a new user
         // TODO: empty checks? check when it's done in our previous programs
         private void RegisterUser(string firstName, string lastName, string city, 
-                                  string userName, string password)
+                                  string username, string password)
         {
-            Person newUser = new Person(firstName, lastName, city, userName, password);
+            Person newUser = new Person(firstName, lastName, city, username, password);
             network.AddNewUser(newUser);
+            MainUIForm frmUI = new MainUIForm(network, newUser);
+            frmUI.ShowDialog();
         }
 
 
