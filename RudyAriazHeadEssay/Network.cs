@@ -56,9 +56,28 @@ namespace RudyAriazHeadEssay
             // Add the invitation to the recipients' recipient list 
             foreach (Person recipient in invitation.GetAllRecipients())
             {
-                recipient.ReceiveInvitation()
+                recipient.ReceiveInvitation(invitation);
             }
 
+        }
+
+        // Finds unique friends of friends for user
+        public void FindFriendsOfFriends(Person user)
+        {
+            // Create a new list to store the friends of friends 
+            List<Person> friendsOfFriends = new List<Person>();
+            // Go through all of the user's friends
+            foreach (Person friend in user.GetAllFriends())
+            {
+                // Go through all of the friend's friends
+                foreach (Person friendOfFriend in friend.GetAllFriends())
+                {
+                    // Add the friend of friend to the list
+                    friendsOfFriends.Add(friendOfFriend);
+                }
+            }
+            // Set the user's friends of friends 
+            user.SetFriendsOfFriends(friendsOfFriends.Distinct().ToList());
         }
 
         // Check if username and password matches that of a person in the network
@@ -76,10 +95,12 @@ namespace RudyAriazHeadEssay
             return null;
         }
 
+
+
         // After user's friend is added/removed, update all of the recommendation lists
         public void RefreshAfterFriendChange(Person user)
         {
-            FriendsOfFriends(user);
+            FindFriendsOfFriends(user);
             FriendsOfFriendsWithSameInterest(user);
             SameCity(user);
             SameCitySameInterest(user);
@@ -91,20 +112,7 @@ namespace RudyAriazHeadEssay
             return user1.GetAllInterests().Intersect(user1.GetAllInterests()).Any();
         }
 
-        // Finds unique friends of friends for user
-        // TODO: test if HashSet works as expected
-        public void FriendsOfFriends(Person user)
-        {
-            List<Person> fOfF = new List<Person>();
-            foreach(Person friend in user.GetAllFriends())
-            {
-                foreach(Person friendOfFriend in friend.GetAllFriends())
-                {
-                    fOfF.Add(friendOfFriend);
-                }
-            }
-            user.SetFriendsOfFriends(fOfF);
-        }
+        
 
         // All friends of friends with the same interest 
         public void FriendsOfFriendsWithSameInterest(Person user)
