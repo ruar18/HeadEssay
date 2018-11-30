@@ -80,6 +80,29 @@ namespace RudyAriazHeadEssay
             user.SetFriendsOfFriends(friendsOfFriends.Distinct().ToList());
         }
 
+        // All unique friends of friends with the same interest 
+        public void FindFriendsOfFriendsWithSameInterest(Person user)
+        {
+            // Find the user's friends of friends 
+            FindFriendsOfFriends(user);
+            // Create the list that will store the friends of friends with same interest
+            List<Person> validFriendsOfFriends = user.GetFriendsOfFriends();
+            // Filter the user's friends of friends to only those with 
+            // the same interest
+            foreach(Person friendOfFriend in validFriendsOfFriends)
+            {
+                // Check if the friend of friend shares an interest by checking 
+                bool interestShared = friendOfFriend.GetAllInterests().Intersect(user.GetAllInterests()).Any();
+                // If there is no shared interest, delete the friend of friend
+                if (!interestShared)
+                {
+                    validFriendsOfFriends.Remove(friendOfFriend);
+                }
+            }
+            // Set the user's friends of friends with same interest 
+            user.SetFriendsOfFriendsSameInterest(validFriendsOfFriends);
+        }
+
         // Check if username and password matches that of a person in the network
         public Person FindUserInNetwork(string username, string password)
         {
@@ -96,12 +119,11 @@ namespace RudyAriazHeadEssay
         }
 
 
-
         // After user's friend is added/removed, update all of the recommendation lists
         public void RefreshAfterFriendChange(Person user)
         {
             FindFriendsOfFriends(user);
-            FriendsOfFriendsWithSameInterest(user);
+            FindFriendsOfFriendsWithSameInterest(user);
             SameCity(user);
             SameCitySameInterest(user);
         }
@@ -114,21 +136,7 @@ namespace RudyAriazHeadEssay
 
         
 
-        // All friends of friends with the same interest 
-        public void FriendsOfFriendsWithSameInterest(Person user)
-        {
-            HashSet<Person> fOfFWithSameInterest = FindFriendsOfFriends(user);
-            // Remove users if they don't have the same interest 
-            foreach(Person friendOfFriend in fOfFWithSameInterest)
-            {
-                // Remove the friend of friend if no shared interests
-                if(!ShareSameInterest(friendOfFriend, user))
-                {
-                    fOfFWithSameInterest.Remove(friendOfFriend);
-                }
-            }
-            return fOfFWithSameInterest;
-        }
+        
 
         // Find up to 10 people in the same city that share at least one interest
         public void SameCitySameInterest(Person user)

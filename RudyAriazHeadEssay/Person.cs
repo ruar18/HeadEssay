@@ -64,6 +64,12 @@ namespace RudyAriazHeadEssay
             return Copier.CopyList(friends);
         }
 
+        // Do a shallow copy of friends of friends
+        public List<Person> GetFriendsOfFriends()
+        {
+            return Copier.CopyList(friendsOfFriends);
+        }
+
         public List<string> GetAllInterests()
         {
             return Copier.CopyList(interests);
