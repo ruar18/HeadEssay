@@ -162,12 +162,13 @@ namespace RudyAriazHeadEssay
 
 
         // After user's friend is added/removed, update all of the recommendation lists
-        public void RefreshAfterFriendChange(Person user)
+        public void GenerateRecommendationLists(Person user)
         {
+
             FindFriendsOfFriends(user);
             FindFriendsOfFriendsWithSameInterest(user);
-            SameCity(user);
-            SameCitySameInterest(user);
+            FindSameCity(user);
+            FindSameCitySameInterest(user);
         }
 
 
@@ -176,18 +177,5 @@ namespace RudyAriazHeadEssay
         {
             return user1.GetAllInterests().Intersect(user1.GetAllInterests()).Any();
         }
-
-        
-
-        
-
-        
-
-       
-        
-
-        
-
-
     }
 }
