@@ -70,6 +70,9 @@ namespace RudyAriazHeadEssay
             return Copier.CopyList(friendsOfFriends);
         }
 
+        // Do a shallow copy of non-friends in same city
+        public List<Person> GetSameCity() { return Copier.CopyList(sameCity); }
+
         public List<string> GetAllInterests()
         {
             return Copier.CopyList(interests);
@@ -129,6 +132,7 @@ namespace RudyAriazHeadEssay
         // Adds an outgoing invitation to the list of outgoing invitations
         public void AddOutgoingInvitation(Invitation toAdd) { }
 
+        // Return true if other is in the person's friend list, false otherwise
         public bool IsFriend(Person other) { return true; }
 
         public void AddInterest(string interest) { }

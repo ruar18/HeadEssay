@@ -103,6 +103,48 @@ namespace RudyAriazHeadEssay
             user.SetFriendsOfFriendsSameInterest(validFriendsOfFriends);
         }
 
+        // Up to 10 unique non-friends in the same city
+        public void FindSameCity(Person user)
+        {
+            // Create the list that will store individuals in the same city
+            List<Person> sameCity = new List<Person>();
+            // Go through all people in the network
+            foreach(Person currentPerson in users)
+            {
+                // If the current person is not the user's friend, it is a valid user
+                if (!user.IsFriend(currentPerson))
+                {
+                    // Add the person to the list 
+                    sameCity.Add(currentPerson);
+                }
+            }
+            // Set the user's non-friends in the same city after removing duplicates 
+            user.SetSameCity(sameCity.Distinct().ToList());
+        }
+
+        // Find up to 10 non-friends in the same city that share at least one interest
+        public void FindSameCitySameInterest(Person user)
+        {
+            // Find the user's non-friends in the same city
+            FindSameCity(user);
+            // Get the user's non-friends in the same city
+            List<Person> validSameCity = user.GetSameCity();
+            // Filter out all of the same-city non-friends who don't share an interest
+            foreach(Person currentPerson in validSameCity)
+            {
+                // Check if the currentPerson doesn't share an interest with the user
+                bool interestShared = currentPerson.GetAllInterests().Intersect(user.GetAllInterests()).Any();
+                // currentPerson is not valid if no interest is shared
+                if (!interestShared)
+                {
+                    // Remove currentPerson
+                    validSameCity.Remove(currentPerson);
+                }
+            }
+            // Set the user's list 
+            user.SetSameCitySameInterest(validSameCity);
+        }
+
         // Check if username and password matches that of a person in the network
         public Person FindUserInNetwork(string username, string password)
         {
@@ -128,6 +170,7 @@ namespace RudyAriazHeadEssay
             SameCitySameInterest(user);
         }
 
+
         // Do the users share at least one interest?
         private bool ShareSameInterest(Person user1, Person user2)
         {
@@ -138,17 +181,9 @@ namespace RudyAriazHeadEssay
 
         
 
-        // Find up to 10 people in the same city that share at least one interest
-        public void SameCitySameInterest(Person user)
-        {
+        
 
-        }
-
-        public void SameCity(Person user)
-        {
-
-        }
-
+       
         
 
         
