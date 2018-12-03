@@ -161,7 +161,7 @@ namespace RudyAriazHeadEssay
         }
         public List<Invitation> GetAcceptedInvitations()
         {
-            return Copier.
+            return Copier.CopyList(acceptedInvitations);
         }
 
     }

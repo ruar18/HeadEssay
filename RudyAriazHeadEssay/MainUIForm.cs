@@ -20,6 +20,8 @@ namespace RudyAriazHeadEssay
         public MainUIForm(Network network, Person user)
         {
             InitializeComponent();
+            // Make this form fullscreen
+            WindowState = FormWindowState.Maximized;
             this.network = network;
             this.user = user;
         }
