@@ -67,10 +67,17 @@ namespace RudyAriazHeadEssay
             return Copier.CopyList(friends);
         }
 
+        
         // Do a shallow copy of friends of friends
         public List<Person> GetFriendsOfFriends()
         {
             return Copier.CopyList(friendsOfFriends);
+        }
+
+        // Do a shalow copy of friends of friends with same interest
+        public List<Person> GetFriendsOfFriendsSameInterest()
+        {
+            return Copier.CopyList(friendsOfFriendsSameInterest);
         }
 
         // Do a shallow copy of non-friends in same city
@@ -144,7 +151,10 @@ namespace RudyAriazHeadEssay
         // Return true if other is in the person's friend list, false otherwise
         public bool IsFriend(Person other) { return true; }
 
-        public void AddInterest(string interest) { }
+        public void AddInterest(string interest)
+        {
+            interests.Add(interest);
+        }
 
         public void SetFriendsOfFriends(List<Person> people) { }
         public void SetFriendsOfFriendsSameInterest(List<Person> people) { }
@@ -163,6 +173,7 @@ namespace RudyAriazHeadEssay
         {
             return Copier.CopyList(acceptedInvitations);
         }
+        
 
     }
 }

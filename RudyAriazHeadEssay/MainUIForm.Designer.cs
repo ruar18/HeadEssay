@@ -41,17 +41,9 @@
             this.lblInvitation3 = new System.Windows.Forms.Label();
             this.lblInvitation2 = new System.Windows.Forms.Label();
             this.lblInvitation1 = new System.Windows.Forms.Label();
-            this.lblRecommendation5 = new System.Windows.Forms.Label();
-            this.lblRecommendation4 = new System.Windows.Forms.Label();
-            this.lblRecommendation3 = new System.Windows.Forms.Label();
-            this.lblRecommendation2 = new System.Windows.Forms.Label();
-            this.lblRecommendation1 = new System.Windows.Forms.Label();
+            this.lblRecommendation = new System.Windows.Forms.Label();
             this.lblRecommendationList = new System.Windows.Forms.Label();
-            this.lblInterest5 = new System.Windows.Forms.Label();
-            this.lblInterest4 = new System.Windows.Forms.Label();
-            this.lblInterest3 = new System.Windows.Forms.Label();
-            this.lblInterest2 = new System.Windows.Forms.Label();
-            this.lblInterest1 = new System.Windows.Forms.Label();
+            this.lblInterest = new System.Windows.Forms.Label();
             this.lblInterestList = new System.Windows.Forms.Label();
             this.btnFriendDown = new System.Windows.Forms.Button();
             this.btnFriendUp = new System.Windows.Forms.Button();
@@ -85,16 +77,17 @@
             // lblFriend1
             // 
             this.lblFriend1.AutoSize = true;
-            this.lblFriend1.Location = new System.Drawing.Point(1235, 282);
+            this.lblFriend1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFriend1.Location = new System.Drawing.Point(1293, 293);
             this.lblFriend1.Name = "lblFriend1";
-            this.lblFriend1.Size = new System.Drawing.Size(103, 32);
+            this.lblFriend1.Size = new System.Drawing.Size(110, 32);
             this.lblFriend1.TabIndex = 1;
             this.lblFriend1.Text = "friend1";
             // 
             // lblFriend2
             // 
             this.lblFriend2.AutoSize = true;
-            this.lblFriend2.Location = new System.Drawing.Point(1235, 343);
+            this.lblFriend2.Location = new System.Drawing.Point(1293, 354);
             this.lblFriend2.Name = "lblFriend2";
             this.lblFriend2.Size = new System.Drawing.Size(103, 32);
             this.lblFriend2.TabIndex = 2;
@@ -103,7 +96,7 @@
             // lblFriend3
             // 
             this.lblFriend3.AutoSize = true;
-            this.lblFriend3.Location = new System.Drawing.Point(1235, 408);
+            this.lblFriend3.Location = new System.Drawing.Point(1293, 419);
             this.lblFriend3.Name = "lblFriend3";
             this.lblFriend3.Size = new System.Drawing.Size(103, 32);
             this.lblFriend3.TabIndex = 3;
@@ -112,7 +105,7 @@
             // lblFriend4
             // 
             this.lblFriend4.AutoSize = true;
-            this.lblFriend4.Location = new System.Drawing.Point(1235, 478);
+            this.lblFriend4.Location = new System.Drawing.Point(1293, 489);
             this.lblFriend4.Name = "lblFriend4";
             this.lblFriend4.Size = new System.Drawing.Size(103, 32);
             this.lblFriend4.TabIndex = 4;
@@ -121,7 +114,7 @@
             // lblFriend5
             // 
             this.lblFriend5.AutoSize = true;
-            this.lblFriend5.Location = new System.Drawing.Point(1235, 546);
+            this.lblFriend5.Location = new System.Drawing.Point(1293, 557);
             this.lblFriend5.Name = "lblFriend5";
             this.lblFriend5.Size = new System.Drawing.Size(103, 32);
             this.lblFriend5.TabIndex = 5;
@@ -190,50 +183,14 @@
             this.lblInvitation1.TabIndex = 8;
             this.lblInvitation1.Text = "invitation1";
             // 
-            // lblRecommendation5
+            // lblRecommendation
             // 
-            this.lblRecommendation5.AutoSize = true;
-            this.lblRecommendation5.Location = new System.Drawing.Point(480, 554);
-            this.lblRecommendation5.Name = "lblRecommendation5";
-            this.lblRecommendation5.Size = new System.Drawing.Size(243, 32);
-            this.lblRecommendation5.TabIndex = 18;
-            this.lblRecommendation5.Text = "recommendation5";
-            // 
-            // lblRecommendation4
-            // 
-            this.lblRecommendation4.AutoSize = true;
-            this.lblRecommendation4.Location = new System.Drawing.Point(480, 482);
-            this.lblRecommendation4.Name = "lblRecommendation4";
-            this.lblRecommendation4.Size = new System.Drawing.Size(243, 32);
-            this.lblRecommendation4.TabIndex = 17;
-            this.lblRecommendation4.Text = "recommendation4";
-            // 
-            // lblRecommendation3
-            // 
-            this.lblRecommendation3.AutoSize = true;
-            this.lblRecommendation3.Location = new System.Drawing.Point(480, 409);
-            this.lblRecommendation3.Name = "lblRecommendation3";
-            this.lblRecommendation3.Size = new System.Drawing.Size(243, 32);
-            this.lblRecommendation3.TabIndex = 16;
-            this.lblRecommendation3.Text = "recommendation3";
-            // 
-            // lblRecommendation2
-            // 
-            this.lblRecommendation2.AutoSize = true;
-            this.lblRecommendation2.Location = new System.Drawing.Point(480, 347);
-            this.lblRecommendation2.Name = "lblRecommendation2";
-            this.lblRecommendation2.Size = new System.Drawing.Size(243, 32);
-            this.lblRecommendation2.TabIndex = 15;
-            this.lblRecommendation2.Text = "recommendation2";
-            // 
-            // lblRecommendation1
-            // 
-            this.lblRecommendation1.AutoSize = true;
-            this.lblRecommendation1.Location = new System.Drawing.Point(480, 286);
-            this.lblRecommendation1.Name = "lblRecommendation1";
-            this.lblRecommendation1.Size = new System.Drawing.Size(243, 32);
-            this.lblRecommendation1.TabIndex = 14;
-            this.lblRecommendation1.Text = "recommendation1";
+            this.lblRecommendation.AutoSize = true;
+            this.lblRecommendation.Location = new System.Drawing.Point(452, 228);
+            this.lblRecommendation.Name = "lblRecommendation";
+            this.lblRecommendation.Size = new System.Drawing.Size(227, 32);
+            this.lblRecommendation.TabIndex = 14;
+            this.lblRecommendation.Text = "recommendation";
             // 
             // lblRecommendationList
             // 
@@ -244,50 +201,14 @@
             this.lblRecommendationList.TabIndex = 13;
             this.lblRecommendationList.Text = "My Recommendations";
             // 
-            // lblInterest5
+            // lblInterest
             // 
-            this.lblInterest5.AutoSize = true;
-            this.lblInterest5.Location = new System.Drawing.Point(159, 554);
-            this.lblInterest5.Name = "lblInterest5";
-            this.lblInterest5.Size = new System.Drawing.Size(125, 32);
-            this.lblInterest5.TabIndex = 24;
-            this.lblInterest5.Text = "interest5";
-            // 
-            // lblInterest4
-            // 
-            this.lblInterest4.AutoSize = true;
-            this.lblInterest4.Location = new System.Drawing.Point(159, 482);
-            this.lblInterest4.Name = "lblInterest4";
-            this.lblInterest4.Size = new System.Drawing.Size(125, 32);
-            this.lblInterest4.TabIndex = 23;
-            this.lblInterest4.Text = "interest4";
-            // 
-            // lblInterest3
-            // 
-            this.lblInterest3.AutoSize = true;
-            this.lblInterest3.Location = new System.Drawing.Point(159, 409);
-            this.lblInterest3.Name = "lblInterest3";
-            this.lblInterest3.Size = new System.Drawing.Size(125, 32);
-            this.lblInterest3.TabIndex = 22;
-            this.lblInterest3.Text = "interest3";
-            // 
-            // lblInterest2
-            // 
-            this.lblInterest2.AutoSize = true;
-            this.lblInterest2.Location = new System.Drawing.Point(159, 347);
-            this.lblInterest2.Name = "lblInterest2";
-            this.lblInterest2.Size = new System.Drawing.Size(125, 32);
-            this.lblInterest2.TabIndex = 21;
-            this.lblInterest2.Text = "interest2";
-            // 
-            // lblInterest1
-            // 
-            this.lblInterest1.AutoSize = true;
-            this.lblInterest1.Location = new System.Drawing.Point(159, 286);
-            this.lblInterest1.Name = "lblInterest1";
-            this.lblInterest1.Size = new System.Drawing.Size(125, 32);
-            this.lblInterest1.TabIndex = 20;
-            this.lblInterest1.Text = "interest1";
+            this.lblInterest.AutoSize = true;
+            this.lblInterest.Location = new System.Drawing.Point(159, 286);
+            this.lblInterest.Name = "lblInterest";
+            this.lblInterest.Size = new System.Drawing.Size(109, 32);
+            this.lblInterest.TabIndex = 20;
+            this.lblInterest.Text = "interest";
             // 
             // lblInterestList
             // 
@@ -300,7 +221,7 @@
             // 
             // btnFriendDown
             // 
-            this.btnFriendDown.Location = new System.Drawing.Point(1223, 610);
+            this.btnFriendDown.Location = new System.Drawing.Point(1281, 621);
             this.btnFriendDown.Name = "btnFriendDown";
             this.btnFriendDown.Size = new System.Drawing.Size(115, 56);
             this.btnFriendDown.TabIndex = 25;
@@ -310,7 +231,7 @@
             // 
             // btnFriendUp
             // 
-            this.btnFriendUp.Location = new System.Drawing.Point(1223, 204);
+            this.btnFriendUp.Location = new System.Drawing.Point(1281, 215);
             this.btnFriendUp.Name = "btnFriendUp";
             this.btnFriendUp.Size = new System.Drawing.Size(115, 56);
             this.btnFriendUp.TabIndex = 26;
@@ -330,7 +251,7 @@
             // 
             // btnRecommendationUp
             // 
-            this.btnRecommendationUp.Location = new System.Drawing.Point(547, 204);
+            this.btnRecommendationUp.Location = new System.Drawing.Point(701, 215);
             this.btnRecommendationUp.Name = "btnRecommendationUp";
             this.btnRecommendationUp.Size = new System.Drawing.Size(115, 56);
             this.btnRecommendationUp.TabIndex = 28;
@@ -350,7 +271,7 @@
             // 
             // btnInterestDown
             // 
-            this.btnInterestDown.Location = new System.Drawing.Point(165, 610);
+            this.btnInterestDown.Location = new System.Drawing.Point(155, 347);
             this.btnInterestDown.Name = "btnInterestDown";
             this.btnInterestDown.Size = new System.Drawing.Size(115, 56);
             this.btnInterestDown.TabIndex = 32;
@@ -360,7 +281,7 @@
             // 
             // btnRecommendationDown
             // 
-            this.btnRecommendationDown.Location = new System.Drawing.Point(547, 610);
+            this.btnRecommendationDown.Location = new System.Drawing.Point(701, 286);
             this.btnRecommendationDown.Name = "btnRecommendationDown";
             this.btnRecommendationDown.Size = new System.Drawing.Size(115, 56);
             this.btnRecommendationDown.TabIndex = 33;
@@ -380,7 +301,7 @@
             // 
             // btnNextRecommendationList
             // 
-            this.btnNextRecommendationList.Location = new System.Drawing.Point(470, 693);
+            this.btnNextRecommendationList.Location = new System.Drawing.Point(458, 383);
             this.btnNextRecommendationList.Name = "btnNextRecommendationList";
             this.btnNextRecommendationList.Size = new System.Drawing.Size(262, 80);
             this.btnNextRecommendationList.TabIndex = 35;
@@ -390,7 +311,7 @@
             // 
             // btnAddRecommendedFriend
             // 
-            this.btnAddRecommendedFriend.Location = new System.Drawing.Point(547, 800);
+            this.btnAddRecommendedFriend.Location = new System.Drawing.Point(458, 506);
             this.btnAddRecommendedFriend.Name = "btnAddRecommendedFriend";
             this.btnAddRecommendedFriend.Size = new System.Drawing.Size(115, 83);
             this.btnAddRecommendedFriend.TabIndex = 36;
@@ -410,7 +331,7 @@
             // 
             // btnDeleteFriend
             // 
-            this.btnDeleteFriend.Location = new System.Drawing.Point(1223, 711);
+            this.btnDeleteFriend.Location = new System.Drawing.Point(1281, 715);
             this.btnDeleteFriend.Name = "btnDeleteFriend";
             this.btnDeleteFriend.Size = new System.Drawing.Size(115, 83);
             this.btnDeleteFriend.TabIndex = 38;
@@ -420,7 +341,7 @@
             // 
             // btnAddInterest
             // 
-            this.btnAddInterest.Location = new System.Drawing.Point(165, 755);
+            this.btnAddInterest.Location = new System.Drawing.Point(143, 520);
             this.btnAddInterest.Name = "btnAddInterest";
             this.btnAddInterest.Size = new System.Drawing.Size(139, 83);
             this.btnAddInterest.TabIndex = 39;
@@ -440,7 +361,7 @@
             // 
             // txtAddInterest
             // 
-            this.txtAddInterest.Location = new System.Drawing.Point(143, 711);
+            this.txtAddInterest.Location = new System.Drawing.Point(143, 443);
             this.txtAddInterest.Name = "txtAddInterest";
             this.txtAddInterest.Size = new System.Drawing.Size(181, 38);
             this.txtAddInterest.TabIndex = 41;
@@ -497,17 +418,9 @@
             this.Controls.Add(this.btnInvitationUp);
             this.Controls.Add(this.btnFriendUp);
             this.Controls.Add(this.btnFriendDown);
-            this.Controls.Add(this.lblInterest5);
-            this.Controls.Add(this.lblInterest4);
-            this.Controls.Add(this.lblInterest3);
-            this.Controls.Add(this.lblInterest2);
-            this.Controls.Add(this.lblInterest1);
+            this.Controls.Add(this.lblInterest);
             this.Controls.Add(this.lblInterestList);
-            this.Controls.Add(this.lblRecommendation5);
-            this.Controls.Add(this.lblRecommendation4);
-            this.Controls.Add(this.lblRecommendation3);
-            this.Controls.Add(this.lblRecommendation2);
-            this.Controls.Add(this.lblRecommendation1);
+            this.Controls.Add(this.lblRecommendation);
             this.Controls.Add(this.lblRecommendationList);
             this.Controls.Add(this.lblInvitation5);
             this.Controls.Add(this.lblInvitation4);
@@ -524,6 +437,7 @@
             this.Controls.Add(this.lblFullName);
             this.Name = "MainUIForm";
             this.Text = "MainUIForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainUIForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -544,17 +458,9 @@
         private System.Windows.Forms.Label lblInvitation3;
         private System.Windows.Forms.Label lblInvitation2;
         private System.Windows.Forms.Label lblInvitation1;
-        private System.Windows.Forms.Label lblRecommendation5;
-        private System.Windows.Forms.Label lblRecommendation4;
-        private System.Windows.Forms.Label lblRecommendation3;
-        private System.Windows.Forms.Label lblRecommendation2;
-        private System.Windows.Forms.Label lblRecommendation1;
+        private System.Windows.Forms.Label lblRecommendation;
         private System.Windows.Forms.Label lblRecommendationList;
-        private System.Windows.Forms.Label lblInterest5;
-        private System.Windows.Forms.Label lblInterest4;
-        private System.Windows.Forms.Label lblInterest3;
-        private System.Windows.Forms.Label lblInterest2;
-        private System.Windows.Forms.Label lblInterest1;
+        private System.Windows.Forms.Label lblInterest;
         private System.Windows.Forms.Label lblInterestList;
         private System.Windows.Forms.Button btnFriendDown;
         private System.Windows.Forms.Button btnFriendUp;

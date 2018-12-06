@@ -13,7 +13,18 @@ namespace RudyAriazHeadEssay
         // Explicitly store all the invitations on a social network 
         private List<Invitation> invitations = new List<Invitation>();
 
-        public Network() { }
+        // Create a new network
+        public Network()
+        {
+            // TODO: remove temporary people
+            users.Add(new Person("Rudy", "Ariaz", "Toronto", "rariaz", "hi"));
+            users.Add(new Person("Willie", "stuff", "to", "wchan", "hi"));
+            users.Add(new Person("Tiff", "T", "to", "ttruong", "hi"));
+            users.Add(new Person("Henning", "L", "munich", "lhenning", "hi"));
+            users[0].AddFriend(users[1]);
+            users[0].AddFriend(users[2]);
+            users[1].AddFriend(users[3]);
+        }
 
         // TODO: check if there are restrictions on users size 
         // TODO: catch exception
@@ -72,8 +83,12 @@ namespace RudyAriazHeadEssay
                 // Go through all of the friend's friends
                 foreach (Person friendOfFriend in friend.GetAllFriends())
                 {
-                    // Add the friend of friend to the list
-                    friendsOfFriends.Add(friendOfFriend);
+                    // Check if the friend of friend is not a friend
+                    if (!user.GetAllFriends().Contains(friendOfFriend))
+                    {
+                        // Add the friend of friend to the list
+                        friendsOfFriends.Add(friendOfFriend);
+                    }
                 }
             }
             // Set the user's friends of friends 

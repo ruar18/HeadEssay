@@ -15,29 +15,14 @@ namespace RudyAriazHeadEssay
         // HeadEssay's social network
         private Network network = new Network();
 
+        // Create a new LoginForm, constructor
         public LoginForm()
         {
             InitializeComponent();
             // Make this form fullscreen
             WindowState = FormWindowState.Maximized;
         }
-        
-
-        // TODO: complete, null check
-        // Logs user in if information is accurate
-        private void Login(string username, string password)
-        {
-            
-        }
-        
-        // Registers a new user
-        // TODO: empty checks? check when it's done in our previous programs
-        private void RegisterUser(string firstName, string lastName, string city, 
-                                  string username, string password)
-        {
-            
-            
-        }
+       
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
@@ -46,8 +31,11 @@ namespace RudyAriazHeadEssay
             // Create user interface if a user was found 
             if (user != null)
             {
+                // Create the user interface and show it
                 MainUIForm frmUI = new MainUIForm(network, user);
                 frmUI.ShowDialog();
+                // Hide the login form
+                this.Hide();
             }
             // Print error message
             // TODO: separate into cases to give more informative errors
