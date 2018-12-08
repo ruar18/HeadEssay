@@ -13,7 +13,18 @@ namespace RudyAriazHeadEssay
         // Explicitly store all the invitations on a social network 
         private List<Invitation> invitations = new List<Invitation>();
 
-        public Network() { }
+        // Create a new network
+        public Network()
+        {
+            // TODO: remove temporary people
+            users.Add(new Person("Rudy", "Ariaz", "Toronto", "rariaz", "hi"));
+            users.Add(new Person("Willie", "stuff", "to", "wchan", "hi"));
+            users.Add(new Person("Tiff", "T", "to", "ttruong", "hi"));
+            users.Add(new Person("Henning", "L", "munich", "lhenning", "hi"));
+            users[0].AddFriend(users[1]);
+            users[0].AddFriend(users[2]);
+            users[1].AddFriend(users[3]);
+        }
 
         // TODO: check if there are restrictions on users size 
         // TODO: catch exception
@@ -56,9 +67,97 @@ namespace RudyAriazHeadEssay
             // Add the invitation to the recipients' recipient list 
             foreach (Person recipient in invitation.GetAllRecipients())
             {
-                recipient.ReceiveInvitation()
+                recipient.ReceiveInvitation(invitation);
             }
 
+        }
+
+        // Finds unique friends of friends for user
+        public void FindFriendsOfFriends(Person user)
+        {
+            // Create a new list to store the friends of friends 
+            List<Person> friendsOfFriends = new List<Person>();
+            // Go through all of the user's friends
+            foreach (Person friend in user.GetAllFriends())
+            {
+                // Go through all of the friend's friends
+                foreach (Person friendOfFriend in friend.GetAllFriends())
+                {
+                    // Check if the friend of friend is not a friend
+                    if (!user.GetAllFriends().Contains(friendOfFriend))
+                    {
+                        // Add the friend of friend to the list
+                        friendsOfFriends.Add(friendOfFriend);
+                    }
+                }
+            }
+            // Set the user's friends of friends 
+            user.SetFriendsOfFriends(friendsOfFriends.Distinct().ToList());
+        }
+
+        // All unique friends of friends with the same interest 
+        public void FindFriendsOfFriendsWithSameInterest(Person user)
+        {
+            // Find the user's friends of friends 
+            FindFriendsOfFriends(user);
+            // Create the list that will store the friends of friends with same interest
+            List<Person> validFriendsOfFriends = user.GetFriendsOfFriends();
+            // Filter the user's friends of friends to only those with 
+            // the same interest
+            foreach(Person friendOfFriend in validFriendsOfFriends)
+            {
+                // Check if the friend of friend shares an interest by checking 
+                bool interestShared = friendOfFriend.GetAllInterests().Intersect(user.GetAllInterests()).Any();
+                // If there is no shared interest, delete the friend of friend
+                if (!interestShared)
+                {
+                    validFriendsOfFriends.Remove(friendOfFriend);
+                }
+            }
+            // Set the user's friends of friends with same interest 
+            user.SetFriendsOfFriendsSameInterest(validFriendsOfFriends);
+        }
+
+        // Up to 10 unique non-friends in the same city
+        public void FindSameCity(Person user)
+        {
+            // Create the list that will store individuals in the same city
+            List<Person> sameCity = new List<Person>();
+            // Go through all people in the network
+            foreach(Person currentPerson in users)
+            {
+                // If the current person is not the user's friend, it is a valid user
+                if (!user.IsFriend(currentPerson))
+                {
+                    // Add the person to the list 
+                    sameCity.Add(currentPerson);
+                }
+            }
+            // Set the user's non-friends in the same city after removing duplicates 
+            user.SetSameCity(sameCity.Distinct().ToList());
+        }
+
+        // Find up to 10 non-friends in the same city that share at least one interest
+        public void FindSameCitySameInterest(Person user)
+        {
+            // Find the user's non-friends in the same city
+            FindSameCity(user);
+            // Get the user's non-friends in the same city
+            List<Person> validSameCity = user.GetSameCity();
+            // Filter out all of the same-city non-friends who don't share an interest
+            foreach(Person currentPerson in validSameCity)
+            {
+                // Check if the currentPerson doesn't share an interest with the user
+                bool interestShared = currentPerson.GetAllInterests().Intersect(user.GetAllInterests()).Any();
+                // currentPerson is not valid if no interest is shared
+                if (!interestShared)
+                {
+                    // Remove currentPerson
+                    validSameCity.Remove(currentPerson);
+                }
+            }
+            // Set the user's list 
+            user.SetSameCitySameInterest(validSameCity);
         }
 
         // Check if username and password matches that of a person in the network
@@ -76,67 +175,22 @@ namespace RudyAriazHeadEssay
             return null;
         }
 
+
         // After user's friend is added/removed, update all of the recommendation lists
-        public void RefreshAfterFriendChange(Person user)
+        public void GenerateRecommendationLists(Person user)
         {
-            FriendsOfFriends(user);
-            FriendsOfFriendsWithSameInterest(user);
-            SameCity(user);
-            SameCitySameInterest(user);
+
+            FindFriendsOfFriends(user);
+            FindFriendsOfFriendsWithSameInterest(user);
+            FindSameCity(user);
+            FindSameCitySameInterest(user);
         }
+
 
         // Do the users share at least one interest?
         private bool ShareSameInterest(Person user1, Person user2)
         {
             return user1.GetAllInterests().Intersect(user1.GetAllInterests()).Any();
         }
-
-        // Finds unique friends of friends for user
-        // TODO: test if HashSet works as expected
-        public void FriendsOfFriends(Person user)
-        {
-            List<Person> fOfF = new List<Person>();
-            foreach(Person friend in user.GetAllFriends())
-            {
-                foreach(Person friendOfFriend in friend.GetAllFriends())
-                {
-                    fOfF.Add(friendOfFriend);
-                }
-            }
-            user.SetFriendsOfFriends(fOfF);
-        }
-
-        // All friends of friends with the same interest 
-        public void FriendsOfFriendsWithSameInterest(Person user)
-        {
-            HashSet<Person> fOfFWithSameInterest = FindFriendsOfFriends(user);
-            // Remove users if they don't have the same interest 
-            foreach(Person friendOfFriend in fOfFWithSameInterest)
-            {
-                // Remove the friend of friend if no shared interests
-                if(!ShareSameInterest(friendOfFriend, user))
-                {
-                    fOfFWithSameInterest.Remove(friendOfFriend);
-                }
-            }
-            return fOfFWithSameInterest;
-        }
-
-        // Find up to 10 people in the same city that share at least one interest
-        public void SameCitySameInterest(Person user)
-        {
-
-        }
-
-        public void SameCity(Person user)
-        {
-
-        }
-
-        
-
-        
-
-
     }
 }

@@ -29,7 +29,9 @@ namespace RudyAriazHeadEssay
         // People in the same city with the same interest
         private List<Person> sameCitySameInterest;
         // Store the person's incoming pending invitations
-        private List<Invitation> incomingInvitations;
+        private List<Invitation> pendingInvitations;
+        // Store the person's incoming accepted invitations
+        private List<Invitation> acceptedInvitations;
         // Store the person's outgoing invitations
         private List<Invitation> outgoingInvitations;
 
@@ -47,13 +49,14 @@ namespace RudyAriazHeadEssay
             FirstName = firstName;
             LastName = lastName;
             City = city;
-            username = username;
+            Username = username;
             Password = password;
             // Initialize lists
             interests = new List<string>();
             friends = new List<Person>();
             friendsOfFriends = new List<Person>();
-            incomingInvitations = new List<Invitation>();
+            pendingInvitations = new List<Invitation>();
+            acceptedInvitations = new List<Invitation>();
             outgoingInvitations = new List<Invitation>();
         }
 
@@ -62,6 +65,28 @@ namespace RudyAriazHeadEssay
         public List<Person> GetAllFriends()
         {
             return Copier.CopyList(friends);
+        }
+
+        
+        // Do a shallow copy of friends of friends
+        public List<Person> GetFriendsOfFriends()
+        {
+            return Copier.CopyList(friendsOfFriends);
+        }
+
+        // Do a shalow copy of friends of friends with same interest
+        public List<Person> GetFriendsOfFriendsSameInterest()
+        {
+            return Copier.CopyList(friendsOfFriendsSameInterest);
+        }
+
+        // Do a shallow copy of non-friends in same city
+        public List<Person> GetSameCity() { return Copier.CopyList(sameCity); }
+
+        // Do a shallow copy of non-friends in same city with shared interest
+        public List<Person> GetSameCitySameInterest()
+        {
+            return Copier.CopyList(sameCitySameInterest);
         }
 
         public List<string> GetAllInterests()
@@ -99,19 +124,19 @@ namespace RudyAriazHeadEssay
         // TODO: need invitation parameter?
         public void SendInvitation(Person receiver, Invitation invitation)
         {
-            receiver.incomingInvitations.Add(invitation);
+            receiver.pendingInvitations.Add(invitation);
         }
 
         // Allows a user to receive an invitation
         public void AcceptInvitation(Invitation invitation)
         {
-            incomingInvitations.Add(invitation);
+            acceptedInvitations.Add(invitation);
         }
 
         // Receive an incoming invitation into the person's pending list 
         public void ReceiveInvitation(Invitation toReceive)
         {
-
+            pendingInvitations.Add(toReceive);
         }
 
         // Can delete a pending incoming or accepted invitation
@@ -123,9 +148,13 @@ namespace RudyAriazHeadEssay
         // Adds an outgoing invitation to the list of outgoing invitations
         public void AddOutgoingInvitation(Invitation toAdd) { }
 
+        // Return true if other is in the person's friend list, false otherwise
         public bool IsFriend(Person other) { return true; }
 
-        public void AddInterest(string interest) { }
+        public void AddInterest(string interest)
+        {
+            interests.Add(interest);
+        }
 
         public void SetFriendsOfFriends(List<Person> people) { }
         public void SetFriendsOfFriendsSameInterest(List<Person> people) { }
@@ -138,12 +167,13 @@ namespace RudyAriazHeadEssay
         }
         public List<Invitation> GetIncomingInvitations()
         {
-            return Copier.CopyList(incomingInvitations);
+            return Copier.CopyList(pendingInvitations);
         }
         public List<Invitation> GetAcceptedInvitations()
         {
-            return Copier.
+            return Copier.CopyList(acceptedInvitations);
         }
+        
 
     }
 }

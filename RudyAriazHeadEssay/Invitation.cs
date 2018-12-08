@@ -39,9 +39,9 @@ namespace RudyAriazHeadEssay
 
 
         // Gets the remaining lifetime of the invitation in minutes
-        public int TimeLeft()
+        public double TimeLeft()
         {
-            return lifeTime - (Environment.TickCount - timeCreated) / MS_IN_MINUTE;
+            return lifeTime - (Environment.TickCount - timeCreated) / (1.0 * MS_IN_MINUTE);
         }
 
         // Shallow copy the recipient list 
