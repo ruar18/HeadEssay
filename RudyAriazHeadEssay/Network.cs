@@ -71,7 +71,6 @@ namespace RudyAriazHeadEssay
             {
                 recipient.ReceiveInvitation(invitation);
             }
-
         }
 
         // Finds unique friends of friends for user

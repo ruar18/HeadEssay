@@ -9,8 +9,10 @@ namespace RudyAriazHeadEssay
     public class Invitation
     {
         // Store time information for the invitation (in minutes):
-        // time created and lifespan of the invitation
-        private int lifeTime, timeCreated;
+        // Lifespan of the invitation
+        private double lifeTime;
+        // Time created
+        private int timeCreated;
         // Store the creator's advertised interest
         public string Interest { get; }
         // The Person object that created the invitation
@@ -22,7 +24,7 @@ namespace RudyAriazHeadEssay
 
         // Creates an invitation object
         public Invitation(Person creator, List<Person> recipients, 
-                          string interest, int timeCreated, int lifeTime )
+                          string interest, int timeCreated, double lifeTime )
         {
             Creator = creator;
             this.recipients = recipients;

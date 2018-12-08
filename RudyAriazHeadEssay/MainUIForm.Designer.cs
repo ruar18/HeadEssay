@@ -72,6 +72,8 @@
             this.txtInvitationInterest = new System.Windows.Forms.TextBox();
             this.btnSendInvitation = new System.Windows.Forms.Button();
             this.btnCancelInvitation = new System.Windows.Forms.Button();
+            this.btnInviteRecommendation = new System.Windows.Forms.Button();
+            this.btnInviteFriend = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblFullName
@@ -312,7 +314,7 @@
             // 
             this.btnNextRecommendationList.Location = new System.Drawing.Point(458, 383);
             this.btnNextRecommendationList.Name = "btnNextRecommendationList";
-            this.btnNextRecommendationList.Size = new System.Drawing.Size(262, 80);
+            this.btnNextRecommendationList.Size = new System.Drawing.Size(317, 85);
             this.btnNextRecommendationList.TabIndex = 35;
             this.btnNextRecommendationList.Text = "Next Recommendations";
             this.btnNextRecommendationList.UseVisualStyleBackColor = true;
@@ -320,7 +322,7 @@
             // 
             // btnAddRecommendedFriend
             // 
-            this.btnAddRecommendedFriend.Location = new System.Drawing.Point(458, 506);
+            this.btnAddRecommendedFriend.Location = new System.Drawing.Point(540, 495);
             this.btnAddRecommendedFriend.Name = "btnAddRecommendedFriend";
             this.btnAddRecommendedFriend.Size = new System.Drawing.Size(148, 83);
             this.btnAddRecommendedFriend.TabIndex = 36;
@@ -474,6 +476,7 @@
             this.btnSendInvitation.TabIndex = 52;
             this.btnSendInvitation.Text = "Send Invitation";
             this.btnSendInvitation.UseVisualStyleBackColor = true;
+            this.btnSendInvitation.Click += new System.EventHandler(this.btnSendInvitation_Click);
             // 
             // btnCancelInvitation
             // 
@@ -485,11 +488,33 @@
             this.btnCancelInvitation.UseVisualStyleBackColor = true;
             this.btnCancelInvitation.Click += new System.EventHandler(this.btnCancelInvitation_Click);
             // 
+            // btnInviteRecommendation
+            // 
+            this.btnInviteRecommendation.Location = new System.Drawing.Point(540, 583);
+            this.btnInviteRecommendation.Name = "btnInviteRecommendation";
+            this.btnInviteRecommendation.Size = new System.Drawing.Size(148, 83);
+            this.btnInviteRecommendation.TabIndex = 54;
+            this.btnInviteRecommendation.Text = "Invite";
+            this.btnInviteRecommendation.UseVisualStyleBackColor = true;
+            this.btnInviteRecommendation.Click += new System.EventHandler(this.btnInviteRecommendation_Click);
+            // 
+            // btnInviteFriend
+            // 
+            this.btnInviteFriend.Location = new System.Drawing.Point(1453, 811);
+            this.btnInviteFriend.Name = "btnInviteFriend";
+            this.btnInviteFriend.Size = new System.Drawing.Size(148, 83);
+            this.btnInviteFriend.TabIndex = 55;
+            this.btnInviteFriend.Text = "Invite";
+            this.btnInviteFriend.UseVisualStyleBackColor = true;
+            this.btnInviteFriend.Click += new System.EventHandler(this.btnInviteFriend_Click);
+            // 
             // MainUIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1945, 1148);
+            this.Controls.Add(this.btnInviteFriend);
+            this.Controls.Add(this.btnInviteRecommendation);
             this.Controls.Add(this.btnCancelInvitation);
             this.Controls.Add(this.btnSendInvitation);
             this.Controls.Add(this.txtInvitationInterest);
@@ -588,5 +613,7 @@
         private System.Windows.Forms.TextBox txtInvitationInterest;
         private System.Windows.Forms.Button btnSendInvitation;
         private System.Windows.Forms.Button btnCancelInvitation;
+        private System.Windows.Forms.Button btnInviteRecommendation;
+        private System.Windows.Forms.Button btnInviteFriend;
     }
 }
