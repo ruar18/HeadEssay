@@ -71,6 +71,7 @@
             this.txtInvitationRecipients = new System.Windows.Forms.TextBox();
             this.txtInvitationInterest = new System.Windows.Forms.TextBox();
             this.btnSendInvitation = new System.Windows.Forms.Button();
+            this.btnCancelInvitation = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblFullName
@@ -402,6 +403,7 @@
             this.btnLogOut.TabIndex = 44;
             this.btnLogOut.Text = "Log Out!";
             this.btnLogOut.UseVisualStyleBackColor = true;
+            this.btnLogOut.Click += new System.EventHandler(this.btnLogOut_Click);
             // 
             // lblPromptLifetime
             // 
@@ -466,18 +468,29 @@
             // 
             // btnSendInvitation
             // 
-            this.btnSendInvitation.Location = new System.Drawing.Point(585, 872);
+            this.btnSendInvitation.Location = new System.Drawing.Point(717, 871);
             this.btnSendInvitation.Name = "btnSendInvitation";
-            this.btnSendInvitation.Size = new System.Drawing.Size(223, 92);
+            this.btnSendInvitation.Size = new System.Drawing.Size(181, 92);
             this.btnSendInvitation.TabIndex = 52;
             this.btnSendInvitation.Text = "Send Invitation";
             this.btnSendInvitation.UseVisualStyleBackColor = true;
+            // 
+            // btnCancelInvitation
+            // 
+            this.btnCancelInvitation.Location = new System.Drawing.Point(520, 871);
+            this.btnCancelInvitation.Name = "btnCancelInvitation";
+            this.btnCancelInvitation.Size = new System.Drawing.Size(181, 92);
+            this.btnCancelInvitation.TabIndex = 53;
+            this.btnCancelInvitation.Text = "Cancel Invitation";
+            this.btnCancelInvitation.UseVisualStyleBackColor = true;
+            this.btnCancelInvitation.Click += new System.EventHandler(this.btnCancelInvitation_Click);
             // 
             // MainUIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1945, 1148);
+            this.Controls.Add(this.btnCancelInvitation);
             this.Controls.Add(this.btnSendInvitation);
             this.Controls.Add(this.txtInvitationInterest);
             this.Controls.Add(this.txtInvitationRecipients);
@@ -574,5 +587,6 @@
         private System.Windows.Forms.TextBox txtInvitationRecipients;
         private System.Windows.Forms.TextBox txtInvitationInterest;
         private System.Windows.Forms.Button btnSendInvitation;
+        private System.Windows.Forms.Button btnCancelInvitation;
     }
 }

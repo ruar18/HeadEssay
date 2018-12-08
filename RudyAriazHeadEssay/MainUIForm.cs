@@ -49,12 +49,7 @@ namespace RudyAriazHeadEssay
             // Invitation creation UI should be hidden at first
             SetInvitationUIVisibility(visible: false);
         }
-
-        // Logs user out
-        public void LogOut()
-        {
-
-        }
+        
 
         // Create a list to store the friend labels
         private void CreateFriendLabelList()
@@ -76,8 +71,9 @@ namespace RudyAriazHeadEssay
             txtInvitationRecipients.Visible = visible;
             txtInvitationInterest.Visible = visible;
 
-            // Set visibility for button
+            // Set visibility for buttons
             btnSendInvitation.Visible = visible;
+            btnCancelInvitation.Visible = visible;
         }
 
 
@@ -339,6 +335,8 @@ namespace RudyAriazHeadEssay
 
         private void btnNewInvitation_Click(object sender, EventArgs e)
         {
+            // Show the invitation creation UI
+            SetInvitationUIVisibility(visible: true);
 
         }
 
@@ -360,6 +358,29 @@ namespace RudyAriazHeadEssay
         private void MainUIForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        // Cancel the invitation and close the creation UI
+        private void btnCancelInvitation_Click(object sender, EventArgs e)
+        {
+            // Clear the text of all fields
+            txtInvitationLifetime.Text = "";
+            txtInvitationRecipients.Text = "";
+            txtInvitationInterest.Text = "";
+
+            // Hide the invitation creation UI
+            SetInvitationUIVisibility(visible: false);
+        }
+
+        // Logs user out
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            // Create a new login form, passing in the current network
+            LoginForm frmLogin = new LoginForm(network);
+            // Show the new form
+            frmLogin.ShowDialog();
+            // Close the current UI form
+            this.Close();
         }
     }
 }
