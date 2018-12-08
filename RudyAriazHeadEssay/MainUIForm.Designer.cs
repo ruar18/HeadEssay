@@ -63,6 +63,14 @@
             this.btnAcceptInvitation = new System.Windows.Forms.Button();
             this.btnRejectInvitation = new System.Windows.Forms.Button();
             this.btnLogOut = new System.Windows.Forms.Button();
+            this.lblPromptLifetime = new System.Windows.Forms.Label();
+            this.lblPromptRecipients = new System.Windows.Forms.Label();
+            this.lblPromptInterest = new System.Windows.Forms.Label();
+            this.lblInvitationCreation = new System.Windows.Forms.Label();
+            this.txtInvitationLifetime = new System.Windows.Forms.TextBox();
+            this.txtInvitationRecipients = new System.Windows.Forms.TextBox();
+            this.txtInvitationInterest = new System.Windows.Forms.TextBox();
+            this.btnSendInvitation = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblFullName
@@ -78,7 +86,7 @@
             // 
             this.lblFriend1.AutoSize = true;
             this.lblFriend1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFriend1.Location = new System.Drawing.Point(1293, 293);
+            this.lblFriend1.Location = new System.Drawing.Point(1479, 293);
             this.lblFriend1.Name = "lblFriend1";
             this.lblFriend1.Size = new System.Drawing.Size(110, 32);
             this.lblFriend1.TabIndex = 1;
@@ -87,7 +95,7 @@
             // lblFriend2
             // 
             this.lblFriend2.AutoSize = true;
-            this.lblFriend2.Location = new System.Drawing.Point(1293, 354);
+            this.lblFriend2.Location = new System.Drawing.Point(1479, 354);
             this.lblFriend2.Name = "lblFriend2";
             this.lblFriend2.Size = new System.Drawing.Size(103, 32);
             this.lblFriend2.TabIndex = 2;
@@ -96,7 +104,7 @@
             // lblFriend3
             // 
             this.lblFriend3.AutoSize = true;
-            this.lblFriend3.Location = new System.Drawing.Point(1293, 419);
+            this.lblFriend3.Location = new System.Drawing.Point(1479, 419);
             this.lblFriend3.Name = "lblFriend3";
             this.lblFriend3.Size = new System.Drawing.Size(103, 32);
             this.lblFriend3.TabIndex = 3;
@@ -105,7 +113,7 @@
             // lblFriend4
             // 
             this.lblFriend4.AutoSize = true;
-            this.lblFriend4.Location = new System.Drawing.Point(1293, 489);
+            this.lblFriend4.Location = new System.Drawing.Point(1479, 489);
             this.lblFriend4.Name = "lblFriend4";
             this.lblFriend4.Size = new System.Drawing.Size(103, 32);
             this.lblFriend4.TabIndex = 4;
@@ -114,7 +122,7 @@
             // lblFriend5
             // 
             this.lblFriend5.AutoSize = true;
-            this.lblFriend5.Location = new System.Drawing.Point(1293, 557);
+            this.lblFriend5.Location = new System.Drawing.Point(1479, 557);
             this.lblFriend5.Name = "lblFriend5";
             this.lblFriend5.Size = new System.Drawing.Size(103, 32);
             this.lblFriend5.TabIndex = 5;
@@ -123,7 +131,7 @@
             // lblFriendList
             // 
             this.lblFriendList.AutoSize = true;
-            this.lblFriendList.Location = new System.Drawing.Point(1206, 150);
+            this.lblFriendList.Location = new System.Drawing.Point(1392, 150);
             this.lblFriendList.Name = "lblFriendList";
             this.lblFriendList.Size = new System.Drawing.Size(154, 32);
             this.lblFriendList.TabIndex = 6;
@@ -132,7 +140,7 @@
             // lblInvitationList
             // 
             this.lblInvitationList.AutoSize = true;
-            this.lblInvitationList.Location = new System.Drawing.Point(873, 150);
+            this.lblInvitationList.Location = new System.Drawing.Point(1059, 150);
             this.lblInvitationList.Name = "lblInvitationList";
             this.lblInvitationList.Size = new System.Drawing.Size(188, 32);
             this.lblInvitationList.TabIndex = 7;
@@ -141,7 +149,7 @@
             // lblInvitation5
             // 
             this.lblInvitation5.AutoSize = true;
-            this.lblInvitation5.Location = new System.Drawing.Point(897, 546);
+            this.lblInvitation5.Location = new System.Drawing.Point(1083, 546);
             this.lblInvitation5.Name = "lblInvitation5";
             this.lblInvitation5.Size = new System.Drawing.Size(146, 32);
             this.lblInvitation5.TabIndex = 12;
@@ -150,7 +158,7 @@
             // lblInvitation4
             // 
             this.lblInvitation4.AutoSize = true;
-            this.lblInvitation4.Location = new System.Drawing.Point(897, 478);
+            this.lblInvitation4.Location = new System.Drawing.Point(1083, 478);
             this.lblInvitation4.Name = "lblInvitation4";
             this.lblInvitation4.Size = new System.Drawing.Size(146, 32);
             this.lblInvitation4.TabIndex = 11;
@@ -159,7 +167,7 @@
             // lblInvitation3
             // 
             this.lblInvitation3.AutoSize = true;
-            this.lblInvitation3.Location = new System.Drawing.Point(897, 408);
+            this.lblInvitation3.Location = new System.Drawing.Point(1083, 408);
             this.lblInvitation3.Name = "lblInvitation3";
             this.lblInvitation3.Size = new System.Drawing.Size(146, 32);
             this.lblInvitation3.TabIndex = 10;
@@ -168,7 +176,7 @@
             // lblInvitation2
             // 
             this.lblInvitation2.AutoSize = true;
-            this.lblInvitation2.Location = new System.Drawing.Point(897, 343);
+            this.lblInvitation2.Location = new System.Drawing.Point(1083, 343);
             this.lblInvitation2.Name = "lblInvitation2";
             this.lblInvitation2.Size = new System.Drawing.Size(146, 32);
             this.lblInvitation2.TabIndex = 9;
@@ -177,7 +185,7 @@
             // lblInvitation1
             // 
             this.lblInvitation1.AutoSize = true;
-            this.lblInvitation1.Location = new System.Drawing.Point(897, 282);
+            this.lblInvitation1.Location = new System.Drawing.Point(1083, 282);
             this.lblInvitation1.Name = "lblInvitation1";
             this.lblInvitation1.Size = new System.Drawing.Size(146, 32);
             this.lblInvitation1.TabIndex = 8;
@@ -221,7 +229,7 @@
             // 
             // btnFriendDown
             // 
-            this.btnFriendDown.Location = new System.Drawing.Point(1281, 621);
+            this.btnFriendDown.Location = new System.Drawing.Point(1467, 621);
             this.btnFriendDown.Name = "btnFriendDown";
             this.btnFriendDown.Size = new System.Drawing.Size(115, 56);
             this.btnFriendDown.TabIndex = 25;
@@ -231,7 +239,7 @@
             // 
             // btnFriendUp
             // 
-            this.btnFriendUp.Location = new System.Drawing.Point(1281, 215);
+            this.btnFriendUp.Location = new System.Drawing.Point(1467, 215);
             this.btnFriendUp.Name = "btnFriendUp";
             this.btnFriendUp.Size = new System.Drawing.Size(115, 56);
             this.btnFriendUp.TabIndex = 26;
@@ -241,7 +249,7 @@
             // 
             // btnInvitationUp
             // 
-            this.btnInvitationUp.Location = new System.Drawing.Point(903, 204);
+            this.btnInvitationUp.Location = new System.Drawing.Point(1089, 204);
             this.btnInvitationUp.Name = "btnInvitationUp";
             this.btnInvitationUp.Size = new System.Drawing.Size(115, 56);
             this.btnInvitationUp.TabIndex = 27;
@@ -251,7 +259,7 @@
             // 
             // btnRecommendationUp
             // 
-            this.btnRecommendationUp.Location = new System.Drawing.Point(701, 215);
+            this.btnRecommendationUp.Location = new System.Drawing.Point(783, 215);
             this.btnRecommendationUp.Name = "btnRecommendationUp";
             this.btnRecommendationUp.Size = new System.Drawing.Size(115, 56);
             this.btnRecommendationUp.TabIndex = 28;
@@ -281,7 +289,7 @@
             // 
             // btnRecommendationDown
             // 
-            this.btnRecommendationDown.Location = new System.Drawing.Point(701, 286);
+            this.btnRecommendationDown.Location = new System.Drawing.Point(783, 286);
             this.btnRecommendationDown.Name = "btnRecommendationDown";
             this.btnRecommendationDown.Size = new System.Drawing.Size(115, 56);
             this.btnRecommendationDown.TabIndex = 33;
@@ -291,7 +299,7 @@
             // 
             // btnInvitationDown
             // 
-            this.btnInvitationDown.Location = new System.Drawing.Point(903, 610);
+            this.btnInvitationDown.Location = new System.Drawing.Point(1089, 610);
             this.btnInvitationDown.Name = "btnInvitationDown";
             this.btnInvitationDown.Size = new System.Drawing.Size(115, 56);
             this.btnInvitationDown.TabIndex = 34;
@@ -313,7 +321,7 @@
             // 
             this.btnAddRecommendedFriend.Location = new System.Drawing.Point(458, 506);
             this.btnAddRecommendedFriend.Name = "btnAddRecommendedFriend";
-            this.btnAddRecommendedFriend.Size = new System.Drawing.Size(115, 83);
+            this.btnAddRecommendedFriend.Size = new System.Drawing.Size(148, 83);
             this.btnAddRecommendedFriend.TabIndex = 36;
             this.btnAddRecommendedFriend.Text = "Add Friend";
             this.btnAddRecommendedFriend.UseVisualStyleBackColor = true;
@@ -321,7 +329,7 @@
             // 
             // btnNewInvitation
             // 
-            this.btnNewInvitation.Location = new System.Drawing.Point(879, 871);
+            this.btnNewInvitation.Location = new System.Drawing.Point(1065, 871);
             this.btnNewInvitation.Name = "btnNewInvitation";
             this.btnNewInvitation.Size = new System.Drawing.Size(172, 83);
             this.btnNewInvitation.TabIndex = 37;
@@ -331,9 +339,9 @@
             // 
             // btnDeleteFriend
             // 
-            this.btnDeleteFriend.Location = new System.Drawing.Point(1281, 715);
+            this.btnDeleteFriend.Location = new System.Drawing.Point(1453, 718);
             this.btnDeleteFriend.Name = "btnDeleteFriend";
-            this.btnDeleteFriend.Size = new System.Drawing.Size(115, 83);
+            this.btnDeleteFriend.Size = new System.Drawing.Size(145, 83);
             this.btnDeleteFriend.TabIndex = 38;
             this.btnDeleteFriend.Text = "Delete Friend";
             this.btnDeleteFriend.UseVisualStyleBackColor = true;
@@ -351,7 +359,7 @@
             // 
             // btnToggleInvitations
             // 
-            this.btnToggleInvitations.Location = new System.Drawing.Point(885, 693);
+            this.btnToggleInvitations.Location = new System.Drawing.Point(1071, 693);
             this.btnToggleInvitations.Name = "btnToggleInvitations";
             this.btnToggleInvitations.Size = new System.Drawing.Size(158, 83);
             this.btnToggleInvitations.TabIndex = 40;
@@ -368,7 +376,7 @@
             // 
             // btnAcceptInvitation
             // 
-            this.btnAcceptInvitation.Location = new System.Drawing.Point(802, 782);
+            this.btnAcceptInvitation.Location = new System.Drawing.Point(988, 782);
             this.btnAcceptInvitation.Name = "btnAcceptInvitation";
             this.btnAcceptInvitation.Size = new System.Drawing.Size(172, 83);
             this.btnAcceptInvitation.TabIndex = 42;
@@ -378,7 +386,7 @@
             // 
             // btnRejectInvitation
             // 
-            this.btnRejectInvitation.Location = new System.Drawing.Point(980, 782);
+            this.btnRejectInvitation.Location = new System.Drawing.Point(1166, 782);
             this.btnRejectInvitation.Name = "btnRejectInvitation";
             this.btnRejectInvitation.Size = new System.Drawing.Size(172, 83);
             this.btnRejectInvitation.TabIndex = 43;
@@ -395,11 +403,89 @@
             this.btnLogOut.Text = "Log Out!";
             this.btnLogOut.UseVisualStyleBackColor = true;
             // 
+            // lblPromptLifetime
+            // 
+            this.lblPromptLifetime.AutoSize = true;
+            this.lblPromptLifetime.Location = new System.Drawing.Point(66, 808);
+            this.lblPromptLifetime.Name = "lblPromptLifetime";
+            this.lblPromptLifetime.Size = new System.Drawing.Size(249, 32);
+            this.lblPromptLifetime.TabIndex = 45;
+            this.lblPromptLifetime.Text = "Lifetime (minutes):";
+            // 
+            // lblPromptRecipients
+            // 
+            this.lblPromptRecipients.AutoSize = true;
+            this.lblPromptRecipients.Location = new System.Drawing.Point(66, 880);
+            this.lblPromptRecipients.Name = "lblPromptRecipients";
+            this.lblPromptRecipients.Size = new System.Drawing.Size(157, 32);
+            this.lblPromptRecipients.TabIndex = 46;
+            this.lblPromptRecipients.Text = "Recipients:";
+            // 
+            // lblPromptInterest
+            // 
+            this.lblPromptInterest.AutoSize = true;
+            this.lblPromptInterest.Location = new System.Drawing.Point(503, 811);
+            this.lblPromptInterest.Name = "lblPromptInterest";
+            this.lblPromptInterest.Size = new System.Drawing.Size(117, 32);
+            this.lblPromptInterest.TabIndex = 47;
+            this.lblPromptInterest.Text = "Interest:";
+            // 
+            // lblInvitationCreation
+            // 
+            this.lblInvitationCreation.AutoSize = true;
+            this.lblInvitationCreation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInvitationCreation.Location = new System.Drawing.Point(66, 744);
+            this.lblInvitationCreation.Name = "lblInvitationCreation";
+            this.lblInvitationCreation.Size = new System.Drawing.Size(264, 32);
+            this.lblInvitationCreation.TabIndex = 48;
+            this.lblInvitationCreation.Text = "Invitation Creation";
+            // 
+            // txtInvitationLifetime
+            // 
+            this.txtInvitationLifetime.Location = new System.Drawing.Point(322, 808);
+            this.txtInvitationLifetime.Name = "txtInvitationLifetime";
+            this.txtInvitationLifetime.Size = new System.Drawing.Size(163, 38);
+            this.txtInvitationLifetime.TabIndex = 49;
+            // 
+            // txtInvitationRecipients
+            // 
+            this.txtInvitationRecipients.Location = new System.Drawing.Point(244, 871);
+            this.txtInvitationRecipients.Multiline = true;
+            this.txtInvitationRecipients.Name = "txtInvitationRecipients";
+            this.txtInvitationRecipients.ReadOnly = true;
+            this.txtInvitationRecipients.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtInvitationRecipients.Size = new System.Drawing.Size(241, 93);
+            this.txtInvitationRecipients.TabIndex = 50;
+            // 
+            // txtInvitationInterest
+            // 
+            this.txtInvitationInterest.Location = new System.Drawing.Point(627, 808);
+            this.txtInvitationInterest.Name = "txtInvitationInterest";
+            this.txtInvitationInterest.Size = new System.Drawing.Size(181, 38);
+            this.txtInvitationInterest.TabIndex = 51;
+            // 
+            // btnSendInvitation
+            // 
+            this.btnSendInvitation.Location = new System.Drawing.Point(585, 872);
+            this.btnSendInvitation.Name = "btnSendInvitation";
+            this.btnSendInvitation.Size = new System.Drawing.Size(223, 92);
+            this.btnSendInvitation.TabIndex = 52;
+            this.btnSendInvitation.Text = "Send Invitation";
+            this.btnSendInvitation.UseVisualStyleBackColor = true;
+            // 
             // MainUIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1917, 1088);
+            this.ClientSize = new System.Drawing.Size(1945, 1148);
+            this.Controls.Add(this.btnSendInvitation);
+            this.Controls.Add(this.txtInvitationInterest);
+            this.Controls.Add(this.txtInvitationRecipients);
+            this.Controls.Add(this.txtInvitationLifetime);
+            this.Controls.Add(this.lblInvitationCreation);
+            this.Controls.Add(this.lblPromptInterest);
+            this.Controls.Add(this.lblPromptRecipients);
+            this.Controls.Add(this.lblPromptLifetime);
             this.Controls.Add(this.btnLogOut);
             this.Controls.Add(this.btnRejectInvitation);
             this.Controls.Add(this.btnAcceptInvitation);
@@ -480,5 +566,13 @@
         private System.Windows.Forms.Button btnAcceptInvitation;
         private System.Windows.Forms.Button btnRejectInvitation;
         private System.Windows.Forms.Button btnLogOut;
+        private System.Windows.Forms.Label lblPromptLifetime;
+        private System.Windows.Forms.Label lblPromptRecipients;
+        private System.Windows.Forms.Label lblPromptInterest;
+        private System.Windows.Forms.Label lblInvitationCreation;
+        private System.Windows.Forms.TextBox txtInvitationLifetime;
+        private System.Windows.Forms.TextBox txtInvitationRecipients;
+        private System.Windows.Forms.TextBox txtInvitationInterest;
+        private System.Windows.Forms.Button btnSendInvitation;
     }
 }

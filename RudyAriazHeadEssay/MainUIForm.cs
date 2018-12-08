@@ -26,6 +26,8 @@ namespace RudyAriazHeadEssay
 
         // The index of the currently shown recommendation
         private int recommendationIndex = 0;
+        // The currently shown recommendation
+        Person currentRecommendation;
 
         // The index of the currently shown interest 
         private int interestIndex = 0;
@@ -44,6 +46,8 @@ namespace RudyAriazHeadEssay
             // Initialize the label list displaying friends 
             CreateFriendLabelList();
             PopulateAllLists();
+            // Invitation creation UI should be hidden at first
+            SetInvitationUIVisibility(visible: false);
         }
 
         // Logs user out
@@ -51,6 +55,31 @@ namespace RudyAriazHeadEssay
         {
 
         }
+
+        // Create a list to store the friend labels
+        private void CreateFriendLabelList()
+        {
+            friendLabelList = new List<Label> { lblFriend1, lblFriend2, lblFriend3, lblFriend4, lblFriend5 };
+        }
+
+        // Hide or show the invitation creation UI
+        private void SetInvitationUIVisibility(bool visible)
+        {
+            // Set visibility for labels
+            lblInvitationCreation.Visible = visible;
+            lblPromptLifetime.Visible = visible;
+            lblPromptRecipients.Visible = visible;
+            lblPromptInterest.Visible = visible;
+
+            // Set visibility for textboxes
+            txtInvitationLifetime.Visible = visible;
+            txtInvitationRecipients.Visible = visible;
+            txtInvitationInterest.Visible = visible;
+
+            // Set visibility for button
+            btnSendInvitation.Visible = visible;
+        }
+
 
         // Populate the user's information label lists
         private void PopulateAllLists()
@@ -61,12 +90,6 @@ namespace RudyAriazHeadEssay
             PopulateFriendsList();
             // Populate the recommendation
             PopulateRecommendation();
-        }
-        
-        // Create a list to store the friend labels
-        private void CreateFriendLabelList()
-        {
-            friendLabelList = new List<Label> { lblFriend1, lblFriend2, lblFriend3, lblFriend4, lblFriend5 };
         }
 
         // Populate the user's friends list
@@ -139,7 +162,6 @@ namespace RudyAriazHeadEssay
 
         private void PopulateInvitation()
         {
-            // test
         }
 
         // Populate the currently shown recommendation 
@@ -178,7 +200,7 @@ namespace RudyAriazHeadEssay
                 btnRecommendationUp.Enabled = true;
 
             // Disable the down button if there are no later friends to show
-            if (recommendationIndex == recommendations.Count - 1)
+            if (recommendationIndex >= recommendations.Count - 1)
                 btnRecommendationDown.Enabled = false;
             else
                 btnRecommendationDown.Enabled = true;
@@ -186,8 +208,15 @@ namespace RudyAriazHeadEssay
             // If there's a recommended user:
             if (recommendations.Any())
             {
-                // Display the username of current friend of friend
-                lblRecommendation.Text = recommendations[recommendationIndex].Username;
+                // Get the current recommended user
+                currentRecommendation = recommendations[recommendationIndex];
+                // Display the username of current recommendation
+                lblRecommendation.Text = currentRecommendation.Username;
+            }
+            // If there isn't a recommended user, display the appropriate message
+            else
+            {
+                lblRecommendation.Text = "No recommendation";
             }
         }
         
@@ -261,8 +290,12 @@ namespace RudyAriazHeadEssay
         // Adds an interest to the user's interest list
         private void btnAddInterest_Click(object sender, EventArgs e)
         {
+            // Add the interest
             user.AddInterest(txtAddInterest.Text);
+            // Display the interests again
             PopulateInterest();
+            // Repopulate recommendations to adjust to the added interest
+            PopulateRecommendation();
         }
 
         // Go to the next type of recommendation
@@ -283,12 +316,20 @@ namespace RudyAriazHeadEssay
                 recommendationState = RecommendationType.FriendsOfFriendsSameInterest;
                 lblRecommendationList.Text = "Friends of Friends with Same Interest";
             }
-                
+
+            // Repopulate the recommendation to accomodate for the change in type
+            PopulateRecommendation();
         }
 
+        // Add a recommended friend to the user's friends list
         private void btnAddRecommendedFriend_Click(object sender, EventArgs e)
         {
-
+            // Add the recommendation as a friend
+            user.AddFriend(currentRecommendation);
+            // Repopulate recommendations to account for the friendship 
+            PopulateRecommendation();
+            // Repopulate friends to display the change
+            PopulateFriendsList();
         }
 
         private void btnToggleInvitations_Click(object sender, EventArgs e)

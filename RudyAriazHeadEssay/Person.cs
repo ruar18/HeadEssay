@@ -93,26 +93,12 @@ namespace RudyAriazHeadEssay
         {
             return Copier.CopyList(interests);
         }
-
-        // Adds the friend's friends to the person's friends-of-friends
-        // Only if not already in the person's friend list
-        // TODO: optimize with hashset?
-        private void AddFriendsOfFriend(Person friend)
-        {
-            foreach (Person friendOfFriend in friend.friends)
-            {
-                if (!this.friends.Contains(friendOfFriend))
-                {
-                    this.friendsOfFriends.Add(friendOfFriend);
-                }
-            }
-        }
+        
 
         // Friend adds are not necessarily mutual
         public void AddFriend(Person friend)
         {
             friends.Add(friend);
-            AddFriendsOfFriend(friend);
         }
 
 
