@@ -11,6 +11,11 @@ namespace RudyAriazHeadEssay
         // Do a shallow copy
         public static List<T> CopyList<T>(List<T> toCopy)
         {
+            // Check if the list to copy is null
+            if(toCopy == null)
+            {
+                return new List<T>();
+            }
             List<T> copyOfList = new List<T>();
             foreach (T item in toCopy)
             {

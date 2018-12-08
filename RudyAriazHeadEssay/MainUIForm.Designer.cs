@@ -195,11 +195,11 @@
             // lblRecommendationList
             // 
             this.lblRecommendationList.AutoSize = true;
-            this.lblRecommendationList.Location = new System.Drawing.Point(452, 150);
+            this.lblRecommendationList.Location = new System.Drawing.Point(368, 150);
             this.lblRecommendationList.Name = "lblRecommendationList";
-            this.lblRecommendationList.Size = new System.Drawing.Size(296, 32);
+            this.lblRecommendationList.Size = new System.Drawing.Size(483, 32);
             this.lblRecommendationList.TabIndex = 13;
-            this.lblRecommendationList.Text = "My Recommendations";
+            this.lblRecommendationList.Text = "Friends of Friends with Same Interest";
             // 
             // lblInterest
             // 

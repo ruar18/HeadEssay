@@ -156,10 +156,19 @@ namespace RudyAriazHeadEssay
             interests.Add(interest);
         }
 
-        public void SetFriendsOfFriends(List<Person> people) { }
-        public void SetFriendsOfFriendsSameInterest(List<Person> people) { }
-        public void SetSameCity(List<Person> people) { }
-        public void SetSameCitySameInterest(List<Person> people) { }
+        public void SetFriendsOfFriends(List<Person> people) { friendsOfFriends = people; }
+        public void SetFriendsOfFriendsSameInterest(List<Person> people)
+        {
+            friendsOfFriendsSameInterest = people;
+        }
+        public void SetSameCity(List<Person> people)
+        {
+            sameCity = people;
+        }
+        public void SetSameCitySameInterest(List<Person> people)
+        {
+            sameCitySameInterest = people;
+        }
 
         public List<Invitation> GetOutgoingInvitations()
         {
