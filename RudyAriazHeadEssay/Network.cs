@@ -97,7 +97,8 @@ namespace RudyAriazHeadEssay
             user.SetFriendsOfFriends(friendsOfFriends.Distinct().ToList());
         }
 
-        // All unique friends of friends with the same interest 
+        // All unique friends of friends with the same interest  
+        // TODO: remove
         public void FindFriendsOfFriendsWithSameInterest(Person user)
         {
             // Find the user's friends of friends 
