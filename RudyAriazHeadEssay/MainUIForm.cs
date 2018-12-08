@@ -143,24 +143,52 @@ namespace RudyAriazHeadEssay
         }
 
         // Populate the currently shown recommendation 
+        // TODO: optimize with dictionaries 
         private void PopulateRecommendation()
         {
-            // Check which recommendation type should be shown
-            if(recommendationState == RecommendationType.FriendsOfFriendsSameInterest)
+            // The list of recommendations
+            List<Person> recommendations;
+
+            if (recommendationState == RecommendationType.FriendsOfFriendsSameInterest)
             {
                 // Find the recommendations
                 network.FindFriendsOfFriendsWithSameInterest(user);
                 // Get the recommendations
-                List<Person> friendsOfFriends = new List<Person>();
-
-                // If there's a friend of friend to recommend:
-                if (friendsOfFriends.Any())
-                {
-                    // Display the username of current friend of friend
-                    lblRecommendation.Text = user.GetFriendsOfFriendsSameInterest()[recommendationIndex].Username;
-                }
+                recommendations = user.GetFriendsOfFriendsSameInterest();
+            }
+            else if (recommendationState == RecommendationType.SameCity)
+            {
+                // Find the recommendations
+                network.FindSameCity(user);
+                // Get the recommendations
+                recommendations = user.GetSameCity();
+            }
+            else
+            {
+                // Find the recommendations
+                network.FindSameCitySameInterest(user);
+                // Get the recommendations
+                recommendations = user.GetSameCitySameInterest();
             }
 
+            // Disable the up button if there are no earlier recommendations to show
+            if (recommendationIndex == 0)
+                btnRecommendationUp.Enabled = false;
+            else
+                btnRecommendationUp.Enabled = true;
+
+            // Disable the down button if there are no later friends to show
+            if (recommendationIndex == recommendations.Count - 1)
+                btnRecommendationDown.Enabled = false;
+            else
+                btnRecommendationDown.Enabled = true;
+
+            // If there's a recommended user:
+            if (recommendations.Any())
+            {
+                // Display the username of current friend of friend
+                lblRecommendation.Text = recommendations[recommendationIndex].Username;
+            }
         }
         
 
@@ -190,12 +218,18 @@ namespace RudyAriazHeadEssay
 
         private void btnRecommendationUp_Click(object sender, EventArgs e)
         {
-
+            // Decrement the index
+            recommendationIndex--;
+            // Repopulate the recommendation
+            PopulateRecommendation();
         }
 
         private void btnRecommendationDown_Click(object sender, EventArgs e)
         {
-
+            // Increment the index
+            recommendationIndex++;
+            // Repopulate the recommendation
+            PopulateRecommendation();
         }
 
         private void btnInvitationUp_Click(object sender, EventArgs e)
@@ -231,9 +265,25 @@ namespace RudyAriazHeadEssay
             PopulateInterest();
         }
 
+        // Go to the next type of recommendation
         private void btnNextRecommendationList_Click(object sender, EventArgs e)
         {
-
+            if (recommendationState == RecommendationType.FriendsOfFriendsSameInterest)
+            {
+                recommendationState = RecommendationType.SameCity;
+                lblRecommendationList.Text = "Same City";
+            }
+            else if (recommendationState == RecommendationType.SameCity)
+            {
+                recommendationState = RecommendationType.SameCitySameInterest;
+                lblRecommendationList.Text = "Same City, Same Interest";
+            }
+            else
+            {
+                recommendationState = RecommendationType.FriendsOfFriendsSameInterest;
+                lblRecommendationList.Text = "Friends of Friends with Same Interest";
+            }
+                
         }
 
         private void btnAddRecommendedFriend_Click(object sender, EventArgs e)

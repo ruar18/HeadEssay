@@ -24,6 +24,8 @@ namespace RudyAriazHeadEssay
             users[0].AddFriend(users[1]);
             users[0].AddFriend(users[2]);
             users[1].AddFriend(users[3]);
+            users[0].AddInterest("swimming");
+            users[3].AddInterest("swimming");
         }
 
         // TODO: check if there are restrictions on users size 
