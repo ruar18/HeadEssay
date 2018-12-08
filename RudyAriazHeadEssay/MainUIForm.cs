@@ -139,7 +139,7 @@ namespace RudyAriazHeadEssay
 
         private void PopulateInvitation()
         {
-
+            // test
         }
 
         // Populate the currently shown recommendation 
