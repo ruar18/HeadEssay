@@ -41,7 +41,7 @@ namespace RudyAriazHeadEssay
         // The types of invitations to display
         enum InvitationType { Incoming, Outgoing };
         // The type of invitation shown, intialized to show incoming invitations
-        private InvitationType invitationState = InvitationType.Incoming;
+        private InvitationType invitationState = InvitationType.Outgoing;
         
 
         public MainUIForm(Network network, Person user)
@@ -360,11 +360,32 @@ namespace RudyAriazHeadEssay
             // Check if incoming invitations must be displayed
             if(invitationState == InvitationType.Incoming)
             {
+                // Indicate that the incoming invitations are shown
+                lblInvitationList.Text = "Incoming Invitations";
+
+
 
             }
             else
             {
+                // Indicate that the outgoing invitations are shown
+                lblInvitationList.Text = "Outgoing Invitations";
 
+
+                // Get the user's outgoing invitations
+                List<Invitation> outgoing = user.GetOutgoingInvitations();
+
+                // Check if there are any invitations
+                if (outgoing.Any())
+                {
+                    // Display the one at the current selected index
+                    txtInvitation.Text = outgoing[invitationIndex].ToString(user);
+                }
+                // Otherwise, display a placeholder
+                else
+                {
+                    txtInvitation.Text = "No invitation";
+                }
             }
         }
 
@@ -391,7 +412,8 @@ namespace RudyAriazHeadEssay
         {
             // Add the recipient to the list
             InviteUser(currentRecommendation);
-            // Disable the button. It will be re-enabled when a different user is selected for invite.
+            // Disable the button. It will be re-enabled when a different user is selected for invite,
+            // or when the invitation is sent.
             btnInviteRecommendation.Enabled = false;
         }
 
@@ -400,7 +422,8 @@ namespace RudyAriazHeadEssay
         {
             // Invite the friend at the top of the displayed friends 
             InviteUser(user.GetAllFriends()[friendsIndex]);
-            // Disable the button. It will be re-enabled when a different user is selected for invite.
+            // Disable the button. It will be re-enabled when a different user is selected for invite,
+            // or when the invitation is sent.
             btnInviteFriend.Enabled = false;
         }
 
@@ -481,6 +504,13 @@ namespace RudyAriazHeadEssay
                 // Close the invitation creation UI
                 CloseInvitationUI();
 
+                // Enable the invitation button for a new invitation
+                btnInviteFriend.Enabled = true;
+                btnInviteRecommendation.Enabled = true;
+
+                // Set the invitation details to display the added invitation
+                invitationState = InvitationType.Outgoing;
+                invitationIndex = user.GetOutgoingInvitations().Count - 1;
                 // Update the displayed invitation list 
                 PopulateInvitation();
             }

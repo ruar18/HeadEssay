@@ -36,7 +36,6 @@
             this.lblFriend5 = new System.Windows.Forms.Label();
             this.lblFriendList = new System.Windows.Forms.Label();
             this.lblInvitationList = new System.Windows.Forms.Label();
-            this.lblInvitation1 = new System.Windows.Forms.Label();
             this.lblRecommendation = new System.Windows.Forms.Label();
             this.lblRecommendationList = new System.Windows.Forms.Label();
             this.lblInterest = new System.Windows.Forms.Label();
@@ -70,6 +69,7 @@
             this.btnCancelInvitation = new System.Windows.Forms.Button();
             this.btnInviteRecommendation = new System.Windows.Forms.Button();
             this.btnInviteFriend = new System.Windows.Forms.Button();
+            this.txtInvitation = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblFullName
@@ -144,15 +144,6 @@
             this.lblInvitationList.Size = new System.Drawing.Size(188, 32);
             this.lblInvitationList.TabIndex = 7;
             this.lblInvitationList.Text = "My Invitations";
-            // 
-            // lblInvitation1
-            // 
-            this.lblInvitation1.AutoSize = true;
-            this.lblInvitation1.Location = new System.Drawing.Point(1083, 282);
-            this.lblInvitation1.Name = "lblInvitation1";
-            this.lblInvitation1.Size = new System.Drawing.Size(130, 32);
-            this.lblInvitation1.TabIndex = 8;
-            this.lblInvitation1.Text = "invitation";
             // 
             // lblRecommendation
             // 
@@ -262,7 +253,7 @@
             // 
             // btnInvitationDown
             // 
-            this.btnInvitationDown.Location = new System.Drawing.Point(1089, 433);
+            this.btnInvitationDown.Location = new System.Drawing.Point(1113, 574);
             this.btnInvitationDown.Name = "btnInvitationDown";
             this.btnInvitationDown.Size = new System.Drawing.Size(115, 56);
             this.btnInvitationDown.TabIndex = 34;
@@ -292,7 +283,7 @@
             // 
             // btnNewInvitation
             // 
-            this.btnNewInvitation.Location = new System.Drawing.Point(1065, 694);
+            this.btnNewInvitation.Location = new System.Drawing.Point(1089, 835);
             this.btnNewInvitation.Name = "btnNewInvitation";
             this.btnNewInvitation.Size = new System.Drawing.Size(172, 83);
             this.btnNewInvitation.TabIndex = 37;
@@ -322,7 +313,7 @@
             // 
             // btnToggleInvitations
             // 
-            this.btnToggleInvitations.Location = new System.Drawing.Point(1065, 516);
+            this.btnToggleInvitations.Location = new System.Drawing.Point(1089, 657);
             this.btnToggleInvitations.Name = "btnToggleInvitations";
             this.btnToggleInvitations.Size = new System.Drawing.Size(158, 83);
             this.btnToggleInvitations.TabIndex = 40;
@@ -339,7 +330,7 @@
             // 
             // btnAcceptInvitation
             // 
-            this.btnAcceptInvitation.Location = new System.Drawing.Point(988, 605);
+            this.btnAcceptInvitation.Location = new System.Drawing.Point(1012, 746);
             this.btnAcceptInvitation.Name = "btnAcceptInvitation";
             this.btnAcceptInvitation.Size = new System.Drawing.Size(172, 83);
             this.btnAcceptInvitation.TabIndex = 42;
@@ -349,7 +340,7 @@
             // 
             // btnRejectInvitation
             // 
-            this.btnRejectInvitation.Location = new System.Drawing.Point(1166, 605);
+            this.btnRejectInvitation.Location = new System.Drawing.Point(1190, 746);
             this.btnRejectInvitation.Name = "btnRejectInvitation";
             this.btnRejectInvitation.Size = new System.Drawing.Size(172, 83);
             this.btnRejectInvitation.TabIndex = 43;
@@ -468,11 +459,22 @@
             this.btnInviteFriend.UseVisualStyleBackColor = true;
             this.btnInviteFriend.Click += new System.EventHandler(this.btnInviteFriend_Click);
             // 
+            // txtInvitation
+            // 
+            this.txtInvitation.Location = new System.Drawing.Point(979, 310);
+            this.txtInvitation.Multiline = true;
+            this.txtInvitation.Name = "txtInvitation";
+            this.txtInvitation.ReadOnly = true;
+            this.txtInvitation.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtInvitation.Size = new System.Drawing.Size(367, 227);
+            this.txtInvitation.TabIndex = 56;
+            // 
             // MainUIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1945, 1148);
+            this.Controls.Add(this.txtInvitation);
             this.Controls.Add(this.btnInviteFriend);
             this.Controls.Add(this.btnInviteRecommendation);
             this.Controls.Add(this.btnCancelInvitation);
@@ -506,7 +508,6 @@
             this.Controls.Add(this.lblInterestList);
             this.Controls.Add(this.lblRecommendation);
             this.Controls.Add(this.lblRecommendationList);
-            this.Controls.Add(this.lblInvitation1);
             this.Controls.Add(this.lblInvitationList);
             this.Controls.Add(this.lblFriendList);
             this.Controls.Add(this.lblFriend5);
@@ -533,7 +534,6 @@
         private System.Windows.Forms.Label lblFriend5;
         private System.Windows.Forms.Label lblFriendList;
         private System.Windows.Forms.Label lblInvitationList;
-        private System.Windows.Forms.Label lblInvitation1;
         private System.Windows.Forms.Label lblRecommendation;
         private System.Windows.Forms.Label lblRecommendationList;
         private System.Windows.Forms.Label lblInterest;
@@ -567,5 +567,6 @@
         private System.Windows.Forms.Button btnCancelInvitation;
         private System.Windows.Forms.Button btnInviteRecommendation;
         private System.Windows.Forms.Button btnInviteFriend;
+        private System.Windows.Forms.TextBox txtInvitation;
     }
 }

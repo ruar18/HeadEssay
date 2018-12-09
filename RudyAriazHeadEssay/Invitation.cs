@@ -48,10 +48,12 @@ namespace RudyAriazHeadEssay
         }
 
 
-        // Gets the remaining lifetime of the invitation in minutes
+        // Gets the remaining lifetime of the invitation in minutes (rounded to 1 decimal place)
         public double TimeLeft()
         {
-            return lifeTime - (Environment.TickCount - timeCreated) / (1.0 * MS_IN_MINUTE);
+            double unRounded = lifeTime - (Environment.TickCount - timeCreated) / (1.0 * MS_IN_MINUTE);
+            // Round the remaining lifetime
+            return Math.Round(unRounded, 1);
         }
 
         // Updates the recipients to reflect that user has accepted or rejected the invitation
@@ -74,24 +76,40 @@ namespace RudyAriazHeadEssay
         // TODO: use stringbuilder?
         public string ToString(Person user)
         {
-            string invitation = $"Interest: { Interest }\n";
+            string invitation = $"Interest: { Interest }\r\n";
             // Add creator information if the user is not the creator
             if(user != Creator)
             {
-                invitation += $"Creator: { Creator.Username }\n";
+                invitation += $"Creator: { Creator.Username }\r\nn";
             }
             // Add recipient and status information
-            invitation += "Recipients: ";
+            invitation += "Recipients:\r\n";
+
+            // Will store the invitation status for each recipient
+            string status = "";
             foreach(KeyValuePair<Person, InvitationStatus> recipient in recipientStates)
             {
-                // TODO: check if status is printed nicely
-                invitation += $"{ recipient.Key.Username }: { recipient.Value }, ";
+                // Format the status
+                switch (recipient.Value)
+                {
+                    case InvitationStatus.Accepted:
+                        status = "Accepted";
+                        break;
+                    case InvitationStatus.Rejected:
+                        status = "Rejected";
+                        break;
+                    case InvitationStatus.Pending:
+                        status = "Pending";
+                        break;
+                }
+                
+                invitation += $"{ recipient.Key.Username }- { status }, ";
             }
             // Remove trailing comma and space
-            invitation = invitation.Substring(invitation.Length - 2);
+            invitation = invitation.Substring(0, invitation.Length - 2);
 
             // Add time information
-            invitation += $"{ this.TimeLeft() } minutes left";
+            invitation += $"\r\n{ this.TimeLeft() } minutes left";
             
             // Return the string
             return invitation;

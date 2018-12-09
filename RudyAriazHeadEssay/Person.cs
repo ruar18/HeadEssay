@@ -107,12 +107,6 @@ namespace RudyAriazHeadEssay
             friends.Remove(friend);
         }
 
-        // TODO: need invitation parameter?
-        public void SendInvitation(Person receiver, Invitation invitation)
-        {
-            receiver.incomingInvitations.Add(invitation);
-        }
-
         // Allows a user to receive an invitation
         public void AcceptInvitation(Invitation invitation)
         {
@@ -134,7 +128,11 @@ namespace RudyAriazHeadEssay
         public void DeleteOutgoingInvitation(Invitation toDelete) { }
 
         // Adds an outgoing invitation to the list of outgoing invitations
-        public void AddOutgoingInvitation(Invitation toAdd) { }
+        // TODO: rename params?
+        public void AddOutgoingInvitation(Invitation toAdd)
+        {
+            outgoingInvitations.Add(toAdd);
+        }
 
         // Return true if other is in the person's friend list, false otherwise
         public bool IsFriend(Person other) { return true; }
