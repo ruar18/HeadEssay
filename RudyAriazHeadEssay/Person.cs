@@ -28,8 +28,8 @@ namespace RudyAriazHeadEssay
         private List<Person> sameCity;
         // People in the same city with the same interest
         private List<Person> sameCitySameInterest;
-        // Store the person's incoming pending invitations
-        private List<Invitation> pendingInvitations;
+        // Store all incoming invitations
+        private List<Invitation> incomingInvitations;
         // Store the person's incoming accepted invitations
         private List<Invitation> acceptedInvitations;
         // Store the person's outgoing invitations
@@ -55,7 +55,7 @@ namespace RudyAriazHeadEssay
             interests = new List<string>();
             friends = new List<Person>();
             friendsOfFriends = new List<Person>();
-            pendingInvitations = new List<Invitation>();
+            incomingInvitations = new List<Invitation>();
             acceptedInvitations = new List<Invitation>();
             outgoingInvitations = new List<Invitation>();
         }
@@ -110,19 +110,21 @@ namespace RudyAriazHeadEssay
         // TODO: need invitation parameter?
         public void SendInvitation(Person receiver, Invitation invitation)
         {
-            receiver.pendingInvitations.Add(invitation);
+            receiver.incomingInvitations.Add(invitation);
         }
 
         // Allows a user to receive an invitation
         public void AcceptInvitation(Invitation invitation)
         {
             acceptedInvitations.Add(invitation);
+            // Modify the invitation information
+            invitation.UpdateStatus(this, InvitationStatus.Accepted);
         }
 
         // Receive an incoming invitation into the person's pending list 
         public void ReceiveInvitation(Invitation toReceive)
         {
-            pendingInvitations.Add(toReceive);
+            incomingInvitations.Add(toReceive);
         }
 
         // Can delete a pending incoming or accepted invitation
@@ -162,7 +164,7 @@ namespace RudyAriazHeadEssay
         }
         public List<Invitation> GetIncomingInvitations()
         {
-            return Copier.CopyList(pendingInvitations);
+            return Copier.CopyList(incomingInvitations);
         }
         public List<Invitation> GetAcceptedInvitations()
         {

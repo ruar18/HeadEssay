@@ -18,12 +18,11 @@ namespace RudyAriazHeadEssay
         // Labels displaying friends
         private List<Label> friendLabelList;
 
-        enum RecommendationType { FriendsOfFriendsSameInterest, SameCity, SameCitySameInterest };
 
+        enum RecommendationType { FriendsOfFriendsSameInterest, SameCity, SameCitySameInterest };
         // The current type of recommendations shown, initialized to show
         // friends of friends by default
         private RecommendationType recommendationState = RecommendationType.FriendsOfFriendsSameInterest;
-
         // The index of the currently shown recommendation
         private int recommendationIndex = 0;
         // The currently shown recommendation
@@ -39,7 +38,11 @@ namespace RudyAriazHeadEssay
         private int invitationIndex = 0;
         // The currently selected recipients for an invitation
         private List<Person> invitedRecipients = new List<Person>();
-
+        // The types of invitations to display
+        enum InvitationType { Incoming, Outgoing };
+        // The type of invitation shown, intialized to show incoming invitations
+        private InvitationType invitationState = InvitationType.Incoming;
+        
 
         public MainUIForm(Network network, Person user)
         {
@@ -71,6 +74,8 @@ namespace RudyAriazHeadEssay
             PopulateFriendsList();
             // Populate the recommendation
             PopulateRecommendation();
+            // Populate the invitation
+            PopulateInvitation();
         }
 
         // Populate the user's friends list
@@ -347,10 +352,22 @@ namespace RudyAriazHeadEssay
             btnInviteFriend.Visible = visible;
         }
 
+
+
+
         private void PopulateInvitation()
         {
+            // Check if incoming invitations must be displayed
+            if(invitationState == InvitationType.Incoming)
+            {
+
+            }
+            else
+            {
+
+            }
         }
-        
+
         // Accept an invitation
         public void AcceptInvitation(Invitation invitation)
         {
@@ -448,8 +465,14 @@ namespace RudyAriazHeadEssay
             // Otherwise, invitation can be sent
             else
             {
+                // Create a dictionary of recipient states with the given recipients
+                // No recipients have accepted the invitation yet
+                // Precondition: invited recipients are unique
+                Dictionary<Person, InvitationStatus> recipientStates = 
+                    invitedRecipients.ToDictionary(x => x, x => InvitationStatus.Pending);
+
                 // Create the invitation with the given information
-                Invitation newInvitation = new Invitation(user, invitedRecipients, interest, 
+                Invitation newInvitation = new Invitation(user, recipientStates, interest, 
                                                           Environment.TickCount, lifeTime);
                 // Send the invitation
                 network.DeliverInvitation(newInvitation);
@@ -457,6 +480,9 @@ namespace RudyAriazHeadEssay
                 MessageBox.Show("Invitation sent!");
                 // Close the invitation creation UI
                 CloseInvitationUI();
+
+                // Update the displayed invitation list 
+                PopulateInvitation();
             }
         }
 
@@ -475,7 +501,6 @@ namespace RudyAriazHeadEssay
         }
 
 
-
         // Cancel the invitation and close the creation UI
         private void btnCancelInvitation_Click(object sender, EventArgs e)
         {
@@ -483,16 +508,21 @@ namespace RudyAriazHeadEssay
         }
 
         
-
+        // Adds a pending incoming invitation to the accepted list
         private void btnAcceptInvitation_Click(object sender, EventArgs e)
         {
-
+            // Add the user's top incoming invitation displayed to the accepted list
+            user.AcceptInvitation(user.GetIncomingInvitations()[invitationIndex]);
         }
 
         private void btnRejectInvitation_Click(object sender, EventArgs e)
         {
 
         }
+
+
+
+
 
         private void MainUIForm_FormClosed(object sender, FormClosedEventArgs e)
         {

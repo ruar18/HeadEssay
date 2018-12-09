@@ -36,10 +36,6 @@
             this.lblFriend5 = new System.Windows.Forms.Label();
             this.lblFriendList = new System.Windows.Forms.Label();
             this.lblInvitationList = new System.Windows.Forms.Label();
-            this.lblInvitation5 = new System.Windows.Forms.Label();
-            this.lblInvitation4 = new System.Windows.Forms.Label();
-            this.lblInvitation3 = new System.Windows.Forms.Label();
-            this.lblInvitation2 = new System.Windows.Forms.Label();
             this.lblInvitation1 = new System.Windows.Forms.Label();
             this.lblRecommendation = new System.Windows.Forms.Label();
             this.lblRecommendationList = new System.Windows.Forms.Label();
@@ -149,50 +145,14 @@
             this.lblInvitationList.TabIndex = 7;
             this.lblInvitationList.Text = "My Invitations";
             // 
-            // lblInvitation5
-            // 
-            this.lblInvitation5.AutoSize = true;
-            this.lblInvitation5.Location = new System.Drawing.Point(1083, 546);
-            this.lblInvitation5.Name = "lblInvitation5";
-            this.lblInvitation5.Size = new System.Drawing.Size(146, 32);
-            this.lblInvitation5.TabIndex = 12;
-            this.lblInvitation5.Text = "invitation5";
-            // 
-            // lblInvitation4
-            // 
-            this.lblInvitation4.AutoSize = true;
-            this.lblInvitation4.Location = new System.Drawing.Point(1083, 478);
-            this.lblInvitation4.Name = "lblInvitation4";
-            this.lblInvitation4.Size = new System.Drawing.Size(146, 32);
-            this.lblInvitation4.TabIndex = 11;
-            this.lblInvitation4.Text = "invitation4";
-            // 
-            // lblInvitation3
-            // 
-            this.lblInvitation3.AutoSize = true;
-            this.lblInvitation3.Location = new System.Drawing.Point(1083, 408);
-            this.lblInvitation3.Name = "lblInvitation3";
-            this.lblInvitation3.Size = new System.Drawing.Size(146, 32);
-            this.lblInvitation3.TabIndex = 10;
-            this.lblInvitation3.Text = "invitation3";
-            // 
-            // lblInvitation2
-            // 
-            this.lblInvitation2.AutoSize = true;
-            this.lblInvitation2.Location = new System.Drawing.Point(1083, 343);
-            this.lblInvitation2.Name = "lblInvitation2";
-            this.lblInvitation2.Size = new System.Drawing.Size(146, 32);
-            this.lblInvitation2.TabIndex = 9;
-            this.lblInvitation2.Text = "invitation2";
-            // 
             // lblInvitation1
             // 
             this.lblInvitation1.AutoSize = true;
             this.lblInvitation1.Location = new System.Drawing.Point(1083, 282);
             this.lblInvitation1.Name = "lblInvitation1";
-            this.lblInvitation1.Size = new System.Drawing.Size(146, 32);
+            this.lblInvitation1.Size = new System.Drawing.Size(130, 32);
             this.lblInvitation1.TabIndex = 8;
-            this.lblInvitation1.Text = "invitation1";
+            this.lblInvitation1.Text = "invitation";
             // 
             // lblRecommendation
             // 
@@ -302,7 +262,7 @@
             // 
             // btnInvitationDown
             // 
-            this.btnInvitationDown.Location = new System.Drawing.Point(1089, 610);
+            this.btnInvitationDown.Location = new System.Drawing.Point(1089, 433);
             this.btnInvitationDown.Name = "btnInvitationDown";
             this.btnInvitationDown.Size = new System.Drawing.Size(115, 56);
             this.btnInvitationDown.TabIndex = 34;
@@ -332,7 +292,7 @@
             // 
             // btnNewInvitation
             // 
-            this.btnNewInvitation.Location = new System.Drawing.Point(1065, 871);
+            this.btnNewInvitation.Location = new System.Drawing.Point(1065, 694);
             this.btnNewInvitation.Name = "btnNewInvitation";
             this.btnNewInvitation.Size = new System.Drawing.Size(172, 83);
             this.btnNewInvitation.TabIndex = 37;
@@ -362,7 +322,7 @@
             // 
             // btnToggleInvitations
             // 
-            this.btnToggleInvitations.Location = new System.Drawing.Point(1071, 693);
+            this.btnToggleInvitations.Location = new System.Drawing.Point(1065, 516);
             this.btnToggleInvitations.Name = "btnToggleInvitations";
             this.btnToggleInvitations.Size = new System.Drawing.Size(158, 83);
             this.btnToggleInvitations.TabIndex = 40;
@@ -379,7 +339,7 @@
             // 
             // btnAcceptInvitation
             // 
-            this.btnAcceptInvitation.Location = new System.Drawing.Point(988, 782);
+            this.btnAcceptInvitation.Location = new System.Drawing.Point(988, 605);
             this.btnAcceptInvitation.Name = "btnAcceptInvitation";
             this.btnAcceptInvitation.Size = new System.Drawing.Size(172, 83);
             this.btnAcceptInvitation.TabIndex = 42;
@@ -389,7 +349,7 @@
             // 
             // btnRejectInvitation
             // 
-            this.btnRejectInvitation.Location = new System.Drawing.Point(1166, 782);
+            this.btnRejectInvitation.Location = new System.Drawing.Point(1166, 605);
             this.btnRejectInvitation.Name = "btnRejectInvitation";
             this.btnRejectInvitation.Size = new System.Drawing.Size(172, 83);
             this.btnRejectInvitation.TabIndex = 43;
@@ -546,10 +506,6 @@
             this.Controls.Add(this.lblInterestList);
             this.Controls.Add(this.lblRecommendation);
             this.Controls.Add(this.lblRecommendationList);
-            this.Controls.Add(this.lblInvitation5);
-            this.Controls.Add(this.lblInvitation4);
-            this.Controls.Add(this.lblInvitation3);
-            this.Controls.Add(this.lblInvitation2);
             this.Controls.Add(this.lblInvitation1);
             this.Controls.Add(this.lblInvitationList);
             this.Controls.Add(this.lblFriendList);
@@ -577,10 +533,6 @@
         private System.Windows.Forms.Label lblFriend5;
         private System.Windows.Forms.Label lblFriendList;
         private System.Windows.Forms.Label lblInvitationList;
-        private System.Windows.Forms.Label lblInvitation5;
-        private System.Windows.Forms.Label lblInvitation4;
-        private System.Windows.Forms.Label lblInvitation3;
-        private System.Windows.Forms.Label lblInvitation2;
         private System.Windows.Forms.Label lblInvitation1;
         private System.Windows.Forms.Label lblRecommendation;
         private System.Windows.Forms.Label lblRecommendationList;
