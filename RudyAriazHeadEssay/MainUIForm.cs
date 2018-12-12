@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * Rudy Ariaz
+ * December 14, 2018
+ * MainUIForm class manages all main user-interface components, and stores the current network
+ * and logged-in person.
+ */
+ 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +19,7 @@ namespace RudyAriazHeadEssay
 {
     public partial class MainUIForm : Form
     {
+        // The current network
         private Network network;
         // Logged in user
         private Person user;
@@ -49,8 +57,11 @@ namespace RudyAriazHeadEssay
             InitializeComponent();
             // Make this form fullscreen
             WindowState = FormWindowState.Maximized;
+            // Store the current network and logged-in user
             this.network = network;
             this.user = user;
+            // Display the logged-in user's full name
+            lblFullName.Text = $"{ user.FirstName } { user.LastName }";
             // Initialize the label list displaying friends 
             CreateFriendLabelList();
             PopulateAllLists();
@@ -78,26 +89,40 @@ namespace RudyAriazHeadEssay
             PopulateInvitation();
         }
 
+        // Disables or enables up/down buttons for scrolling depending on list position
+        private void SetScrollButtonActivity<T>(Button btnDown, Button btnUp, int itemIndex, List<T> scrolledList)
+        {
+            // If there are no earlier items, disable the up button 
+            if(itemIndex == 0)
+            {
+                btnUp.Enabled = false;
+            }
+            // Otherwise, enable it
+            else
+            {
+                btnUp.Enabled = true;
+            }
+
+            // If there are no later items, disable the down button
+            if(itemIndex >= scrolledList.Count - 1)
+            {
+                btnDown.Enabled = false;
+            }
+            // Otherwise, enable it 
+            else
+            {
+                btnDown.Enabled = true;
+            }
+        }
+
         // Populate the user's friends list
         private void PopulateFriendsList()
         {
             // Get the user's friends
             List<Person> friendsList = user.GetAllFriends();
 
-            // If there are no earlier friends, disable the up button
-            if (friendsIndex == 0)
-            {
-                btnFriendUp.Enabled = false;
-            }
-            else
-                btnFriendUp.Enabled = true;
-            // If there are no later friends, disable the down button
-            if (friendsIndex >= friendsList.Count - 1)
-            {
-                btnFriendDown.Enabled = false;
-            }
-            else
-                btnFriendDown.Enabled = true;
+            // Disable or enable the friend up or down buttons according to list position
+            SetScrollButtonActivity(btnFriendDown, btnFriendUp, friendsIndex, friendsList);
 
             // Determine the upper bound of the indices of friends to display
             int upperBound = Math.Min(user.GetAllFriends().Count, friendsIndex + 5);
@@ -131,30 +156,20 @@ namespace RudyAriazHeadEssay
         // between the user and the interface 
         private void PopulateInterest()
         {
-            // Disable the up button if there are no earlier friends to show
-            if (interestIndex == 0)
-            {
-                btnInterestUp.Enabled = false;
-            }
-            else
-                btnInterestUp.Enabled = true;
+            // Get the user's interests
+            List<string> interests = user.GetAllInterests();
 
-            // Disable the down button if there are no later friends to show
-            if (interestIndex == user.GetAllInterests().Count - 1)
-            {
-                btnInterestDown.Enabled = false;
-            }
-            else
-                btnInterestDown.Enabled = true;
+            // Disable or enable the interest up or down buttons according to list position
+            SetScrollButtonActivity(btnInterestDown, btnInterestUp, interestIndex, interests);
 
             // If there are no interests in the list, display a placeholder
-            if(user.GetAllInterests().Count == 0)
+            if (user.GetAllInterests().Count == 0)
             {
                 lblInterest.Text = "No interests";
             }
             else
             {
-                lblInterest.Text = user.GetAllInterests()[interestIndex];
+                lblInterest.Text = interests[interestIndex];
             }
         }
 
@@ -197,9 +212,16 @@ namespace RudyAriazHeadEssay
             PopulateFriendsList();
         }
 
+        // Delete a friend
         private void btnDeleteFriend_Click(object sender, EventArgs e)
         {
-
+            // TODO: remove by index
+            // Removes the friend at the current displayed index
+            user.RemoveFriend(user.GetAllFriends()[friendsIndex]);
+            // Repopulate recommendations
+            PopulateRecommendation();
+            // Repopulate friends
+            PopulateFriendsList();
         }
 
         // Adds an interest to the user's interest list
@@ -245,17 +267,8 @@ namespace RudyAriazHeadEssay
                 recommendations = user.GetSameCitySameInterest();
             }
 
-            // Disable the up button if there are no earlier recommendations to show
-            if (recommendationIndex == 0)
-                btnRecommendationUp.Enabled = false;
-            else
-                btnRecommendationUp.Enabled = true;
-
-            // Disable the down button if there are no later friends to show
-            if (recommendationIndex >= recommendations.Count - 1)
-                btnRecommendationDown.Enabled = false;
-            else
-                btnRecommendationDown.Enabled = true;
+            // Disable or enable the recommendation up or down buttons according to list position
+            SetScrollButtonActivity(btnRecommendationDown, btnRecommendationUp, recommendationIndex, recommendations);
 
             // If there's a recommended user:
             if (recommendations.Any())
@@ -325,11 +338,7 @@ namespace RudyAriazHeadEssay
             // Repopulate friends to display the change
             PopulateFriendsList();
         }
-
-
-
-
-
+        
 
         // Hide or show the invitation creation UI
         private void SetInvitationUIVisibility(bool visible)
@@ -354,64 +363,104 @@ namespace RudyAriazHeadEssay
 
 
 
-
+        // TODO: store the current invitations?
+        // TODO: refactor this to make it simpler
         private void PopulateInvitation()
         {
+            // Delete any inactive invitations prior to displaying them
+            network.DeleteInactiveInvitations();
+            // Will store the list of invitations 
+            List<Invitation> invitations = null;
+
             // Check if incoming invitations must be displayed
-            if(invitationState == InvitationType.Incoming)
+            if (invitationState == InvitationType.Incoming)
             {
+                
                 // Indicate that the incoming invitations are shown
                 lblInvitationList.Text = "Incoming Invitations";
+                // Enable the accept invitation button
+                btnAcceptInvitation.Enabled = true;
 
-
-
+                // Get the user's incoming invitations
+                invitations = user.GetIncomingInvitations();
             }
             else
             {
                 // Indicate that the outgoing invitations are shown
                 lblInvitationList.Text = "Outgoing Invitations";
-
+                // Disable the accept invitation button
+                btnAcceptInvitation.Enabled = false;
 
                 // Get the user's outgoing invitations
-                List<Invitation> outgoing = user.GetOutgoingInvitations();
+                invitations = user.GetOutgoingInvitations();
+            }
 
-                // Check if there are any invitations
-                if (outgoing.Any())
+            // Check if there are any invitations
+            if (invitations.Any())
+            {
+                // Display the one at the current selected index
+                txtInvitation.Text = invitations[invitationIndex].ToString(user);
+                // If the invitation has been accepted by the user, display it in bold text
+                if (user.GetAcceptedInvitations().Contains(invitations[invitationIndex]))
                 {
-                    // Display the one at the current selected index
-                    txtInvitation.Text = outgoing[invitationIndex].ToString(user);
+                    txtInvitation.Font = new Font(Font, FontStyle.Bold);
                 }
-                // Otherwise, display a placeholder
+                // If the invitation has not been accepted yet, display in regular text
                 else
                 {
-                    txtInvitation.Text = "No invitation";
+                    txtInvitation.Font = new Font(Font, FontStyle.Regular);
                 }
+
+                // Enable the delete button since there is an invitation to delete
+                btnDeleteInvitation.Enabled = true;
+            }
+            // Otherwise, display a placeholder
+            else
+            {
+                txtInvitation.Text = "No invitation";
+                // Disable the delete button since there is no invitation to delete
+                btnDeleteInvitation.Enabled = false;
+            }
+
+            // Disable or enable the invitation up or down buttons according to list position
+            SetScrollButtonActivity(btnInvitationDown, btnInvitationUp, invitationIndex, invitations);
+
+            // Disable the down button if there are no later invitations to show
+            if (invitationIndex >= invitations.Count - 1)
+            {
+                btnInvitationDown.Enabled = false;
+            }
+            // Otherwise, enable it 
+            else
+            {
+                btnInvitationDown.Enabled = true;
             }
         }
-
-        // Accept an invitation
-        public void AcceptInvitation(Invitation invitation)
-        {
-            user.AcceptInvitation(invitation);
-        }
+        
 
         // TODO: implement
         private void btnInvitationUp_Click(object sender, EventArgs e)
         {
-
+            // Decrement the invitation index
+            invitationIndex--;
+            // Repopulate the invitation
+            PopulateInvitation();
         }
 
         // TODO: implement
         private void btnInvitationDown_Click(object sender, EventArgs e)
         {
-
+            // Increment the invitation index
+            invitationIndex++;
+            // Repopulate the invitation
+            PopulateInvitation();
         }
 
         // Add a recommended friend to the current invitation recipients
         private void btnInviteRecommendation_Click(object sender, EventArgs e)
         {
             // Add the recipient to the list
-            InviteUser(currentRecommendation);
+            ShowInvitedUser(currentRecommendation);
             // Disable the button. It will be re-enabled when a different user is selected for invite,
             // or when the invitation is sent.
             btnInviteRecommendation.Enabled = false;
@@ -421,14 +470,14 @@ namespace RudyAriazHeadEssay
         private void btnInviteFriend_Click(object sender, EventArgs e)
         {
             // Invite the friend at the top of the displayed friends 
-            InviteUser(user.GetAllFriends()[friendsIndex]);
+            ShowInvitedUser(user.GetAllFriends()[friendsIndex]);
             // Disable the button. It will be re-enabled when a different user is selected for invite,
             // or when the invitation is sent.
             btnInviteFriend.Enabled = false;
         }
 
         // Adds a user to the current invitation recipients
-        private void InviteUser(Person invitee)
+        private void ShowInvitedUser(Person invitee)
         {
             // Add the invitee to the recipient list
             invitedRecipients.Add(invitee);
@@ -447,9 +496,18 @@ namespace RudyAriazHeadEssay
             }
         }
 
+        // Change incoming to outgoing invitations and vice versa
         private void btnToggleInvitations_Click(object sender, EventArgs e)
         {
-
+            if(invitationState == InvitationType.Incoming)
+            {
+                invitationState = InvitationType.Outgoing;
+            }
+            else
+            {
+                invitationState = InvitationType.Incoming;
+            }
+            PopulateInvitation();
         }
 
         private void btnNewInvitation_Click(object sender, EventArgs e)
@@ -541,16 +599,58 @@ namespace RudyAriazHeadEssay
         // Adds a pending incoming invitation to the accepted list
         private void btnAcceptInvitation_Click(object sender, EventArgs e)
         {
-            // Add the user's top incoming invitation displayed to the accepted list
-            user.AcceptInvitation(user.GetIncomingInvitations()[invitationIndex]);
+            // Get the current displayed invitation
+            Invitation selectedInvitation = user.GetIncomingInvitations()[invitationIndex];
+            // If the invitation has expired, display an appropriate error message
+            if (!selectedInvitation.IsActive())
+            {
+                MessageBox.Show("Invitation has already expired.");
+            }
+            // Otherwise, the invitation is accepted by the user
+            else
+            {
+                user.AcceptInvitation(selectedInvitation);
+            }
+            // Repopulate the invitation information
+            PopulateInvitation();
         }
 
-        private void btnRejectInvitation_Click(object sender, EventArgs e)
+
+        // Delete an incoming or outgoing invitation
+        private void btnDeleteInvitation_Click(object sender, EventArgs e)
         {
+            // Will store the current displayed invitation
+            Invitation selectedInvitation = null;
 
+            // Get the invitation
+            if (invitationState == InvitationType.Outgoing)
+            {
+                selectedInvitation = user.GetOutgoingInvitations()[invitationIndex];
+            }
+            else
+            {
+                selectedInvitation = user.GetOutgoingInvitations()[invitationIndex];
+            }
+
+            // Check if the invitation has expired and display an appropriate error message if it has
+            if (!selectedInvitation.IsActive())
+            {
+                MessageBox.Show("Invitation has already expired.");
+            }
+            // Otherwise, remove it
+            else
+            {
+                user.DeleteInvitation(selectedInvitation);
+            }
+            // Repopulate the current invitation
+            PopulateInvitation();
         }
 
-
+        // Allow the user to directly refresh invitation information
+        private void btnRefreshInvitations_Click(object sender, EventArgs e)
+        {
+            PopulateInvitation();
+        }
 
 
 

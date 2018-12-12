@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Rudy Ariaz
+ * December 14, 2018
+ * Invitation objects are used to store information regarding the person's incoming and outgoing
+ * invitations from other or to other users.
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,8 +58,9 @@ namespace RudyAriazHeadEssay
         public double TimeLeft()
         {
             double unRounded = lifeTime - (Environment.TickCount - timeCreated) / (1.0 * MS_IN_MINUTE);
-            // Round the remaining lifetime
-            return Math.Round(unRounded, 1);
+            // Round the remaining lifetime to 1 decimal place, unless there is less than 0.1 minutes
+            // in which case round to a higher-precision double (3 decimal places).
+            return unRounded >= 0.1? Math.Round(unRounded, 1) : Math.Round(unRounded, 3);
         }
 
         // Updates the recipients to reflect that user has accepted or rejected the invitation
@@ -80,7 +87,7 @@ namespace RudyAriazHeadEssay
             // Add creator information if the user is not the creator
             if(user != Creator)
             {
-                invitation += $"Creator: { Creator.Username }\r\nn";
+                invitation += $"Creator: { Creator.Username }\r\n";
             }
             // Add recipient and status information
             invitation += "Recipients:\r\n";

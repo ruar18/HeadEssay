@@ -56,7 +56,7 @@
             this.btnToggleInvitations = new System.Windows.Forms.Button();
             this.txtAddInterest = new System.Windows.Forms.TextBox();
             this.btnAcceptInvitation = new System.Windows.Forms.Button();
-            this.btnRejectInvitation = new System.Windows.Forms.Button();
+            this.btnDeleteInvitation = new System.Windows.Forms.Button();
             this.btnLogOut = new System.Windows.Forms.Button();
             this.lblPromptLifetime = new System.Windows.Forms.Label();
             this.lblPromptRecipients = new System.Windows.Forms.Label();
@@ -70,6 +70,7 @@
             this.btnInviteRecommendation = new System.Windows.Forms.Button();
             this.btnInviteFriend = new System.Windows.Forms.Button();
             this.txtInvitation = new System.Windows.Forms.TextBox();
+            this.btnRefreshInvitations = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblFullName
@@ -139,11 +140,11 @@
             // lblInvitationList
             // 
             this.lblInvitationList.AutoSize = true;
-            this.lblInvitationList.Location = new System.Drawing.Point(1059, 150);
+            this.lblInvitationList.Location = new System.Drawing.Point(1033, 150);
             this.lblInvitationList.Name = "lblInvitationList";
-            this.lblInvitationList.Size = new System.Drawing.Size(188, 32);
+            this.lblInvitationList.Size = new System.Drawing.Size(254, 32);
             this.lblInvitationList.TabIndex = 7;
-            this.lblInvitationList.Text = "My Invitations";
+            this.lblInvitationList.Text = "Outgoing Invitation";
             // 
             // lblRecommendation
             // 
@@ -313,9 +314,9 @@
             // 
             // btnToggleInvitations
             // 
-            this.btnToggleInvitations.Location = new System.Drawing.Point(1089, 657);
+            this.btnToggleInvitations.Location = new System.Drawing.Point(1012, 657);
             this.btnToggleInvitations.Name = "btnToggleInvitations";
-            this.btnToggleInvitations.Size = new System.Drawing.Size(158, 83);
+            this.btnToggleInvitations.Size = new System.Drawing.Size(172, 83);
             this.btnToggleInvitations.TabIndex = 40;
             this.btnToggleInvitations.Text = "Toggle Invitations";
             this.btnToggleInvitations.UseVisualStyleBackColor = true;
@@ -338,19 +339,19 @@
             this.btnAcceptInvitation.UseVisualStyleBackColor = true;
             this.btnAcceptInvitation.Click += new System.EventHandler(this.btnAcceptInvitation_Click);
             // 
-            // btnRejectInvitation
+            // btnDeleteInvitation
             // 
-            this.btnRejectInvitation.Location = new System.Drawing.Point(1190, 746);
-            this.btnRejectInvitation.Name = "btnRejectInvitation";
-            this.btnRejectInvitation.Size = new System.Drawing.Size(172, 83);
-            this.btnRejectInvitation.TabIndex = 43;
-            this.btnRejectInvitation.Text = "Reject Invitation";
-            this.btnRejectInvitation.UseVisualStyleBackColor = true;
-            this.btnRejectInvitation.Click += new System.EventHandler(this.btnRejectInvitation_Click);
+            this.btnDeleteInvitation.Location = new System.Drawing.Point(1190, 746);
+            this.btnDeleteInvitation.Name = "btnDeleteInvitation";
+            this.btnDeleteInvitation.Size = new System.Drawing.Size(172, 83);
+            this.btnDeleteInvitation.TabIndex = 43;
+            this.btnDeleteInvitation.Text = "Delete Invitation";
+            this.btnDeleteInvitation.UseVisualStyleBackColor = true;
+            this.btnDeleteInvitation.Click += new System.EventHandler(this.btnDeleteInvitation_Click);
             // 
             // btnLogOut
             // 
-            this.btnLogOut.Location = new System.Drawing.Point(244, 41);
+            this.btnLogOut.Location = new System.Drawing.Point(463, 41);
             this.btnLogOut.Name = "btnLogOut";
             this.btnLogOut.Size = new System.Drawing.Size(157, 56);
             this.btnLogOut.TabIndex = 44;
@@ -469,11 +470,22 @@
             this.txtInvitation.Size = new System.Drawing.Size(367, 227);
             this.txtInvitation.TabIndex = 56;
             // 
+            // btnRefreshInvitations
+            // 
+            this.btnRefreshInvitations.Location = new System.Drawing.Point(1190, 657);
+            this.btnRefreshInvitations.Name = "btnRefreshInvitations";
+            this.btnRefreshInvitations.Size = new System.Drawing.Size(172, 83);
+            this.btnRefreshInvitations.TabIndex = 57;
+            this.btnRefreshInvitations.Text = "Refresh Invitations";
+            this.btnRefreshInvitations.UseVisualStyleBackColor = true;
+            this.btnRefreshInvitations.Click += new System.EventHandler(this.btnRefreshInvitations_Click);
+            // 
             // MainUIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1945, 1148);
+            this.Controls.Add(this.btnRefreshInvitations);
             this.Controls.Add(this.txtInvitation);
             this.Controls.Add(this.btnInviteFriend);
             this.Controls.Add(this.btnInviteRecommendation);
@@ -487,7 +499,7 @@
             this.Controls.Add(this.lblPromptRecipients);
             this.Controls.Add(this.lblPromptLifetime);
             this.Controls.Add(this.btnLogOut);
-            this.Controls.Add(this.btnRejectInvitation);
+            this.Controls.Add(this.btnDeleteInvitation);
             this.Controls.Add(this.btnAcceptInvitation);
             this.Controls.Add(this.txtAddInterest);
             this.Controls.Add(this.btnToggleInvitations);
@@ -554,7 +566,7 @@
         private System.Windows.Forms.Button btnToggleInvitations;
         private System.Windows.Forms.TextBox txtAddInterest;
         private System.Windows.Forms.Button btnAcceptInvitation;
-        private System.Windows.Forms.Button btnRejectInvitation;
+        private System.Windows.Forms.Button btnDeleteInvitation;
         private System.Windows.Forms.Button btnLogOut;
         private System.Windows.Forms.Label lblPromptLifetime;
         private System.Windows.Forms.Label lblPromptRecipients;
@@ -568,5 +580,6 @@
         private System.Windows.Forms.Button btnInviteRecommendation;
         private System.Windows.Forms.Button btnInviteFriend;
         private System.Windows.Forms.TextBox txtInvitation;
+        private System.Windows.Forms.Button btnRefreshInvitations;
     }
 }

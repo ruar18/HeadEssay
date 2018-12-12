@@ -18,8 +18,8 @@ namespace RudyAriazHeadEssay
         {
             // TODO: remove temporary people
             users.Add(new Person("Rudy", "Ariaz", "Toronto", "rariaz", "hi"));
-            users.Add(new Person("Willie", "stuff", "to", "wchan", "hi"));
-            users.Add(new Person("Tiff", "T", "to", "ttruong", "hi"));
+            users.Add(new Person("Willie", "stuff", "Toronto", "wchan", "hi"));
+            users.Add(new Person("Tiff", "T", "Toronto", "ttruong", "hi"));
             users.Add(new Person("Henning", "L", "munich", "lhenning", "hi"));
             users[0].AddFriend(users[1]);
             users[0].AddFriend(users[2]);
@@ -40,7 +40,7 @@ namespace RudyAriazHeadEssay
         /// Delete all invitations which have exceeded their lifespan.
         /// Does this semi-lazily: only when refreshed.
         /// </summary>
-        private void DeleteInactiveInvitations()
+        public void DeleteInactiveInvitations()
         {
             // Go through all of the invitations in the network
             foreach(Invitation sent in invitations)
@@ -129,7 +129,8 @@ namespace RudyAriazHeadEssay
             foreach(Person currentPerson in users)
             {
                 // If the current person is not the user's friend, it is a valid user
-                if (!user.IsFriend(currentPerson))
+                // Check if the current person is in the same city
+                if (!user.IsFriend(currentPerson) && user.City == currentPerson.City)
                 {
                     // Add the person to the list 
                     sameCity.Add(currentPerson);
