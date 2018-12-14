@@ -1,10 +1,9 @@
 ﻿/*
  * Rudy Ariaz
- * December 14, 2018
+ * December 16, 2018
  * MainUIForm class manages all main user-interface components, and stores the current network
  * and logged-in person.
  */
- 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

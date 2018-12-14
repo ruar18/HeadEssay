@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Rudy Ariaz
+ * December 16, 2018
+ * The Program class is the entry point for the application, which first creates the social network and the 
+ * login form that accesses the network.
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +22,7 @@ namespace RudyAriazHeadEssay
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // Create a new login form with a new network
+            // Create a new login form that uses a new network
             Application.Run(new LoginForm(new Network()));
         }
     }

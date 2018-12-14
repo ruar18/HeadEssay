@@ -1,6 +1,6 @@
 ﻿/*
  * Rudy Ariaz
- * December 14, 2018
+ * December 16, 2018
  * Invitation objects are used to encapsulate information regarding each of a Person's incoming and outgoing
  * invitations from other or to other users, including information about time, recipients, creator, and interest.
  */
