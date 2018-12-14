@@ -104,18 +104,8 @@ namespace RudyAriazHeadEssay
             FindFriendsOfFriends(user);
             // Create the list that will store the friends of friends with same interest
             List<Person> validFriendsOfFriends = user.GetFriendsOfFriends();
-            // Filter the user's friends of friends to only those with 
-            // the same interest
-            foreach(Person friendOfFriend in validFriendsOfFriends)
-            {
-                // Check if the friend of friend shares an interest by checking 
-                bool interestShared = friendOfFriend.GetAllInterests().Intersect(user.GetAllInterests()).Any();
-                // If there is no shared interest, delete the friend of friend
-                if (!interestShared)
-                {
-                    validFriendsOfFriends.Remove(friendOfFriend);
-                }
-            }
+            // Filter the user's friends of friends to only those with the same interest
+            validFriendsOfFriends.RemoveAll(person => !ShareSameInterest(person, user));
             // Set the user's friends of friends with same interest 
             user.SetFriendsOfFriendsSameInterest(validFriendsOfFriends);
         }
@@ -150,8 +140,7 @@ namespace RudyAriazHeadEssay
             // Get the user's interests
             List<string> interests = user.GetAllInterests();
             // Filter out all of the same-city non-friends who don't share an interest
-            // TODO: make a private helper for this?
-            validSameCity.RemoveAll(person => !person.GetAllInterests().Intersect(interests).Any());
+            validSameCity.RemoveAll(person => !ShareSameInterest(person, user));
             // Set the user's list 
             user.SetSameCitySameInterest(validSameCity);
         }
@@ -183,10 +172,15 @@ namespace RudyAriazHeadEssay
         }
 
 
-        // Do the users share at least one interest?
+        /// <summary>
+        /// Checks if two users share at least one interest.
+        /// </summary>
+        /// <param name="user1">First user to compare.</param>
+        /// <param name="user2">Second user to compare.</param>
+        /// <returns>True if at least one interest is shared, false otherwise.</returns>
         private bool ShareSameInterest(Person user1, Person user2)
         {
-            return user1.GetAllInterests().Intersect(user1.GetAllInterests()).Any();
+            return user1.GetAllInterests().Intersect(user2.GetAllInterests()).Any();
         }
     }
 }

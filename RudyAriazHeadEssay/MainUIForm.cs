@@ -166,10 +166,14 @@ namespace RudyAriazHeadEssay
             if (user.GetAllInterests().Count == 0)
             {
                 lblInterest.Text = "No interests";
+                // Disable the remove interest button since there is no interest to remove
+                btnRemoveInterest.Enabled = false;
             }
             else
             {
                 lblInterest.Text = interests[interestIndex];
+                // Enable the remove interest button 
+                btnRemoveInterest.Enabled = true;
             }
         }
 
@@ -227,16 +231,34 @@ namespace RudyAriazHeadEssay
         // Adds an interest to the user's interest list
         private void btnAddInterest_Click(object sender, EventArgs e)
         {
-            // Add the interest
-            user.AddInterest(txtAddInterest.Text);
-            // Display the interests again
-            PopulateInterest();
-            // Repopulate recommendations to adjust to the added interest
-            PopulateRecommendation();
+            // If no interest was entered, display an appropriate error message
+            if(txtAddInterest.Text == "")
+            {
+                MessageBox.Show("Please enter an interest.");
+            }
+            // Otherwise, add the interest
+            else
+            {
+                // Add the interest
+                user.AddInterest(txtAddInterest.Text);
+                // Clear the add interest textbox
+                txtAddInterest.Clear();
+                // Display the interests again
+                PopulateInterest();
+                // Repopulate recommendations to adjust to the added interest
+                PopulateRecommendation();
+            }
         }
 
-
-
+        private void btnRemoveInterest_Click(object sender, EventArgs e)
+        {
+            // Remove the interest
+            user.RemoveInterest(lblInterest.Text);
+            // Display the interests again
+            PopulateInterest();
+            // Repopulate recommendations to adjust to the removed interest
+            PopulateRecommendation();
+        }
 
         // Populate the currently shown recommendation 
         // TODO: optimize with dictionaries 

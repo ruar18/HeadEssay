@@ -227,6 +227,17 @@ namespace RudyAriazHeadEssay
         {
             interests.Add(interest);
         }
+        
+        /// <summary>
+        /// Removes a given interest from the interests list.
+        /// </summary>
+        /// <param name="interest">The interest to remove. If this interest is duplicated
+        /// in the interest list, all occurrences will be removed.</param>
+        public void RemoveInterest(string interest)
+        {
+            // Remove the interest
+            interests.Remove(interest);
+        }
 
         public void SetFriendsOfFriends(List<Person> people) { friendsOfFriends = people; }
         public void SetFriendsOfFriendsSameInterest(List<Person> people)

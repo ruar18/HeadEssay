@@ -71,6 +71,7 @@
             this.btnInviteFriend = new System.Windows.Forms.Button();
             this.txtInvitation = new System.Windows.Forms.TextBox();
             this.btnRefreshInvitations = new System.Windows.Forms.Button();
+            this.btnRemoveInterest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblFullName
@@ -343,7 +344,7 @@
             // 
             this.btnAddInterest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddInterest.Font = new System.Drawing.Font("Open Sans", 8.25F);
-            this.btnAddInterest.Location = new System.Drawing.Point(93, 587);
+            this.btnAddInterest.Location = new System.Drawing.Point(12, 587);
             this.btnAddInterest.Name = "btnAddInterest";
             this.btnAddInterest.Size = new System.Drawing.Size(182, 134);
             this.btnAddInterest.TabIndex = 39;
@@ -545,11 +546,24 @@
             this.btnRefreshInvitations.UseVisualStyleBackColor = true;
             this.btnRefreshInvitations.Click += new System.EventHandler(this.btnRefreshInvitations_Click);
             // 
+            // btnRemoveInterest
+            // 
+            this.btnRemoveInterest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemoveInterest.Font = new System.Drawing.Font("Open Sans", 8.25F);
+            this.btnRemoveInterest.Location = new System.Drawing.Point(200, 587);
+            this.btnRemoveInterest.Name = "btnRemoveInterest";
+            this.btnRemoveInterest.Size = new System.Drawing.Size(182, 134);
+            this.btnRemoveInterest.TabIndex = 58;
+            this.btnRemoveInterest.Text = "Remove Interest";
+            this.btnRemoveInterest.UseVisualStyleBackColor = true;
+            this.btnRemoveInterest.Click += new System.EventHandler(this.btnRemoveInterest_Click);
+            // 
             // MainUIForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(2113, 1206);
+            this.Controls.Add(this.btnRemoveInterest);
             this.Controls.Add(this.btnRefreshInvitations);
             this.Controls.Add(this.txtInvitation);
             this.Controls.Add(this.btnInviteFriend);
@@ -646,5 +660,6 @@
         private System.Windows.Forms.Button btnInviteFriend;
         private System.Windows.Forms.TextBox txtInvitation;
         private System.Windows.Forms.Button btnRefreshInvitations;
+        private System.Windows.Forms.Button btnRemoveInterest;
     }
 }
