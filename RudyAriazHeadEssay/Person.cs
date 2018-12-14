@@ -1,6 +1,6 @@
 ﻿/*
  * Rudy Ariaz
- * December 14, 2018
+ * December 16, 2018
  * The Person classes encapsulates information about each user in the HeadEssay network.
  */
 using System;

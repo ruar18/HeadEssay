@@ -160,6 +160,26 @@ namespace RudyAriazHeadEssay
             return null;
         }
 
+        /// <summary>
+        /// Checks if a given username is not already taken to maintain the invariant that all usernames are unique.
+        /// </summary>
+        /// <param name="username">The username to check for availability.</param>
+        /// <returns>True if the username is available, false otherwise.</returns>
+        public bool IsUsernameAvailable(string username)
+        {
+            // Iterate through all users in the network
+            foreach(Person user in users)
+            {
+                // Check if the current user has the given username
+                if(user.Username == username)
+                {
+                    // The username is not available if it matches an existing one
+                    return false;
+                }
+            }
+            // The username is available if it does not match any existing ones
+            return true;
+        }
 
         // After user's friend is added/removed, update all of the recommendation lists
         public void GenerateRecommendationLists(Person user)
