@@ -13,14 +13,16 @@ namespace RudyAriazHeadEssay
     public partial class LoginForm : Form
     {
         // HeadEssay's social network
-        private Network network = new Network();
+        private Network network;
 
         // Create a new LoginForm, constructor
-        public LoginForm()
+        public LoginForm(Network network)
         {
             InitializeComponent();
             // Make this form fullscreen
             WindowState = FormWindowState.Maximized;
+            // Set the network that the login form accesses
+            this.network = network;
         }
        
 
@@ -34,8 +36,8 @@ namespace RudyAriazHeadEssay
                 // Create the user interface and show it
                 MainUIForm frmUI = new MainUIForm(network, user);
                 frmUI.ShowDialog();
-                // Hide the login form
-                this.Hide();
+                // Close the login form
+                this.Close();
             }
             // Print error message
             // TODO: separate into cases to give more informative errors
@@ -71,5 +73,6 @@ namespace RudyAriazHeadEssay
                 frmUI.ShowDialog();
             }
         }
+        
     }
 }

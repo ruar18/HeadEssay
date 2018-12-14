@@ -16,7 +16,8 @@ namespace RudyAriazHeadEssay
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
+            // Create a new login form with a new network
+            Application.Run(new LoginForm(new Network()));
         }
     }
 }
