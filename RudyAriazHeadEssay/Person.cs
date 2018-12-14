@@ -230,9 +230,9 @@ namespace RudyAriazHeadEssay
         
         /// <summary>
         /// Removes a given interest from the interests list.
+        /// Precondition: "interests" is a list with unique interests only.
         /// </summary>
-        /// <param name="interest">The interest to remove. If this interest is duplicated
-        /// in the interest list, all occurrences will be removed.</param>
+        /// <param name="interest">The interest to remove.</param>
         public void RemoveInterest(string interest)
         {
             // Remove the interest

@@ -159,6 +159,10 @@ namespace RudyAriazHeadEssay
             // Get the user's interests
             List<string> interests = user.GetAllInterests();
 
+            // If the index of the interest to be displayed exceeds the top bound of the list,
+            // set it to the last index of the list, unless the list is empty and the index should be set to 0.
+            interestIndex = Math.Max(0, Math.Min(interestIndex, interests.Count - 1));
+
             // Disable or enable the interest up or down buttons according to list position
             SetScrollButtonActivity(btnInterestDown, btnInterestUp, interestIndex, interests);
 
@@ -235,6 +239,12 @@ namespace RudyAriazHeadEssay
             if(txtAddInterest.Text == "")
             {
                 MessageBox.Show("Please enter an interest.");
+            }
+            // If the interest entered is a duplicate, display an appropriate error message
+            else if (user.GetAllInterests().Contains(txtAddInterest.Text))
+            {
+                // Show the error message
+                MessageBox.Show("This interest was already added. Please enter a different one.");
             }
             // Otherwise, add the interest
             else
