@@ -51,7 +51,7 @@
             this.btnNextRecommendationList = new System.Windows.Forms.Button();
             this.btnAddRecommendedFriend = new System.Windows.Forms.Button();
             this.btnNewInvitation = new System.Windows.Forms.Button();
-            this.btnDeleteFriend = new System.Windows.Forms.Button();
+            this.btnRemoveFriend = new System.Windows.Forms.Button();
             this.btnAddInterest = new System.Windows.Forms.Button();
             this.btnToggleInvitations = new System.Windows.Forms.Button();
             this.txtAddInterest = new System.Windows.Forms.TextBox();
@@ -328,17 +328,17 @@
             this.btnNewInvitation.UseVisualStyleBackColor = true;
             this.btnNewInvitation.Click += new System.EventHandler(this.btnNewInvitation_Click);
             // 
-            // btnDeleteFriend
+            // btnRemoveFriend
             // 
-            this.btnDeleteFriend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDeleteFriend.Font = new System.Drawing.Font("Open Sans", 8.25F);
-            this.btnDeleteFriend.Location = new System.Drawing.Point(1608, 810);
-            this.btnDeleteFriend.Name = "btnDeleteFriend";
-            this.btnDeleteFriend.Size = new System.Drawing.Size(145, 101);
-            this.btnDeleteFriend.TabIndex = 38;
-            this.btnDeleteFriend.Text = "Delete Friend";
-            this.btnDeleteFriend.UseVisualStyleBackColor = true;
-            this.btnDeleteFriend.Click += new System.EventHandler(this.btnDeleteFriend_Click);
+            this.btnRemoveFriend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemoveFriend.Font = new System.Drawing.Font("Open Sans", 8.25F);
+            this.btnRemoveFriend.Location = new System.Drawing.Point(1589, 810);
+            this.btnRemoveFriend.Name = "btnRemoveFriend";
+            this.btnRemoveFriend.Size = new System.Drawing.Size(178, 101);
+            this.btnRemoveFriend.TabIndex = 38;
+            this.btnRemoveFriend.Text = "Remove Friend";
+            this.btnRemoveFriend.UseVisualStyleBackColor = true;
+            this.btnRemoveFriend.Click += new System.EventHandler(this.btnDeleteFriend_Click);
             // 
             // btnAddInterest
             // 
@@ -583,7 +583,7 @@
             this.Controls.Add(this.txtAddInterest);
             this.Controls.Add(this.btnToggleInvitations);
             this.Controls.Add(this.btnAddInterest);
-            this.Controls.Add(this.btnDeleteFriend);
+            this.Controls.Add(this.btnRemoveFriend);
             this.Controls.Add(this.btnNewInvitation);
             this.Controls.Add(this.btnAddRecommendedFriend);
             this.Controls.Add(this.btnNextRecommendationList);
@@ -640,7 +640,7 @@
         private System.Windows.Forms.Button btnNextRecommendationList;
         private System.Windows.Forms.Button btnAddRecommendedFriend;
         private System.Windows.Forms.Button btnNewInvitation;
-        private System.Windows.Forms.Button btnDeleteFriend;
+        private System.Windows.Forms.Button btnRemoveFriend;
         private System.Windows.Forms.Button btnAddInterest;
         private System.Windows.Forms.Button btnToggleInvitations;
         private System.Windows.Forms.TextBox txtAddInterest;

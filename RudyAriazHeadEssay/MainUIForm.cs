@@ -121,10 +121,14 @@ namespace RudyAriazHeadEssay
             // Get the user's friends
             List<Person> friendsList = user.GetAllFriends();
 
+            // If the index of the first friend to be displayed exceeds the top bound of the list,
+            // set it to the last index of the list, unless the list is empty and the index should be set to 0.
+            friendsIndex = Math.Max(0, Math.Min(friendsIndex, friendsList.Count - 1));
+
             // Disable or enable the friend up or down buttons according to list position
             SetScrollButtonActivity(btnFriendDown, btnFriendUp, friendsIndex, friendsList);
 
-            // Determine the upper bound of the indices of friends to display
+            // Determine the exclusive upper bound of the indices of friends to display
             int upperBound = Math.Min(user.GetAllFriends().Count, friendsIndex + 5);
 
             // Loop through the friends and display their usernames
@@ -140,7 +144,7 @@ namespace RudyAriazHeadEssay
 
             // If there are no friends displayed or the top friend has already been invited,
             // disable the invite button
-            if (friendsIndex >= friendsList.Count || invitedRecipients.Contains(friendsList[friendsIndex]))
+            if (!friendsList.Any() || invitedRecipients.Contains(friendsList[friendsIndex]))
             {
                 btnInviteFriend.Enabled = false;
             }
@@ -149,6 +153,9 @@ namespace RudyAriazHeadEssay
             {
                 btnInviteFriend.Enabled = true;
             }
+
+            // The remove friend button should be disabled if there is no friend to remove, and vice versa
+            btnRemoveFriend.Enabled = friendsList.Any();
         }
 
         // Shows the current selected interest
@@ -395,6 +402,8 @@ namespace RudyAriazHeadEssay
             // When the invitation creation UI is visible, the New Invitation button should be disabled
             // and vice versa
             btnNewInvitation.Enabled = !visible;
+            // The remove friend button should be disabled during invitation creation
+            btnRemoveFriend.Enabled = !visible;
         }
 
 
