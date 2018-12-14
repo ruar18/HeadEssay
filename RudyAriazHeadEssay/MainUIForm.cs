@@ -359,6 +359,10 @@ namespace RudyAriazHeadEssay
             btnCancelInvitation.Visible = visible;
             btnInviteRecommendation.Visible = visible;
             btnInviteFriend.Visible = visible;
+
+            // When the invitation creation UI is visible, the New Invitation button should be disabled
+            // and vice versa
+            btnNewInvitation.Enabled = !visible;
         }
 
 

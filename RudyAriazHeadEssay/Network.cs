@@ -84,8 +84,8 @@ namespace RudyAriazHeadEssay
                 // Go through all of the friend's friends
                 foreach (Person friendOfFriend in friend.GetAllFriends())
                 {
-                    // Check if the friend of friend is not a friend
-                    if (!user.GetAllFriends().Contains(friendOfFriend))
+                    // Check if the friend of friend is not a friend and is not the user itself
+                    if (user != friendOfFriend && !user.GetAllFriends().Contains(friendOfFriend))
                     {
                         // Add the friend of friend to the list
                         friendsOfFriends.Add(friendOfFriend);
@@ -128,9 +128,9 @@ namespace RudyAriazHeadEssay
             // Go through all people in the network
             foreach(Person currentPerson in users)
             {
-                // If the current person is not the user's friend, it is a valid user
+                // If the current person is not the user's friend and is not the user itself, it is a valid user
                 // Check if the current person is in the same city
-                if (!user.IsFriend(currentPerson) && user.City == currentPerson.City)
+                if (user != currentPerson && !user.IsFriend(currentPerson) && user.City == currentPerson.City)
                 {
                     // Add the person to the list 
                     sameCity.Add(currentPerson);
@@ -147,18 +147,11 @@ namespace RudyAriazHeadEssay
             FindSameCity(user);
             // Get the user's non-friends in the same city
             List<Person> validSameCity = user.GetSameCity();
+            // Get the user's interests
+            List<string> interests = user.GetAllInterests();
             // Filter out all of the same-city non-friends who don't share an interest
-            foreach(Person currentPerson in validSameCity)
-            {
-                // Check if the currentPerson doesn't share an interest with the user
-                bool interestShared = currentPerson.GetAllInterests().Intersect(user.GetAllInterests()).Any();
-                // currentPerson is not valid if no interest is shared
-                if (!interestShared)
-                {
-                    // Remove currentPerson
-                    validSameCity.Remove(currentPerson);
-                }
-            }
+            // TODO: make a private helper for this?
+            validSameCity.RemoveAll(person => !person.GetAllInterests().Intersect(interests).Any());
             // Set the user's list 
             user.SetSameCitySameInterest(validSameCity);
         }
