@@ -1,7 +1,8 @@
 ﻿/*
  * Rudy Ariaz
  * December 16, 2018
- * The Person classes encapsulates information about each user in the HeadEssay network.
+ * The Person classes encapsulates information about each user in the HeadEssay network, including information
+ * about their name, login credentials, location, interests, friends, recommendations, and invitations.
  */
 using System;
 using System.Collections.Generic;
@@ -126,8 +127,7 @@ namespace RudyAriazHeadEssay
             // Shallow copy and return the list of non-friends in the same city with a shared interest
             return Copier.CopyList(sameCitySameInterest);
         }
-
-        // TODO: do you need to shallow copy?
+        
         /// <summary>
         /// Gets a copy of a list of the user's interests by shallow-copying.
         /// </summary>
@@ -139,8 +139,11 @@ namespace RudyAriazHeadEssay
         }
 
         /// <summary>
-        /// Adds a given friend to the user's friends list. Note: one-directional friending only.
+        /// Adds a given friend to the user's friends list. 
         /// </summary>
+        /// <remarks>
+        /// One-directional friending only.
+        /// </remarks>
         /// <param name="friend">A non-null Person to be added as a friend.</param>
         public void AddFriend(Person friend)
         {
@@ -149,8 +152,11 @@ namespace RudyAriazHeadEssay
         }
 
         /// <summary>
-        /// Removes a given friend from the user's friends list. Note: one-directional unfriending only.
+        /// Removes a given friend from the user's friends list.
         /// </summary>
+        /// <remarks>
+        /// One-directional unfriending only.
+        /// </remarks>
         /// <param name="friend">A non-null Person to be unfriended.</param>
         public void RemoveFriend(Person friend)
         {
@@ -159,23 +165,32 @@ namespace RudyAriazHeadEssay
         }
 
         /// <summary>
-        /// 
+        /// Accept an incoming invitation by adding it to "acceptedInvitations" and marking it as accepted
+        /// from the perspective of this Person.
         /// </summary>
-        /// <param name="invitation"></param>
+        /// <param name="invitation">Non-null incoming invitation to accept.</param>
         public void AcceptInvitation(Invitation invitation)
         {
+            // Add the invitation to the accepted list
             acceptedInvitations.Add(invitation);
-            // Modify the invitation information
+            // Modify the invitation acceptance state
             invitation.UpdateStatus(this, InvitationStatus.Accepted);
         }
-
-        // Receive an incoming invitation into the person's pending list 
-        public void ReceiveInvitation(Invitation toReceive)
+        
+        /// <summary>
+        /// Receives an incoming invitation into the person's pending list. 
+        /// </summary>
+        /// <param name="invitation">Non-null invitation to receive.</param>
+        public void ReceiveInvitation(Invitation invitation)
         {
-            incomingInvitations.Add(toReceive);
+            // Add the invitation to the received list
+            incomingInvitations.Add(invitation);
         }
 
-        // Can delete a pending incoming or accepted invitation
+        /// <summary>
+        /// Delete an incoming invitation, whether it is accepted or pending.
+        /// </summary>
+        /// <param name="toDelete"></param>
         public void DeleteIncomingInvitation(Invitation toDelete)
         {
             // Remove the invitation
@@ -238,19 +253,37 @@ namespace RudyAriazHeadEssay
             // Remove the interest
             interests.Remove(interest);
         }
+        
+        public List<Person> FriendsOfFriends
+        {
+            set
+            {
+                friendsOfFriends = value;
+            }
+        }
 
-        public void SetFriendsOfFriends(List<Person> people) { friendsOfFriends = people; }
-        public void SetFriendsOfFriendsSameInterest(List<Person> people)
+        public List<Person> FriendsOfFriendsSameInterest
         {
-            friendsOfFriendsSameInterest = people;
+            set
+            {
+                friendsOfFriendsSameInterest = value;
+            }
         }
-        public void SetSameCity(List<Person> people)
+
+        public List<Person> SameCity
         {
-            sameCity = people;
+            set
+            {
+                sameCity = value;
+            }
         }
-        public void SetSameCitySameInterest(List<Person> people)
+        
+        public List<Person> SameCitySameInterest
         {
-            sameCitySameInterest = people;
+            set
+            {
+                sameCitySameInterest = value;
+            }
         }
 
         public List<Invitation> GetOutgoingInvitations()

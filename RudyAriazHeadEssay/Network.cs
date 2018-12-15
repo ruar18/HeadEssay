@@ -58,6 +58,7 @@ namespace RudyAriazHeadEssay
                 }
             }
         }
+        
 
         // Add the invitations to all the correct lists
         public void DeliverInvitation(Invitation invitation)
@@ -93,7 +94,7 @@ namespace RudyAriazHeadEssay
                 }
             }
             // Set the user's friends of friends 
-            user.SetFriendsOfFriends(friendsOfFriends.Distinct().ToList());
+            user.FriendsOfFriends = friendsOfFriends.Distinct().ToList();
         }
 
         // All unique friends of friends with the same interest  
@@ -107,7 +108,7 @@ namespace RudyAriazHeadEssay
             // Filter the user's friends of friends to only those with the same interest
             validFriendsOfFriends.RemoveAll(person => !ShareSameInterest(person, user));
             // Set the user's friends of friends with same interest 
-            user.SetFriendsOfFriendsSameInterest(validFriendsOfFriends);
+            user.FriendsOfFriendsSameInterest = validFriendsOfFriends;
         }
 
         // Up to 10 unique non-friends in the same city
@@ -126,8 +127,8 @@ namespace RudyAriazHeadEssay
                     sameCity.Add(currentPerson);
                 }
             }
-            // Set the user's non-friends in the same city after removing duplicates 
-            user.SetSameCity(sameCity.Distinct().ToList());
+            // Set the user's non-friends in the same city after removing duplicates
+            user.SameCity = sameCity.Distinct().ToList();
         }
 
         // Find up to 10 non-friends in the same city that share at least one interest
@@ -142,7 +143,7 @@ namespace RudyAriazHeadEssay
             // Filter out all of the same-city non-friends who don't share an interest
             validSameCity.RemoveAll(person => !ShareSameInterest(person, user));
             // Set the user's list 
-            user.SetSameCitySameInterest(validSameCity);
+            user.SameCitySameInterest = validSameCity;
         }
 
         // Check if username and password matches that of a person in the network

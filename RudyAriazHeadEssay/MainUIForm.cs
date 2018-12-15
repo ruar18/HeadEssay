@@ -442,6 +442,11 @@ namespace RudyAriazHeadEssay
             // Check if there are any invitations
             if (invitations.Any())
             {
+                // If the index of the invitation to be displayed exceeds the top bound of the invitation list,
+                // set it to the last index of the list, unless the list is empty and the index should be set to 0.
+                // TODO: abstract this?
+                invitationIndex = Math.Max(0, Math.Min(invitationIndex, invitations.Count - 1));
+
                 // Display the one at the current selected index
                 txtInvitation.Text = invitations[invitationIndex].ToString(user);
                 // If the invitation has been accepted by the user, display it in bold text
@@ -661,6 +666,7 @@ namespace RudyAriazHeadEssay
 
 
         // Delete an incoming or outgoing invitation
+        // TODO: treat differently based on outgoing/incoming
         private void btnDeleteInvitation_Click(object sender, EventArgs e)
         {
             // Will store the current displayed invitation
@@ -670,22 +676,14 @@ namespace RudyAriazHeadEssay
             if (invitationState == InvitationType.Outgoing)
             {
                 selectedInvitation = user.GetOutgoingInvitations()[invitationIndex];
+                selectedInvitation.Deactivate();
             }
             else
             {
-                selectedInvitation = user.GetOutgoingInvitations()[invitationIndex];
+                selectedInvitation = user.GetIncomingInvitations()[invitationIndex];
+                user.DeleteIncomingInvitation(selectedInvitation);
             }
-
-            // Check if the invitation has expired and display an appropriate error message if it has
-            if (!selectedInvitation.IsActive())
-            {
-                MessageBox.Show("Invitation has already expired.");
-            }
-            // Otherwise, remove it
-            else
-            {
-                user.DeleteInvitation(selectedInvitation);
-            }
+            
             // Repopulate the current invitation
             PopulateInvitation();
         }
@@ -714,8 +712,6 @@ namespace RudyAriazHeadEssay
             frmLogin.ShowDialog();
             // Close the current UI form
             this.Close();
-        }
-
-        
+        }        
     }
 }

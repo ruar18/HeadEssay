@@ -34,8 +34,11 @@ namespace RudyAriazHeadEssay
         public Person Creator { get; }
         // A mapping between the Person recipients and the acceptance state of their invitation
         private Dictionary<Person, InvitationStatus> recipientStates;
-        // The number of milliseconds in a minute, used to convert between milliseconds and minutes
+        // Cosntant: the number of milliseconds in a minute, used to convert between milliseconds and minutes
         private const int MS_IN_MINUTE = 60000;
+        // Stores whether or not the invitation was manually deactivated
+        private bool active = true;
+
 
         /// <summary>
         /// Constructs a complete Invitation with the given information.
@@ -58,12 +61,15 @@ namespace RudyAriazHeadEssay
         }
 
         /// <summary>
-        /// Checks if the invitation is still active or has expired.
+        /// Checks if the invitation is still active, has expired, or has been deactivated.
         /// </summary>
-        /// <returns>True if the invitation is still active, false if it has expired.</returns>
+        /// <returns>True if the invitation is still active, false if it has expired or has been deactivated.</returns>
         public bool IsActive()
         {
-            // Calculate time elapsed in milliseconds, and compare to the life-time in milliseconds.
+            // If the invitation has been deactivated, it is automatically inactive
+            if (!active) return false;
+            // Otherwise, calculate time elapsed in milliseconds, and compare to the life-time in milliseconds.
+            // If time elapsed is greater, the invitation is inactive. Otherwise, it is still active.
             return Environment.TickCount - timeCreated <= lifeTime * MS_IN_MINUTE;
         }
 
@@ -161,6 +167,15 @@ namespace RudyAriazHeadEssay
             
             // Return the string
             return invitationString;
+        }
+
+        /// <summary>
+        /// Marks this invitation as inactive. It will be deleted from the creator and all recipients
+        /// once the network updates its invitation information.
+        /// </summary>
+        public void Deactivate()
+        {
+            active = false;
         }
     }
 }
