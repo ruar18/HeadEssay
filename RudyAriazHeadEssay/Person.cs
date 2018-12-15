@@ -196,14 +196,7 @@ namespace RudyAriazHeadEssay
             // Remove the invitation
             incomingInvitations.Remove(toDelete);
         }
-
-
-        // Delete a pending incoming or accepted invitation given the index
-        public void DeleteIncomingInvitation(int deletedIndex)
-        {
-            // Remove the invitation
-            incomingInvitations.RemoveAt(deletedIndex);
-        }
+        
 
 
         // Delete an outgoing invitation given the invitation
@@ -212,21 +205,8 @@ namespace RudyAriazHeadEssay
             // Remove the invitation
             outgoingInvitations.Remove(toDelete);
         }
-
-        // Delete an outgoing invitation given the index of the invitation
-        public void DeleteOutgoingInvitation(int deletedIndex)
-        {
-            // Remove the invitation
-            outgoingInvitations.RemoveAt(deletedIndex);
-        }
-
-        // Completely delete invitation from the user (whether incoming or outgoing)
-        public void DeleteInvitation(Invitation toDelete)
-        {
-            acceptedInvitations.Remove(toDelete);
-            incomingInvitations.Remove(toDelete);
-            outgoingInvitations.Remove(toDelete);
-        }
+        
+        
 
         // Adds an outgoing invitation to the list of outgoing invitations
         // TODO: rename params?
