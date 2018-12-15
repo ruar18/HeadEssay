@@ -15,7 +15,7 @@ namespace RudyAriazHeadEssay
     public static class Copier
     {
         /// <summary>
-        /// Shallow-copy a generic list and return the copy.
+        /// Shallow-copies a generic list and returns a non-null copy.
         /// </summary>
         /// <typeparam name="T">The type of elements of the list to be copied.</typeparam>
         /// <param name="toCopy">The list to be copied.</param>

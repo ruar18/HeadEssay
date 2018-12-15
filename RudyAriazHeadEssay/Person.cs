@@ -76,8 +76,7 @@ namespace RudyAriazHeadEssay
         /// <summary>
         /// Gets all of this user's friends in a list by shallow-copying.
         /// </summary>
-        /// <returns>A list containing all of the user's unique friends. 
-        /// If "friends" is null, returns an empty list.</returns>
+        /// <returns>A list containing all of the user's unique friends.</returns>
         public List<Person> GetAllFriends()
         {
             // Shallow copy and return the friends list
@@ -87,8 +86,7 @@ namespace RudyAriazHeadEssay
         /// <summary>
         /// Gets all of this user's friends of friends in a list by shallow-copying.
         /// </summary>
-        /// <returns>A list containing all of the user's unique friends of friends. 
-        /// If "friendsOfFriends" is null, returns an empty list.</returns>
+        /// <returns>A list containing all of the user's unique friends of friends.</returns>
         public List<Person> GetFriendsOfFriends()
         {
             // Shallow copy and return the friends of friends list
@@ -98,8 +96,7 @@ namespace RudyAriazHeadEssay
         /// <summary>
         /// Gets all of this user's friends of friends with the same interest in a list by shallow-copying.
         /// </summary>
-        /// <returns>A list containing all of the user's unique friends of friends with the same interests.
-        /// If "friendsOfFriendsSameInterest" is null, returns an empty list.</returns>
+        /// <returns>A list containing all of the user's unique friends of friends with the same interests.</returns>
         public List<Person> GetFriendsOfFriendsSameInterest()
         {
             // Shallow copy and return the friends of friends with same interest list
@@ -109,8 +106,7 @@ namespace RudyAriazHeadEssay
         /// <summary>
         /// Gets up to 10 of this user's non-friends in the same city in a list by shallow-copying.
         /// </summary>
-        /// <returns>A list containing up to 10 of the user's unique non-friends in the same city.
-        /// If "sameCity" is null, returns an empty list.</returns>
+        /// <returns>A list containing up to 10 of the user's unique non-friends in the same city.</returns>
         public List<Person> GetSameCity()
         {
             // Shallow copy and return the list of non-friends in the same city
@@ -120,8 +116,8 @@ namespace RudyAriazHeadEssay
         /// <summary>
         /// Gets up to 10 of this user's non-friends in the same city with a shared interest in a list by shallow-copying.
         /// </summary>
-        /// <returns>A list containing up to 10 of the user's unique non-friends in the same city 
-        /// who share at least one interest with the user. If "sameCitySameInterest" is null, returns an empty list.</returns>
+        /// <returns>A list containing up to 10 of the user's unique non-friends in the same city who share
+        /// at least one interest with the user.</returns>
         public List<Person> GetSameCitySameInterest()
         {
             // Shallow copy and return the list of non-friends in the same city with a shared interest
@@ -131,7 +127,7 @@ namespace RudyAriazHeadEssay
         /// <summary>
         /// Gets a copy of a list of the user's interests by shallow-copying.
         /// </summary>
-        /// <returns>A list containing all of the user's interests as strings.</returns>
+        /// <returns>A list containing all of the user's unique interests as strings.</returns>
         public List<string> GetAllInterests()
         {
             // Shallow copy and return the list of interests
@@ -188,38 +184,65 @@ namespace RudyAriazHeadEssay
         }
 
         /// <summary>
-        /// Delete an incoming invitation, whether it is accepted or pending.
+        /// Deletes an incoming invitation, whether it is accepted or pending. Marks the invitation
+        /// as rejected by this Person.
         /// </summary>
-        /// <param name="toDelete"></param>
-        public void DeleteIncomingInvitation(Invitation toDelete)
+        /// <param name="invitation">The non-null incoming invitation to delete.</param>
+        public void DeleteIncomingInvitation(Invitation invitation)
+        {
+            // Remove the invitation (from both list if it has been accepted, otherwise it is only removed
+            // from the incoming invitations list)
+            incomingInvitations.Remove(invitation);
+            acceptedInvitations.Remove(invitation);
+            // Change the acceptance state of the invitation to "rejected"
+            invitation.UpdateStatus(this, InvitationStatus.Rejected);
+        }
+        
+        /// <summary>
+        /// Deletes an outgoing invitation from this user's outgoing invitation list.
+        /// </summary>
+        /// <remarks>
+        /// When this is called by the Network class, the network completely removes the invitation from the network.
+        /// </remarks>
+        /// <param name="invitation">The non-null outgoing invitation to delete.</param>
+        public void DeleteOutgoingInvitation(Invitation invitation)
         {
             // Remove the invitation
-            incomingInvitations.Remove(toDelete);
+            outgoingInvitations.Remove(invitation);
         }
         
-
-
-        // Delete an outgoing invitation given the invitation
-        public void DeleteOutgoingInvitation(Invitation toDelete)
+        /// <summary>
+        /// Adds an outgoing invitation to this Person's outgoing invitations list.
+        /// </summary>
+        /// <param name="invitation">The non-null outgoing invitation to add.</param>
+        public void AddOutgoingInvitation(Invitation invitation)
         {
-            // Remove the invitation
-            outgoingInvitations.Remove(toDelete);
+            // Add the invitation to the list
+            outgoingInvitations.Add(invitation);
         }
-        
-        
 
-        // Adds an outgoing invitation to the list of outgoing invitations
-        // TODO: rename params?
-        public void AddOutgoingInvitation(Invitation toAdd)
+        /// <summary>
+        /// Checks if a given user is a friend of this Person.
+        /// </summary>
+        /// <remarks>
+        /// This method need not be commutative. It only checks if this Person has friended "other", not vice-versa.
+        /// </remarks>
+        /// <param name="other">The Person to check for friendship.</param>
+        /// <returns>True if "other" is a friend of this Person, false otherwise.</returns>
+        public bool IsFriend(Person other)
         {
-            outgoingInvitations.Add(toAdd);
+            // Check if "other" is in the user's friends list
+            return friends.Contains(other);
         }
 
-        // Return true if other is in the person's friend list, false otherwise
-        public bool IsFriend(Person other) { return friends.Contains(other); }
-
+        /// <summary>
+        /// Adds an interest to the user's interest list.
+        /// Precondition: "interest" is not currently in the interests list.
+        /// </summary>
+        /// <param name="interest">The non-duplicate interest to add to the interests list.</param>
         public void AddInterest(string interest)
         {
+            // Add the interest to the interests list 
             interests.Add(interest);
         }
         
@@ -230,55 +253,92 @@ namespace RudyAriazHeadEssay
         /// <param name="interest">The interest to remove.</param>
         public void RemoveInterest(string interest)
         {
-            // Remove the interest
+            // Remove the interest from the interests list
             interests.Remove(interest);
         }
         
+        /// <summary>
+        /// Sets the friends of friends list to an updated version.
+        /// </summary>
+        /// <remarks>
+        /// No data validation occurs. 
+        /// </remarks>
         public List<Person> FriendsOfFriends
         {
+            // Set the friends of friends list to the new one provided
             set
             {
                 friendsOfFriends = value;
             }
         }
 
+        /// <summary>
+        /// Sets the friends of friends (with same interest) list to an updated version.
+        /// </summary>
+        /// <remarks>
+        /// No data validation occurs. 
+        /// </remarks>
         public List<Person> FriendsOfFriendsSameInterest
         {
+            // Set the friends of friends (with same interest) list to the new one provided
             set
             {
                 friendsOfFriendsSameInterest = value;
             }
         }
 
+        /// <summary>
+        /// Sets the list of users in the same city to an updated version.
+        /// </summary>
         public List<Person> SameCity
         {
+            // Set the list of users in the same city to the new one provided
             set
             {
                 sameCity = value;
             }
         }
         
+        /// <summary>
+        /// Sets the list of users in the same city with a shared interest to an updated version.
+        /// </summary>
         public List<Person> SameCitySameInterest
         {
+            // Set the list of users in the same city with a shared interest to the new one provided
             set
             {
                 sameCitySameInterest = value;
             }
         }
 
+        /// <summary>
+        /// Gets this Person's outgoing invitations by shallow-copying.
+        /// </summary>
+        /// <returns>A list containing all of the user's outgoing invitations.</returns>
         public List<Invitation> GetOutgoingInvitations()
         {
+            // Shallow copy and return the list of outgoing invitations 
             return Copier.CopyList(outgoingInvitations);
         }
+
+        /// <summary>
+        /// Gets this Person's incoming invitations by shallow-copying.
+        /// </summary>
+        /// <returns>A list containing all of the user's incoming invitations.</returns>
         public List<Invitation> GetIncomingInvitations()
         {
+            // Shallow copy and return the list of incoming invitations 
             return Copier.CopyList(incomingInvitations);
         }
+
+        /// <summary>
+        /// Gets this Person's incoming accepted invitations by shallow-copying.
+        /// </summary>
+        /// <returns>A list containing all of the user's incoming accepted invitations.</returns>
         public List<Invitation> GetAcceptedInvitations()
         {
+            // Shallow copy and return the list of accepted incoming invitations
             return Copier.CopyList(acceptedInvitations);
         }
-
-
     }
 }

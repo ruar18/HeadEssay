@@ -447,17 +447,25 @@ namespace RudyAriazHeadEssay
                 // TODO: abstract this?
                 invitationIndex = Math.Max(0, Math.Min(invitationIndex, invitations.Count - 1));
 
+                // The invitation to be displayed 
+                Invitation selectedInvitation = invitations[invitationIndex];
+
                 // Display the one at the current selected index
-                txtInvitation.Text = invitations[invitationIndex].ToString(user);
-                // If the invitation has been accepted by the user, display it in bold text
-                if (user.GetAcceptedInvitations().Contains(invitations[invitationIndex]))
+                txtInvitation.Text = selectedInvitation.ToString(user);
+                // If the user is a recipient and the invitation has been accepted by the user, 
+                // display it in bold text and disable the accept invitation button
+                if (invitationState == InvitationType.Incoming && 
+                    selectedInvitation.InvitationStateOfRecipient(user) == InvitationStatus.Accepted)
                 {
                     txtInvitation.Font = new Font(Font, FontStyle.Bold);
+                    btnAcceptInvitation.Enabled = false;
                 }
-                // If the invitation has not been accepted yet, display in regular text
+                // If the invitation has not been accepted yet or the user is the creator, 
+                // display in regular text and enable the accept invitation button
                 else
                 {
                     txtInvitation.Font = new Font(Font, FontStyle.Regular);
+                    btnAcceptInvitation.Enabled = true;
                 }
 
                 // Enable the delete button since there is an invitation to delete
@@ -469,6 +477,8 @@ namespace RudyAriazHeadEssay
                 txtInvitation.Text = "No invitation";
                 // Disable the delete button since there is no invitation to delete
                 btnDeleteInvitation.Enabled = false;
+                // Display the placeholder with a regular font
+                txtInvitation.Font = new Font(Font, FontStyle.Regular);
             }
 
             // Disable or enable the invitation up or down buttons according to list position

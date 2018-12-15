@@ -177,5 +177,18 @@ namespace RudyAriazHeadEssay
         {
             active = false;
         }
+
+        /// <summary>
+        /// Returns the acceptance state of the invitation for a given recipient.
+        /// Precondition: "recipient" must be a recipient of this invitation. 
+        /// </summary>
+        /// <param name="recipient">A recipient of this invitation.</param>
+        /// <returns>InvitationStatus of Accepted, Pending, or Rejected depending on the invitation state
+        /// for "recipient".</returns>
+        public InvitationStatus InvitationStateOfRecipient(Person recipient)
+        {
+            // Return the acceptance value at the recipient's key
+            return recipientStates[recipient];
+        }
     }
 }

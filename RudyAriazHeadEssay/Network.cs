@@ -57,6 +57,8 @@ namespace RudyAriazHeadEssay
                     }
                 }
             }
+            // Completely remove all of the inactive invitations from the network 
+            invitations.RemoveAll(invitation => !invitation.IsActive());
         }
         
 
