@@ -177,7 +177,7 @@ namespace RudyAriazHeadEssay
         private void PopulateInterest()
         {
             // Get the user's interests
-            List<string> interests = user.GetAllInterests();
+            List<string> interests = user.Interests;
             // Ensure that the index of the interest to be displayed is within bounds
             interestIndex = RestrictWithinBounds(interestIndex, interests.Count);
             // Disable or enable the interest up or down buttons according to list position
@@ -213,7 +213,7 @@ namespace RudyAriazHeadEssay
                 MessageBox.Show("Please enter an interest.");
             }
             // If the interest entered is a duplicate for the user, display an appropriate error message
-            else if (user.GetAllInterests().Contains(txtAddInterest.Text))
+            else if (user.Interests.Contains(txtAddInterest.Text))
             {
                 // Show the error message in a MessageBox
                 MessageBox.Show("This interest was already added. Please enter a different one.");
@@ -273,13 +273,13 @@ namespace RudyAriazHeadEssay
         private void PopulateFriendsList()
         {
             // Get the user's friends
-            List<Person> friendsList = user.GetAllFriends();
+            List<Person> friendsList = user.Friends;
             // Ensure that the first index of the friends to be displayed is within bounds
             friendsIndex = RestrictWithinBounds(friendsIndex, friendsList.Count);
             // Disable or enable the friend up or down buttons according to list position
             SetScrollButtonActivity(btnFriendDown, btnFriendUp, friendsIndex, friendsList);
             // Determine the exclusive upper bound of the indices of friends to display
-            int upperBound = Math.Min(user.GetAllFriends().Count, friendsIndex + 5);
+            int upperBound = Math.Min(user.Friends.Count, friendsIndex + 5);
             // Set the current top friend if it exists, or null if it does not
             currentTopFriend = friendsList.Any() ? friendsList[friendsIndex] : null;
 
@@ -380,21 +380,23 @@ namespace RudyAriazHeadEssay
             if (recommendationState == RecommendationType.FriendsOfFriendsSameInterest)
             {
                 // Get the appropriate recommendations
-                recommendations = user.GetFriendsOfFriendsSameInterest();
+                recommendations = user.FriendsOfFriendsSameInterest;
             }
             // Check if the recommendation to be displayed is of a non-friend in the same city as the user
             else if (recommendationState == RecommendationType.SameCity)
             {
                 // Get the appropriate recommendations
-                recommendations = user.GetSameCity();
+                recommendations = user.SameCity;
             }
             // Otherwise, the recommendation to be displayed is of a non-friend in the same city with a shared interest
             else
             {
                 // Get the appropriate recommendations
-                recommendations = user.GetSameCitySameInterest();
+                recommendations = user.SameCitySameInterest;
             }
-
+            
+            // Ensure that the recommendation index is within bounds
+            recommendationIndex = RestrictWithinBounds(recommendationIndex, recommendations.Count);
             // Disable or enable the recommendation up or down buttons according to the list position
             SetScrollButtonActivity(btnRecommendationDown, btnRecommendationUp, recommendationIndex, recommendations);
 
@@ -439,10 +441,7 @@ namespace RudyAriazHeadEssay
         private void UpdateRecommendations()
         {
             // Update each of the possible recommendation lists
-            network.UpdateFriendsOfFriends(user);
-            network.UpdateFriendsOfFriendsWithSameInterest(user);
-            network.UpdateSameCity(user);
-            network.UpdateSameCitySameInterest(user);
+            network.UpdateAllRecommendations(user);
         }
 
         /// <summary>
@@ -515,7 +514,7 @@ namespace RudyAriazHeadEssay
                 // Indicate that the incoming invitations are shown
                 lblInvitationListHeading.Text = "Incoming Invitations";
                 // Get the user's incoming invitations
-                invitations = user.GetIncomingInvitations();
+                invitations = user.IncomingInvitations;
             }
             // Otherwise, outgoing invitations must be displayed
             else
@@ -523,7 +522,7 @@ namespace RudyAriazHeadEssay
                 // Indicate that the outgoing invitations are shown
                 lblInvitationListHeading.Text = "Outgoing Invitations";
                 // Get the user's outgoing invitations
-                invitations = user.GetOutgoingInvitations();
+                invitations = user.OutgoingInvitations;
             }
 
             // Set the invitation font to regular. This will be changed to bold if the invitation has been accepted by the user.
@@ -531,11 +530,14 @@ namespace RudyAriazHeadEssay
             // By default, disable the accept invitation button
             btnAcceptInvitation.Enabled = false;
 
+            // Ensure that the invitation index is within bounds
+            invitationIndex = RestrictWithinBounds(invitationIndex, invitations.Count);
+            // Disable or enable the invitation up or down buttons according to list position
+            SetScrollButtonActivity(btnInvitationDown, btnInvitationUp, invitationIndex, invitations);
+
             // Check if there are any invitations to display
             if (invitations.Any())
             {
-                // Restrict the index of the invitation to be shown to within the invitation list bounds
-                invitationIndex = Math.Max(0, Math.Min(invitationIndex, invitations.Count - 1));
                 // Get the invitation to be displayed 
                 Invitation selectedInvitation = invitations[invitationIndex];
                 // Display the invitation in a label
@@ -545,7 +547,7 @@ namespace RudyAriazHeadEssay
                 if (invitationState == InvitationType.Incoming)
                 {
                     // Check if the user has accepted the invitation
-                    if (selectedInvitation.InvitationStateOfRecipient(user) == InvitationStatus.Accepted)
+                    if (selectedInvitation.GetInvitationStateOfRecipient(user) == InvitationStatus.Accepted)
                     {
                         // Set the invitation font to bold to show that it has been accepted
                         txtInvitation.Font = new Font(Font, FontStyle.Bold);
@@ -565,8 +567,7 @@ namespace RudyAriazHeadEssay
                 txtInvitation.Text = "No invitation";
             }
 
-            // Disable or enable the invitation up or down buttons according to list position
-            SetScrollButtonActivity(btnInvitationDown, btnInvitationUp, invitationIndex, invitations);
+            
             // The delete invitation button should be enabled if and only if there is an invitation to delete
             btnDeleteInvitation.Enabled = invitations.Any();
         }
@@ -597,7 +598,8 @@ namespace RudyAriazHeadEssay
             // When the invitation creation UI is visible, the "New Invitation" button should be disabled and vice versa
             btnNewInvitation.Enabled = !visible;
             // When the invitation creation UI is visible, the "Remove Friend" button should be disabled
-            btnRemoveFriend.Enabled = !visible;
+            // Otherwise, it should be enabled only if there is a friend to remove
+            btnRemoveFriend.Enabled = !visible && currentTopFriend != null;
 
         }
 
@@ -680,9 +682,11 @@ namespace RudyAriazHeadEssay
         }
 
         /// <summary>
-        /// Sends a newly-created outgoing invitation if all fields have been filled.
+        /// Checks if the invitation with the given life-time, interest (and recipients) is valid and displays error messages
+        /// as appropriate.
         /// </summary>
-        private void btnSendInvitation_Click(object sender, EventArgs e)
+        /// <returns>True if the invitation is valid, false otherwise.</returns>
+        private bool CheckInvitationInput()
         {
             // Store the life-time for the information (intially set to 0)
             double lifeTime = 0;
@@ -708,9 +712,29 @@ namespace RudyAriazHeadEssay
                 // Show an appropriate error message in a MessageBox
                 MessageBox.Show("Please enter an interest");
             }
-            // Otherwise, the invitation can be sent
+            // Otherwise, the invitation is valid
             else
             {
+                return true;
+            }
+
+            // The invitation is invalid
+            return false;
+        }
+
+        /// <summary>
+        /// Sends a newly-created outgoing invitation if all fields have been filled.
+        /// </summary>
+        private void btnSendInvitation_Click(object sender, EventArgs e)
+        {
+            // If the invitation is valid, it can be sent
+            if (CheckInvitationInput())
+            {
+                // Get the life-time for the information 
+                double.TryParse(txtInvitationLifetime.Text, out double lifeTime);
+                // Store the interest for the information (found in the interest textbox of the invitation)
+                string interest = txtInvitationInterest.Text;
+
                 // Create a dictionary of recipient states with the given recipients
                 // No recipients have accepted the invitation yet, so set the invitation status as "Pending" for all recipients
                 // Precondition: invited recipients are unique
@@ -729,7 +753,7 @@ namespace RudyAriazHeadEssay
 
                 // Set the invitation details to display the newly-sent invitation
                 invitationState = InvitationType.Outgoing;
-                invitationIndex = user.GetOutgoingInvitations().Count - 1;
+                invitationIndex = user.OutgoingInvitations.Count - 1;
                 // Update the displayed invitation list 
                 PopulateInvitation();
             }
@@ -777,7 +801,7 @@ namespace RudyAriazHeadEssay
         private void btnAcceptInvitation_Click(object sender, EventArgs e)
         {
             // Get the current displayed invitation
-            Invitation selectedInvitation = user.GetIncomingInvitations()[invitationIndex];
+            Invitation selectedInvitation = user.IncomingInvitations[invitationIndex];
             // If the invitation has expired, display an appropriate error message
             if (!selectedInvitation.IsActive())
             {
@@ -806,7 +830,7 @@ namespace RudyAriazHeadEssay
             if (invitationState == InvitationType.Outgoing)
             {
                 // Get the outgoing invitation
-                selectedInvitation = user.GetOutgoingInvitations()[invitationIndex];
+                selectedInvitation = user.OutgoingInvitations[invitationIndex];
                 // Deactivate the invitation. It will be deleted from the network upon updating the invitations.
                 selectedInvitation.Deactivate();
             }
@@ -814,7 +838,7 @@ namespace RudyAriazHeadEssay
             else
             {
                 // Get the incoming invitation
-                selectedInvitation = user.GetIncomingInvitations()[invitationIndex];
+                selectedInvitation = user.IncomingInvitations[invitationIndex];
                 // Delete the invitation from the user's lists only
                 user.DeleteIncomingInvitation(selectedInvitation);
             }

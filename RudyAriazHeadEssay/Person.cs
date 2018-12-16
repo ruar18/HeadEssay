@@ -71,68 +71,7 @@ namespace RudyAriazHeadEssay
             acceptedInvitations = new List<Invitation>();
             outgoingInvitations = new List<Invitation>();
         }
-
-
-        /// <summary>
-        /// Gets all of this user's friends in a list by shallow-copying.
-        /// </summary>
-        /// <returns>A list containing all of the user's unique friends.</returns>
-        public List<Person> GetAllFriends()
-        {
-            // Shallow copy and return the friends list
-            return Copier.CopyList(friends);
-        }
-
-        /// <summary>
-        /// Gets all of this user's friends of friends in a list by shallow-copying.
-        /// </summary>
-        /// <returns>A list containing all of the user's unique friends of friends.</returns>
-        public List<Person> GetFriendsOfFriends()
-        {
-            // Shallow copy and return the friends of friends list
-            return Copier.CopyList(friendsOfFriends);
-        }
-
-        /// <summary>
-        /// Gets all of this user's friends of friends with the same interest in a list by shallow-copying.
-        /// </summary>
-        /// <returns>A list containing all of the user's unique friends of friends with the same interests.</returns>
-        public List<Person> GetFriendsOfFriendsSameInterest()
-        {
-            // Shallow copy and return the friends of friends with same interest list
-            return Copier.CopyList(friendsOfFriendsSameInterest);
-        }
-
-        /// <summary>
-        /// Gets up to 10 of this user's non-friends in the same city in a list by shallow-copying.
-        /// </summary>
-        /// <returns>A list containing up to 10 of the user's unique non-friends in the same city.</returns>
-        public List<Person> GetSameCity()
-        {
-            // Shallow copy and return the list of non-friends in the same city
-            return Copier.CopyList(sameCity);
-        }
-
-        /// <summary>
-        /// Gets up to 10 of this user's non-friends in the same city with a shared interest in a list by shallow-copying.
-        /// </summary>
-        /// <returns>A list containing up to 10 of the user's unique non-friends in the same city who share
-        /// at least one interest with the user.</returns>
-        public List<Person> GetSameCitySameInterest()
-        {
-            // Shallow copy and return the list of non-friends in the same city with a shared interest
-            return Copier.CopyList(sameCitySameInterest);
-        }
         
-        /// <summary>
-        /// Gets a copy of a list of the user's interests by shallow-copying.
-        /// </summary>
-        /// <returns>A list containing all of the user's unique interests as strings.</returns>
-        public List<string> GetAllInterests()
-        {
-            // Shallow copy and return the list of interests
-            return Copier.CopyList(interests);
-        }
 
         /// <summary>
         /// Adds a given friend to the user's friends list. 
@@ -257,7 +196,31 @@ namespace RudyAriazHeadEssay
             // Remove the interest from the interests list
             interests.Remove(interest);
         }
-        
+
+        /// <summary>
+        /// Gets a copy of a list of the user's interests by shallow-copying.
+        /// </summary>
+        public List<string> Interests
+        {
+            get
+            {
+                // Shallow copy and return the list of interests
+                return Copier.CopyList(interests);
+            }
+        }
+
+        /// <summary>
+        /// Gets all of this user's friends in a list (by shallow-copying).
+        /// </summary>
+        public List<Person> Friends
+        {
+            get
+            {
+                // Return the friends list after shallow-copying
+                return Copier.CopyList(friends);
+            }
+        }
+
         /// <summary>
         /// Sets the friends of friends list to an updated version.
         /// </summary>
@@ -274,6 +237,7 @@ namespace RudyAriazHeadEssay
         }
 
         /// <summary>
+        /// Gets all of this user's friends of friends with the same interest in a list (by shallow-copying).
         /// Sets the friends of friends (with same interest) list to an updated version.
         /// </summary>
         /// <remarks>
@@ -281,6 +245,11 @@ namespace RudyAriazHeadEssay
         /// </remarks>
         public List<Person> FriendsOfFriendsSameInterest
         {
+            get
+            {
+                // Return the friends of friends with same interest list after shallow-copying
+                return Copier.CopyList(friendsOfFriendsSameInterest);
+            }
             // Set the friends of friends (with same interest) list to the new one provided
             set
             {
@@ -289,22 +258,34 @@ namespace RudyAriazHeadEssay
         }
 
         /// <summary>
+        /// Gets up to 10 of this user's non-friends in the same city in a list by shallow-copying.
         /// Sets the list of users in the same city to an updated version.
         /// </summary>
         public List<Person> SameCity
         {
+            get
+            {
+                // Shallow copy and return the list of non-friends in the same city
+                return Copier.CopyList(sameCity);
+            }
             // Set the list of users in the same city to the new one provided
             set
             {
                 sameCity = value;
             }
         }
-        
+
         /// <summary>
+        /// Gets up to 10 of this user's non-friends in the same city with a shared interest in a list by shallow-copying.
         /// Sets the list of users in the same city with a shared interest to an updated version.
         /// </summary>
         public List<Person> SameCitySameInterest
         {
+            get
+            {
+                // Shallow copy and return the list of non-friends in the same city with a shared interest
+                return Copier.CopyList(sameCitySameInterest);
+            }
             // Set the list of users in the same city with a shared interest to the new one provided
             set
             {
@@ -315,31 +296,25 @@ namespace RudyAriazHeadEssay
         /// <summary>
         /// Gets this Person's outgoing invitations by shallow-copying.
         /// </summary>
-        /// <returns>A list containing all of the user's outgoing invitations.</returns>
-        public List<Invitation> GetOutgoingInvitations()
+        public List<Invitation> OutgoingInvitations
         {
-            // Shallow copy and return the list of outgoing invitations 
-            return Copier.CopyList(outgoingInvitations);
+            get
+            {
+                // Shallow copy and return the list of outgoing invitations 
+                return Copier.CopyList(outgoingInvitations);
+            }
         }
 
         /// <summary>
         /// Gets this Person's incoming invitations by shallow-copying.
         /// </summary>
-        /// <returns>A list containing all of the user's incoming invitations.</returns>
-        public List<Invitation> GetIncomingInvitations()
+        public List<Invitation> IncomingInvitations
         {
-            // Shallow copy and return the list of incoming invitations 
-            return Copier.CopyList(incomingInvitations);
-        }
-
-        /// <summary>
-        /// Gets this Person's incoming accepted invitations by shallow-copying.
-        /// </summary>
-        /// <returns>A list containing all of the user's incoming accepted invitations.</returns>
-        public List<Invitation> GetAcceptedInvitations()
-        {
-            // Shallow copy and return the list of accepted incoming invitations
-            return Copier.CopyList(acceptedInvitations);
-        }
+            get
+            {
+                // Shallow copy and return the list of incoming invitations 
+                return Copier.CopyList(incomingInvitations);
+            }
+        }        
     }
 }

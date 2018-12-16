@@ -109,8 +109,7 @@ namespace RudyAriazHeadEssay
             // Return a new list of the keys of the recipient states - the Person objects
             return new List<Person>(this.recipientStates.Keys);
         }
-
-
+        
         /// <summary>
         /// Builds and returns a string representation of the invitation content.
         /// </summary>
@@ -185,7 +184,7 @@ namespace RudyAriazHeadEssay
         /// <param name="recipient">A recipient of this invitation.</param>
         /// <returns>InvitationStatus of Accepted, Pending, or Rejected depending on the invitation state
         /// for "recipient".</returns>
-        public InvitationStatus InvitationStateOfRecipient(Person recipient)
+        public InvitationStatus GetInvitationStateOfRecipient(Person recipient)
         {
             // Return the acceptance value at the recipient's key
             return recipientStates[recipient];

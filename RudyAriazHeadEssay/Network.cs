@@ -111,10 +111,10 @@ namespace RudyAriazHeadEssay
             List<Person> friendsOfFriends = new List<Person>();
 
             // Iterate through all of the user's friends
-            foreach (Person friend in user.GetAllFriends())
+            foreach (Person friend in user.Friends)
             {
                 // Iterate through this friend's friends (the user's friends of friends)
-                foreach (Person friendOfFriend in friend.GetAllFriends())
+                foreach (Person friendOfFriend in friend.Friends)
                 {
                     // Check if the friend of friend is not a friend and is not the user itself
                     if (user != friendOfFriend && !user.IsFriend(friendOfFriend))
@@ -149,7 +149,7 @@ namespace RudyAriazHeadEssay
         /// </remarks>
         /// <param name="user">The Person for whom the friends of friends with a shared interest must be found.</param>
         /// <returns>A list of the user's unique friends of friends with a shared interest.</returns>
-        private List<Person> FindFriendsOfFriendsWithSameInterest(Person user)
+        private List<Person> FindFriendsOfFriendsSameInterest(Person user)
         {
             // Find the user's friends of friends 
             List<Person> validFriendsOfFriends = FindFriendsOfFriends(user);
@@ -166,10 +166,10 @@ namespace RudyAriazHeadEssay
         /// Friends of friends cannot be a user's direct friends.
         /// </remarks>
         /// <param name="user">The Person for whom the friends of friends with a shared interest must be updated.</param>
-        public void UpdateFriendsOfFriendsWithSameInterest(Person user)
+        public void UpdateFriendsOfFriendsSameInterest(Person user)
         {
             // Update the user's friends of friends with same interest 
-            user.FriendsOfFriendsSameInterest = FindFriendsOfFriendsWithSameInterest(user);
+            user.FriendsOfFriendsSameInterest = FindFriendsOfFriendsSameInterest(user);
         }
 
         /// <summary>
@@ -207,20 +207,46 @@ namespace RudyAriazHeadEssay
         }
 
         /// <summary>
-        /// Updates a user's list of up to 10 unique non-friends in the same city who share at least one interest with the user.
+        /// Constructs a list of all unique non-friends in the same city who share at least one interest with the user.
         /// </summary>
-        /// <param name="user">The user for whom the list of non-friends in the same city with a shared interest should be updated.</param>
-        public void UpdateSameCitySameInterest(Person user)
+        /// <param name="user">The user for whom the list of non-friends in the same city with the same interest must be found.</param>
+        /// <returns>A list of all of the unique non-friends in the user's city who share at least one interest.</returns>
+        private List<Person> FindSameCitySameInterest(Person user)
         {
             // Get all of the user's unique non-friends in the same city
             List<Person> validSameCity = FindSameCity(user);
             // Filter out all of the same-city non-friends who don't share an interest
             validSameCity.RemoveAll(person => !ShareSameInterest(person, user));
-            // Update the user's list to the first 10 (or less, if there are less than 10 items) 
-            // valid non-friends in the same city
-            user.SameCitySameInterest = validSameCity.Take(10).ToList();
+            // Return the list
+            return validSameCity;
+        }
+
+        /// <summary>
+        /// Updates a user's list of up to 10 unique non-friends in the same city who share at least one interest with the user.
+        /// </summary>
+        /// <param name="user">The user for whom the list of non-friends in the same city with a shared interest should be updated.</param>
+        public void UpdateSameCitySameInterest(Person user)
+        {
+            // Update the user's list to the first 10 (or less, if there are less than 10 items) valid non-friends in the same city
+            user.SameCitySameInterest = FindSameCitySameInterest(user).Take(10).ToList();
         }
         
+        /// <summary>
+        /// Updates all 4 recommendation lists for a given user:
+        ///     - Friends of friends
+        ///     - Friends of friends with same interest
+        ///     - Same city
+        ///     - Same city with same interest
+        /// </summary>
+        /// <param name="user">The user whose lists must be updated.</param>
+        public void UpdateAllRecommendations(Person user)
+        {
+            UpdateFriendsOfFriends(user);
+            UpdateFriendsOfFriendsSameInterest(user);
+            UpdateSameCity(user);
+            UpdateSameCitySameInterest(user);
+        }
+
         /// <summary>
         /// Checks if a username and password combination matches that of a user in the network
         /// </summary>
@@ -274,7 +300,7 @@ namespace RudyAriazHeadEssay
         private bool ShareSameInterest(Person user1, Person user2)
         {
             // Check if the intersection between the users' interests list is not the empty set
-            return user1.GetAllInterests().Intersect(user2.GetAllInterests()).Any();
+            return user1.Interests.Intersect(user2.Interests).Any();
         }
     }
 }
