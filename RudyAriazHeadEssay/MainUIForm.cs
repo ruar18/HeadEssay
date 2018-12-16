@@ -39,8 +39,8 @@ namespace RudyAriazHeadEssay
         private int recommendationIndex = 0;
         // The currently shown recommendation
         private Person currentRecommendation;
-        // Strings to display as descriptions for the types of recommendations shown
-        private string[] recommendationDescriptions = new string[3] { "Friends of Friends with Same Interest",
+        // Strings to display as descriptive headings for the types of recommendations shown
+        private string[] recommendationHeadings = new string[3] { "Friends of Friends with Same Interest",
                                                                       "Same City",
                                                                       "Same City, Same Interest" };
 
@@ -340,10 +340,8 @@ namespace RudyAriazHeadEssay
         /// </summary>
         private void btnFriendDown_Click(object sender, EventArgs e)
         {
-            // Increment the index
-            friendsIndex++;
-            // Repopulate the friends
-            PopulateFriendsList();
+            // Scroll the friends list in the downwards direction
+            ScrollList(ref friendsIndex, PopulateFriendsList, 1);
         }
 
         
@@ -391,19 +389,24 @@ namespace RudyAriazHeadEssay
             {
                 // Get the current recommended user
                 currentRecommendation = recommendations[recommendationIndex];
-                // Display the username of current recommendation
+                // Display the username of current recommendation in a label
                 lblRecommendation.Text = currentRecommendation.Username;
-                // Disable the invite button if the recommended user has already been invited
+                // Disable the invite button if the recommended user has already been invited to the current invitation
                 btnInviteRecommendation.Enabled = !invitedRecipients.Contains(currentRecommendation);
             }
             // Otherwise, display a placeholder
             else
             {
-                // Display 
+                // Record that there is no current recommendation
+                currentRecommendation = null;
+                // Display the placeholder in the label
                 lblRecommendation.Text = "No recommendation";
                 // Disable the invite button since there is no recommended friend to invite
                 btnInviteRecommendation.Enabled = false;
-            }            
+            }
+
+            // The add friend button should be enabled if and only if there is a recommendation displayed
+            btnAddRecommendedFriend.Enabled = recommendations.Any();
         }
 
         /// <summary>
@@ -411,28 +414,38 @@ namespace RudyAriazHeadEssay
         /// </summary>
         private void UpdateRecommendations()
         {
-            // Update each of the possible lists
+            // Update each of the possible recommendation lists
             network.UpdateFriendsOfFriends(user);
             network.UpdateFriendsOfFriendsWithSameInterest(user);
             network.UpdateSameCity(user);
             network.UpdateSameCitySameInterest(user);
         }
 
-        // Go to the next type of recommendation
+        /// <summary>
+        /// Changes the displayed recommendation type to the next type, cycling between:
+        ///     "Friends of friends with shared interest", "Non-friends in the same city", "Non-friends in the city with a shared interest".
+        /// Runs when the "Next Recommendation List" button is pressed.
+        /// </summary>
         private void btnNextRecommendationList_Click(object sender, EventArgs e)
         {
+            // Increment the recommendation type displayed (modulo 3 to maintain the cycling between the 3 options)
+            // Casting is used to enable arithmetic on RecommendationType values
             recommendationState = (RecommendationType)((int)(recommendationState + 1) % 3);
-            lblRecommendationListHeading.Text = recommendationDescriptions[(int)recommendationState];
+            // Update the recommendation heading with the string corresponding to the current recommendation type
+            lblRecommendationListHeading.Text = recommendationHeadings[(int)recommendationState];
             // Reset the recommendation index to 0 for viewing the next recommendation list
             recommendationIndex = 0;
-            // Repopulate the recommendation to accomodate for the change in type
+            // Repopulate the recommendation to accomodate for the change in recommendation type
             PopulateRecommendation();
         }
 
-        // Add a recommended friend to the user's friends list
+        /// <summary>
+        /// Adds the currently shown friend recommendation to the user's friends list. Runs when the "Add Recommended Friend" is pressed.
+        /// Precondition: currentRecommendation is non-null.
+        /// </summary>
         private void btnAddRecommendedFriend_Click(object sender, EventArgs e)
         {
-            // Add the recommendation as a friend
+            // Add the current recommendation as a friend
             user.AddFriend(currentRecommendation);
             // Repopulate recommendations to account for the friendship 
             PopulateRecommendation();
@@ -454,10 +467,8 @@ namespace RudyAriazHeadEssay
         /// </summary>
         private void btnRecommendationDown_Click(object sender, EventArgs e)
         {
-            // Increment the index
-            recommendationIndex++;
-            // Repopulate the recommendation
-            PopulateRecommendation();
+            // Scroll the recommendations list in the downwards direction
+            ScrollList(ref recommendationIndex, PopulateRecommendation, 1);
         }
 
 
@@ -785,10 +796,8 @@ namespace RudyAriazHeadEssay
         /// </summary>
         private void btnInvitationDown_Click(object sender, EventArgs e)
         {
-            // Increment the invitation index
-            invitationIndex++;
-            // Repopulate the invitation
-            PopulateInvitation();
+            // Scroll the invitations list in the downwards direction
+            ScrollList(ref invitationIndex, PopulateInvitation, 1);
         }
 
 
