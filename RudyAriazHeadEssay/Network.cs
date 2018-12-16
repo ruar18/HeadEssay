@@ -27,21 +27,6 @@ namespace RudyAriazHeadEssay
             // Instantiate the lists of users and invitations 
             users = new List<Person>();
             invitations = new List<Invitation>();
-            // TODO: remove temporary people
-            users.Add(new Person("Rudy", "Ariaz", "Toronto", "rariaz", "hi"));
-            users.Add(new Person("Willie", "stuff", "Toronto", "wchan", "hi"));
-            users.Add(new Person("Tiff", "T", "Toronto", "ttruong", "hi"));
-            users.Add(new Person("Henning", "L", "munich", "lhenning", "hi"));
-            users.Add(new Person("whoo", "hey", "munich", "hwhoo", "hi"));
-            users[0].AddFriend(users[1]);
-            users[0].AddFriend(users[2]);
-            users[1].AddFriend(users[3]);
-            users[0].AddInterest("swimming");
-            users[3].AddInterest("swimming");
-            for(int i = 0; i < 20; i++)
-            {
-                users.Add(new Person("test", "testtt", "Toronto", i + "test", "hi"));
-            }
         }
 
         /// <summary>
