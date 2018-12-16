@@ -49,6 +49,8 @@ namespace RudyAriazHeadEssay
 
         // The starting index of the currently shown friends
         private int friendsIndex = 0;
+        // The friend that is currently shown at the top of the friends list
+        private Person currentTopFriend;
 
         // The index of the currently shown invitation
         private int invitationIndex = 0;
@@ -62,6 +64,9 @@ namespace RudyAriazHeadEssay
         };
         // The type of invitation currently shown, intialized to show incoming invitations
         private InvitationType invitationState = InvitationType.Outgoing;
+        // Indicates whether or not an invitation is currently being created by the user. Initially false.
+        private bool ongoingInvitation = false;
+
         
         /// <summary>
         /// Constructs a new MainUIForm object with the given network and logged-in user.
@@ -83,7 +88,7 @@ namespace RudyAriazHeadEssay
             // Populate all UI lists
             PopulateAllLists();
             // Hide invitation creation UI at first
-            SetInvitationUIVisibility(visible: false);
+            SetInvitationCreationUIVisibility(visible: false);
         }
         
         /// <summary>
@@ -273,6 +278,8 @@ namespace RudyAriazHeadEssay
             SetScrollButtonActivity(btnFriendDown, btnFriendUp, friendsIndex, friendsList);
             // Determine the exclusive upper bound of the indices of friends to display
             int upperBound = Math.Min(user.GetAllFriends().Count, friendsIndex + 5);
+            // Set the current top friend if it exists, or null if it does not
+            currentTopFriend = friendsList.Any()? friendsList[friendsIndex] : null;
 
             // Iterate through the friends that should be displayed
             for (int i = friendsIndex; i < upperBound; i++)
@@ -288,19 +295,24 @@ namespace RudyAriazHeadEssay
                 friendLabelList[i - friendsIndex].Text = "No friend";
             }
 
-            // If there are no friends displayed or the top friend has already been invited, disable the invite button
-            if (!friendsList.Any() || invitedRecipients.Contains(friendsList[friendsIndex]))
-            {
-                btnInviteFriend.Enabled = false;
-            }
-            // Otherwise, enable the button so that the top friend can be invited
-            else
-            {
-                btnInviteFriend.Enabled = true;
-            }
+            // Ensure that the invite friend button is enabled or disabled depending on whether the current top friend has been already invited or not
+            SetFriendInviteButton();
 
-            // The remove friend button should be disabled if there is no friend to remove, and vice versa
-            btnRemoveFriend.Enabled = friendsList.Any();
+            // The remove friend button should be disabled only if there is no friend to remove or there is an ongoing invitation
+            // since the user cannot remove friends while an invitation is being created 
+            btnRemoveFriend.Enabled = friendsList.Any() && !ongoingInvitation;
+        }
+
+        /// <summary>
+        /// Enables the friend invite button only if:
+        ///     1. There is a currently selected friend
+        ///     2. The current friend has not been invited yet
+        /// Disables the button otherwise.
+        /// </summary>
+        private void SetFriendInviteButton()
+        {
+            // Enable the button if there is a current uninvited friend selected
+            btnInviteFriend.Enabled = currentTopFriend != null && !invitedRecipients.Contains(currentTopFriend);
         }
 
         /// <summary>
@@ -349,7 +361,7 @@ namespace RudyAriazHeadEssay
         /*** RECOMMENDATIONS METHODS ***/
         /// <summary>
         /// Displays the user's selected (and updated) recommendation in a label
-        /// and managing related UI components.
+        /// and manages related UI components.
         /// </summary>
         /// <remarks>
         /// Runs whenever a change in recommendations might occur.
@@ -391,8 +403,6 @@ namespace RudyAriazHeadEssay
                 currentRecommendation = recommendations[recommendationIndex];
                 // Display the username of current recommendation in a label
                 lblRecommendation.Text = currentRecommendation.Username;
-                // Disable the invite button if the recommended user has already been invited to the current invitation
-                btnInviteRecommendation.Enabled = !invitedRecipients.Contains(currentRecommendation);
             }
             // Otherwise, display a placeholder
             else
@@ -401,12 +411,24 @@ namespace RudyAriazHeadEssay
                 currentRecommendation = null;
                 // Display the placeholder in the label
                 lblRecommendation.Text = "No recommendation";
-                // Disable the invite button since there is no recommended friend to invite
-                btnInviteRecommendation.Enabled = false;
             }
 
+            // Enable or disable the recommendation invitation button depending on the current recommendation displayed
+            SetRecommendationInviteButton();
             // The add friend button should be enabled if and only if there is a recommendation displayed
             btnAddRecommendedFriend.Enabled = recommendations.Any();
+        }
+
+        /// <summary>
+        /// Enables the recommendation invite button only if:
+        ///     1. There is a current recommendation
+        ///     2. The current recommendation has not been invited yet
+        /// Disables the button otherwise.
+        /// </summary>
+        private void SetRecommendationInviteButton()
+        {
+            // Enable the button if there is a current uninvited recommendation
+            btnInviteRecommendation.Enabled = currentRecommendation != null && !invitedRecipients.Contains(currentRecommendation);
         }
 
         /// <summary>
@@ -474,8 +496,10 @@ namespace RudyAriazHeadEssay
 
 
         /*** INVITATIONS METHODS ***/
-        // TODO: store the current invitations?
-        // TODO: refactor this to make it simpler
+        /// <summary>
+        /// Displays the currently selected outgoing or incoming invitation while managing related UI elements.
+        /// Runs whenever an update to invitation information occurs.
+        /// </summary>
         private void PopulateInvitation()
         {
             // Delete any inactive invitations prior to displaying them
@@ -486,145 +510,140 @@ namespace RudyAriazHeadEssay
             // Check if incoming invitations must be displayed
             if (invitationState == InvitationType.Incoming)
             {
-                
                 // Indicate that the incoming invitations are shown
                 lblInvitationListHeading.Text = "Incoming Invitations";
-                // Enable the accept invitation button
-                btnAcceptInvitation.Enabled = true;
-
                 // Get the user's incoming invitations
                 invitations = user.GetIncomingInvitations();
             }
+            // Otherwise, outgoing invitations must be displayed
             else
             {
                 // Indicate that the outgoing invitations are shown
                 lblInvitationListHeading.Text = "Outgoing Invitations";
-                // Disable the accept invitation button
-                btnAcceptInvitation.Enabled = false;
-
                 // Get the user's outgoing invitations
                 invitations = user.GetOutgoingInvitations();
             }
 
-            // Check if there are any invitations
+            // Set the invitation font to regular. This will be changed to bold if the invitation has been accepted by the user.
+            txtInvitation.Font = new Font(Font, FontStyle.Regular);
+            // By default, disable the accept invitation button
+            btnAcceptInvitation.Enabled = false;
+
+            // Check if there are any invitations to display
             if (invitations.Any())
             {
-                // If the index of the invitation to be displayed exceeds the top bound of the invitation list,
-                // set it to the last index of the list, unless the list is empty and the index should be set to 0.
-                // TODO: abstract this?
+                // Restrict the index of the invitation to be shown to within the invitation list bounds
                 invitationIndex = Math.Max(0, Math.Min(invitationIndex, invitations.Count - 1));
-
-                // The invitation to be displayed 
+                // Get the invitation to be displayed 
                 Invitation selectedInvitation = invitations[invitationIndex];
-
-                // Display the one at the current selected index
+                // Display the invitation in a label
                 txtInvitation.Text = selectedInvitation.ToString(user);
-                // If the user is a recipient and the invitation has been accepted by the user, 
-                // display it in bold text and disable the accept invitation button
-                if (invitationState == InvitationType.Incoming && 
-                    selectedInvitation.InvitationStateOfRecipient(user) == InvitationStatus.Accepted)
-                {
-                    txtInvitation.Font = new Font(Font, FontStyle.Bold);
-                    btnAcceptInvitation.Enabled = false;
-                }
-                // If the invitation has not been accepted yet or the user is the creator, 
-                // display in regular text and enable the accept invitation button
-                else
-                {
-                    txtInvitation.Font = new Font(Font, FontStyle.Regular);
-                    btnAcceptInvitation.Enabled = true;
-                }
 
-                // Enable the delete button since there is an invitation to delete
-                btnDeleteInvitation.Enabled = true;
+                // Check if the user is a recipient of the invitation
+                if (invitationState == InvitationType.Incoming)
+                {
+                    // Check if the user has accepted the invitation
+                    if(selectedInvitation.InvitationStateOfRecipient(user) == InvitationStatus.Accepted)
+                    {
+                        // Set the invitation font to bold to show that it has been accepted
+                        txtInvitation.Font = new Font(Font, FontStyle.Bold);
+                    }
+                    // Otherwise, the user has not accepted the invitation
+                    else
+                    {
+                        // Enable the accept invitation button since there is an invitation to accept
+                        btnAcceptInvitation.Enabled = true;
+                    }
+                }
             }
             // Otherwise, display a placeholder
             else
             {
+                // Show the placeholder in the textbox
                 txtInvitation.Text = "No invitation";
-                // Disable the delete button since there is no invitation to delete
-                btnDeleteInvitation.Enabled = false;
-                // Display the placeholder with a regular font
-                txtInvitation.Font = new Font(Font, FontStyle.Regular);
             }
 
             // Disable or enable the invitation up or down buttons according to list position
             SetScrollButtonActivity(btnInvitationDown, btnInvitationUp, invitationIndex, invitations);
-
-            // Disable the down button if there are no later invitations to show
-            if (invitationIndex >= invitations.Count - 1)
-            {
-                btnInvitationDown.Enabled = false;
-            }
-            // Otherwise, enable it 
-            else
-            {
-                btnInvitationDown.Enabled = true;
-            }
+            // The delete invitation button should be enabled if and only if there is an invitation to delete
+            btnDeleteInvitation.Enabled = invitations.Any();
         }
 
-        // Hide or show the invitation creation UI
-        private void SetInvitationUIVisibility(bool visible)
+        /// <summary>
+        /// Shows or hides the invitation creation UI. Some UI components are enabled or disabled instead of shown or hidden.
+        /// </summary>
+        /// <param name="visible">Indicates whether the invitation creation UI should be shown (true) or hidden (false).</param>
+        private void SetInvitationCreationUIVisibility(bool visible)
         {
-            // Set visibility for labels
+            // Set visibility for prompt labels
             lblInvitationCreation.Visible = visible;
             lblPromptLifetime.Visible = visible;
             lblPromptRecipients.Visible = visible;
             lblPromptInterest.Visible = visible;
 
-            // Set visibility for textboxes
+            // Set visibility for textbox fields in the invitation creation UI
             txtInvitationLifetime.Visible = visible;
             txtInvitationRecipients.Visible = visible;
             txtInvitationInterest.Visible = visible;
 
-            // Set visibility for buttons
+            // Set visibility for buttons used in the invitation creatino UI
             btnSendInvitation.Visible = visible;
             btnCancelInvitation.Visible = visible;
             btnInviteRecommendation.Visible = visible;
             btnInviteFriend.Visible = visible;
 
-            // When the invitation creation UI is visible, the New Invitation button should be disabled
-            // and vice versa
+            // When the invitation creation UI is visible, the "New Invitation" button should be disabled and vice versa
             btnNewInvitation.Enabled = !visible;
-            // The remove friend button should be disabled during invitation creation
+            // When the invitation creation UI is visible, the "Remove Friend" button should be disabled
             btnRemoveFriend.Enabled = !visible;
+            
         }
         
-       
-
-        // Add a recommended friend to the current invitation recipients
+        /// <summary>
+        /// Adds the currently selected recommended friend to the current invitation recipients while managing related
+        /// UI components. Runs when the "Invite" button of the recommendation UI is pressed.
+        /// </summary>
         private void btnInviteRecommendation_Click(object sender, EventArgs e)
         {
-            // Add the recipient to the list
+            // Add the recipient to the recipient list
+            invitedRecipients.Add(currentRecommendation);
+            // Show the invitee in the list 
             ShowInvitedUser(currentRecommendation);
-            // Disable the button. It will be re-enabled when a different user is selected for invite,
-            // or when the invitation is sent.
+            // Disable the button. It will be re-enabled when a different user is selected for invite, 
+            // or when a new invitation is created by the user.
             btnInviteRecommendation.Enabled = false;
         }
 
-        // Add an existing friend to the current invitation recipients
+        /// <summary>
+        /// Adds the currently selected friend to the current invitation recipients while managing related
+        /// UI components. Runs when the "Invite" button of the friends UI is pressed.
+        /// </summary>
         private void btnInviteFriend_Click(object sender, EventArgs e)
         {
-            // Invite the friend at the top of the displayed friends 
-            ShowInvitedUser(user.GetAllFriends()[friendsIndex]);
-            // Disable the button. It will be re-enabled when a different user is selected for invite,
-            // or when the invitation is sent.
+            // Add the recipient to the recipient list
+            invitedRecipients.Add(currentTopFriend);
+            // Show the invitee
+            ShowInvitedUser(currentTopFriend);
+            // Disable the button. It will be re-enabled when a different user is selected for invite, 
+            // or when a new invitation is created by the user.
             btnInviteFriend.Enabled = false;
         }
 
-        // Adds a user to the current invitation recipients
+        /// <summary>
+        /// Shows a newly-invited user's username in the recipients textbox.
+        /// </summary>
+        /// <param name="invitee">The invited user for whom to show the username.</param>
         private void ShowInvitedUser(Person invitee)
         {
-            // Add the invitee to the recipient list
-            invitedRecipients.Add(invitee);
             // Get the invitee's username
             string username = invitee.Username;
-            // Check if this is the first recipient
+            // Check if this is the first recipient for proper formatting
             if(txtInvitationRecipients.Text == "")
             {
                 // Set the text of the textbox to display the username
                 txtInvitationRecipients.Text = username;
             }
+            // Otherwise, the username can be appended onto the end of the textbox's text
             else
             {
                 // Add the current username to the end of the list
@@ -632,107 +651,127 @@ namespace RudyAriazHeadEssay
             }
         }
 
-        // Change incoming to outgoing invitations and vice versa
+        /// <summary>
+        /// Changes the invitation type shown in the invitation list (incoming to outgoing and vice versa).
+        /// Runs when the "Toggle Invitations" button is pressed.
+        /// </summary>
         private void btnToggleInvitations_Click(object sender, EventArgs e)
         {
-            if(invitationState == InvitationType.Incoming)
-            {
-                invitationState = InvitationType.Outgoing;
-            }
-            else
-            {
-                invitationState = InvitationType.Incoming;
-            }
+            // Implicitly cast InvitationType to integer to toggle between the invitation types
+            invitationState = 1 - invitationState;
+            // Repopulate the invitations to account for the type change
             PopulateInvitation();
         }
 
+        /// <summary>
+        /// Begins a new outgoing invitation. Runs when the "New Invitation" button is pressed.
+        /// </summary>
         private void btnNewInvitation_Click(object sender, EventArgs e)
         {
+            // Indicate that there is an ongoing invitation being created 
+            ongoingInvitation = true;
+            // Enable or disable the invite buttons according to whether there are friends and recommendations to invite
+            SetFriendInviteButton();
+            SetRecommendationInviteButton();
             // Show the invitation creation UI
-            SetInvitationUIVisibility(visible: true);
-
+            SetInvitationCreationUIVisibility(visible: true);
         }
-
-        // Send the invitation if all fields have been filled
+        
+        /// <summary>
+        /// Sends a newly-created outgoing invitation if all fields have been filled.
+        /// </summary>
         private void btnSendInvitation_Click(object sender, EventArgs e)
         {
-            // Store the information for the invitation (life-time and interest)
+            // Store the life-time for the information (intially set to 0)
             double lifeTime = 0;
+            // Store the interest for the information (found in the interest textbox of the invitation)
             string interest = txtInvitationInterest.Text;
 
             // Perform error checking for missing information, stopping at the earliest error
-            // Check if there is no valid lifetime set
+            // Check if there is no valid lifetime set (non-numerical or non-positive)
             if(!double.TryParse(txtInvitationLifetime.Text, out lifeTime) || lifeTime <= 0)
             {
-                // Show an error message
+                // Show an appropriate error message in a MessageBox
                 MessageBox.Show("Please set a positive invitation life-time.");
             }
             // Check if there are no recipients selected
             else if (!invitedRecipients.Any())
             {
-                // Show an error message
+                // Show an appropriate error message in a MessageBox
                 MessageBox.Show("Please select at least 1 recipient.");
             }
             // Check if there is no interest set
             else if(interest == "")
             {
-                // Show an error message
+                // Show an appropriate error message in a MessageBox
                 MessageBox.Show("Please enter an interest");
             }
-            // Otherwise, invitation can be sent
+            // Otherwise, the invitation can be sent
             else
             {
                 // Create a dictionary of recipient states with the given recipients
-                // No recipients have accepted the invitation yet
+                // No recipients have accepted the invitation yet, so set the invitation status as "Pending" for all recipients
                 // Precondition: invited recipients are unique
                 Dictionary<Person, InvitationStatus> recipientStates = 
-                    invitedRecipients.ToDictionary(x => x, x => InvitationStatus.Pending);
+                    invitedRecipients.ToDictionary(person => person, person => InvitationStatus.Pending);
 
                 // Create the invitation with the given information
                 Invitation newInvitation = new Invitation(user, recipientStates, interest, 
                                                           Environment.TickCount, lifeTime);
                 // Send the invitation
                 network.DeliverInvitation(newInvitation);
-                // Show a status update
+                // Show a status update in a MessageBox
                 MessageBox.Show("Invitation sent!");
-                // Close the invitation creation UI
-                CloseCreationInvitationUI();
+                // Close the invitation creation elements
+                CloseInvitationCreation();
 
-                // Enable the invitation button for a new invitation
-                btnInviteFriend.Enabled = true;
-                btnInviteRecommendation.Enabled = true;
-
-                // Set the invitation details to display the added invitation
+                // Set the invitation details to display the newly-sent invitation
                 invitationState = InvitationType.Outgoing;
                 invitationIndex = user.GetOutgoingInvitations().Count - 1;
                 // Update the displayed invitation list 
                 PopulateInvitation();
             }
         }
-
-        // Clear and close the invitation creation UI
-        private void CloseCreationInvitationUI()
+        
+        /// <summary>
+        /// Clears and close the invitation creation UI.
+        /// </summary>
+        private void CloseInvitationCreationUI()
         {
-            // Clear the text of all fields
+            // Clear the text of all fields used in the invitation creation
             txtInvitationLifetime.Text = "";
             txtInvitationRecipients.Text = "";
             txtInvitationInterest.Text = "";
-            // Clear the invitation recipients selected
-            invitedRecipients.Clear();
-
+            
             // Hide the invitation creation UI
-            SetInvitationUIVisibility(visible: false);
+            SetInvitationCreationUIVisibility(visible: false);
         }
 
+        /// <summary>
+        /// Closes a currently-created invitation if there is one.
+        /// </summary>
+        private void CloseInvitationCreation()
+        {
+            // Indicate that there is no ongoing invitation created
+            ongoingInvitation = false;
+            // Clear the recipient list
+            invitedRecipients.Clear();
+            // Close the invitation creation UI
+            CloseInvitationCreationUI();
+        }
 
-        // Cancel the invitation and close the creation UI
+        /// <summary>
+        /// Cancels a currently-created outgoing invitation. Runs when the "Cancel Invitation" button is pressed.
+        /// </summary>
         private void btnCancelInvitation_Click(object sender, EventArgs e)
         {
-            CloseCreationInvitationUI();
+            // Close the invitation created
+            CloseInvitationCreation();
         }
-
         
-        // Adds a pending incoming invitation to the accepted list
+        /// <summary>
+        /// Adds a pending incoming invitation to the accepted list.
+        /// </summary>
         private void btnAcceptInvitation_Click(object sender, EventArgs e)
         {
             // Get the current displayed invitation
