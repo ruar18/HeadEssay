@@ -34,12 +34,12 @@
             this.lblFriend3 = new System.Windows.Forms.Label();
             this.lblFriend4 = new System.Windows.Forms.Label();
             this.lblFriend5 = new System.Windows.Forms.Label();
-            this.lblFriendList = new System.Windows.Forms.Label();
-            this.lblInvitationList = new System.Windows.Forms.Label();
+            this.lblFriendListHeading = new System.Windows.Forms.Label();
+            this.lblInvitationListHeading = new System.Windows.Forms.Label();
             this.lblRecommendation = new System.Windows.Forms.Label();
-            this.lblRecommendationList = new System.Windows.Forms.Label();
+            this.lblRecommendationListHeading = new System.Windows.Forms.Label();
             this.lblInterest = new System.Windows.Forms.Label();
-            this.lblInterestList = new System.Windows.Forms.Label();
+            this.lblInterestListHeading = new System.Windows.Forms.Label();
             this.btnFriendDown = new System.Windows.Forms.Button();
             this.btnFriendUp = new System.Windows.Forms.Button();
             this.btnInvitationUp = new System.Windows.Forms.Button();
@@ -134,25 +134,25 @@
             this.lblFriend5.TabIndex = 5;
             this.lblFriend5.Text = "friend5";
             // 
-            // lblFriendList
+            // lblFriendListHeading
             // 
-            this.lblFriendList.AutoSize = true;
-            this.lblFriendList.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
-            this.lblFriendList.Location = new System.Drawing.Point(1581, 214);
-            this.lblFriendList.Name = "lblFriendList";
-            this.lblFriendList.Size = new System.Drawing.Size(205, 46);
-            this.lblFriendList.TabIndex = 6;
-            this.lblFriendList.Text = "My Friends";
+            this.lblFriendListHeading.AutoSize = true;
+            this.lblFriendListHeading.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
+            this.lblFriendListHeading.Location = new System.Drawing.Point(1581, 214);
+            this.lblFriendListHeading.Name = "lblFriendListHeading";
+            this.lblFriendListHeading.Size = new System.Drawing.Size(205, 46);
+            this.lblFriendListHeading.TabIndex = 6;
+            this.lblFriendListHeading.Text = "My Friends";
             // 
-            // lblInvitationList
+            // lblInvitationListHeading
             // 
-            this.lblInvitationList.AutoSize = true;
-            this.lblInvitationList.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
-            this.lblInvitationList.Location = new System.Drawing.Point(1110, 214);
-            this.lblInvitationList.Name = "lblInvitationList";
-            this.lblInvitationList.Size = new System.Drawing.Size(350, 46);
-            this.lblInvitationList.TabIndex = 7;
-            this.lblInvitationList.Text = "Outgoing Invitation";
+            this.lblInvitationListHeading.AutoSize = true;
+            this.lblInvitationListHeading.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
+            this.lblInvitationListHeading.Location = new System.Drawing.Point(1110, 214);
+            this.lblInvitationListHeading.Name = "lblInvitationListHeading";
+            this.lblInvitationListHeading.Size = new System.Drawing.Size(350, 46);
+            this.lblInvitationListHeading.TabIndex = 7;
+            this.lblInvitationListHeading.Text = "Outgoing Invitation";
             // 
             // lblRecommendation
             // 
@@ -165,15 +165,15 @@
             this.lblRecommendation.Text = "recommendation";
             this.lblRecommendation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblRecommendationList
+            // lblRecommendationListHeading
             // 
-            this.lblRecommendationList.AutoSize = true;
-            this.lblRecommendationList.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
-            this.lblRecommendationList.Location = new System.Drawing.Point(353, 214);
-            this.lblRecommendationList.Name = "lblRecommendationList";
-            this.lblRecommendationList.Size = new System.Drawing.Size(653, 46);
-            this.lblRecommendationList.TabIndex = 13;
-            this.lblRecommendationList.Text = "Friends of Friends with Same Interest";
+            this.lblRecommendationListHeading.AutoSize = true;
+            this.lblRecommendationListHeading.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
+            this.lblRecommendationListHeading.Location = new System.Drawing.Point(353, 214);
+            this.lblRecommendationListHeading.Name = "lblRecommendationListHeading";
+            this.lblRecommendationListHeading.Size = new System.Drawing.Size(653, 46);
+            this.lblRecommendationListHeading.TabIndex = 13;
+            this.lblRecommendationListHeading.Text = "Friends of Friends with Same Interest";
             // 
             // lblInterest
             // 
@@ -186,15 +186,15 @@
             this.lblInterest.Text = "interest";
             this.lblInterest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblInterestList
+            // lblInterestListHeading
             // 
-            this.lblInterestList.AutoSize = true;
-            this.lblInterestList.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
-            this.lblInterestList.Location = new System.Drawing.Point(74, 214);
-            this.lblInterestList.Name = "lblInterestList";
-            this.lblInterestList.Size = new System.Drawing.Size(232, 46);
-            this.lblInterestList.TabIndex = 19;
-            this.lblInterestList.Text = "My Interests";
+            this.lblInterestListHeading.AutoSize = true;
+            this.lblInterestListHeading.Font = new System.Drawing.Font("Open Sans", 10F, System.Drawing.FontStyle.Bold);
+            this.lblInterestListHeading.Location = new System.Drawing.Point(74, 214);
+            this.lblInterestListHeading.Name = "lblInterestListHeading";
+            this.lblInterestListHeading.Size = new System.Drawing.Size(232, 46);
+            this.lblInterestListHeading.TabIndex = 19;
+            this.lblInterestListHeading.Text = "My Interests";
             // 
             // btnFriendDown
             // 
@@ -596,11 +596,11 @@
             this.Controls.Add(this.btnFriendUp);
             this.Controls.Add(this.btnFriendDown);
             this.Controls.Add(this.lblInterest);
-            this.Controls.Add(this.lblInterestList);
+            this.Controls.Add(this.lblInterestListHeading);
             this.Controls.Add(this.lblRecommendation);
-            this.Controls.Add(this.lblRecommendationList);
-            this.Controls.Add(this.lblInvitationList);
-            this.Controls.Add(this.lblFriendList);
+            this.Controls.Add(this.lblRecommendationListHeading);
+            this.Controls.Add(this.lblInvitationListHeading);
+            this.Controls.Add(this.lblFriendListHeading);
             this.Controls.Add(this.lblFriend5);
             this.Controls.Add(this.lblFriend4);
             this.Controls.Add(this.lblFriend3);
@@ -623,12 +623,12 @@
         private System.Windows.Forms.Label lblFriend3;
         private System.Windows.Forms.Label lblFriend4;
         private System.Windows.Forms.Label lblFriend5;
-        private System.Windows.Forms.Label lblFriendList;
-        private System.Windows.Forms.Label lblInvitationList;
+        private System.Windows.Forms.Label lblFriendListHeading;
+        private System.Windows.Forms.Label lblInvitationListHeading;
         private System.Windows.Forms.Label lblRecommendation;
-        private System.Windows.Forms.Label lblRecommendationList;
+        private System.Windows.Forms.Label lblRecommendationListHeading;
         private System.Windows.Forms.Label lblInterest;
-        private System.Windows.Forms.Label lblInterestList;
+        private System.Windows.Forms.Label lblInterestListHeading;
         private System.Windows.Forms.Button btnFriendDown;
         private System.Windows.Forms.Button btnFriendUp;
         private System.Windows.Forms.Button btnInvitationUp;

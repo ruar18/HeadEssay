@@ -346,41 +346,47 @@ namespace RudyAriazHeadEssay
             PopulateFriendsList();
         }
 
+        
 
         /*** RECOMMENDATIONS METHODS ***/
-        // Populate the currently shown recommendation 
-        // TODO: optimize with dictionaries 
+        /// <summary>
+        /// Displays the user's selected (and updated) recommendation in a label
+        /// and managing related UI components.
+        /// </summary>
+        /// <remarks>
+        /// Runs whenever a change in recommendations might occur.
+        /// </remarks>
         private void PopulateRecommendation()
         {
             // The list of recommendations
             List<Person> recommendations;
 
+            // Update the user's recommendations
+            UpdateRecommendations();
+
+            // Check if the recommendation to be displayed is of a friend of friend with a shared interest
             if (recommendationState == RecommendationType.FriendsOfFriendsSameInterest)
             {
-                // Find the recommendations
-                network.UpdateFriendsOfFriendsWithSameInterest(user);
-                // Get the recommendations
+                // Get the appropriate recommendations
                 recommendations = user.GetFriendsOfFriendsSameInterest();
             }
+            // Check if the recommendation to be displayed is of a non-friend in the same city as the user
             else if (recommendationState == RecommendationType.SameCity)
             {
-                // Find the recommendations
-                network.UpdateSameCity(user);
-                // Get the recommendations
+                // Get the appropriate recommendations
                 recommendations = user.GetSameCity();
             }
+            // Otherwise, the recommendation to be displayed is of a non-friend in the same city with a shared interest
             else
             {
-                // Find the recommendations
-                network.UpdateSameCitySameInterest(user);
-                // Get the recommendations
+                // Get the appropriate recommendations
                 recommendations = user.GetSameCitySameInterest();
             }
 
-            // Disable or enable the recommendation up or down buttons according to list position
+            // Disable or enable the recommendation up or down buttons according to the list position
             SetScrollButtonActivity(btnRecommendationDown, btnRecommendationUp, recommendationIndex, recommendations);
 
-            // If there's a recommended user:
+            // Check if there's a user to recommend
             if (recommendations.Any())
             {
                 // Get the current recommended user
@@ -390,20 +396,33 @@ namespace RudyAriazHeadEssay
                 // Disable the invite button if the recommended user has already been invited
                 btnInviteRecommendation.Enabled = !invitedRecipients.Contains(currentRecommendation);
             }
-            // If there isn't a recommended user, display the appropriate message
+            // Otherwise, display a placeholder
             else
             {
+                // Display 
                 lblRecommendation.Text = "No recommendation";
                 // Disable the invite button since there is no recommended friend to invite
                 btnInviteRecommendation.Enabled = false;
             }            
         }
-        
+
+        /// <summary>
+        /// Updates all of the user's recommended friends lists.
+        /// </summary>
+        private void UpdateRecommendations()
+        {
+            // Update each of the possible lists
+            network.UpdateFriendsOfFriends(user);
+            network.UpdateFriendsOfFriendsWithSameInterest(user);
+            network.UpdateSameCity(user);
+            network.UpdateSameCitySameInterest(user);
+        }
+
         // Go to the next type of recommendation
         private void btnNextRecommendationList_Click(object sender, EventArgs e)
         {
             recommendationState = (RecommendationType)((int)(recommendationState + 1) % 3);
-            lblRecommendationList.Text = recommendationDescriptions[(int)recommendationState];
+            lblRecommendationListHeading.Text = recommendationDescriptions[(int)recommendationState];
             // Reset the recommendation index to 0 for viewing the next recommendation list
             recommendationIndex = 0;
             // Repopulate the recommendation to accomodate for the change in type
@@ -458,7 +477,7 @@ namespace RudyAriazHeadEssay
             {
                 
                 // Indicate that the incoming invitations are shown
-                lblInvitationList.Text = "Incoming Invitations";
+                lblInvitationListHeading.Text = "Incoming Invitations";
                 // Enable the accept invitation button
                 btnAcceptInvitation.Enabled = true;
 
@@ -468,7 +487,7 @@ namespace RudyAriazHeadEssay
             else
             {
                 // Indicate that the outgoing invitations are shown
-                lblInvitationList.Text = "Outgoing Invitations";
+                lblInvitationListHeading.Text = "Outgoing Invitations";
                 // Disable the accept invitation button
                 btnAcceptInvitation.Enabled = false;
 
