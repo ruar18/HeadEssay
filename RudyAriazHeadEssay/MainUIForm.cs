@@ -1,8 +1,9 @@
 ﻿/*
  * Rudy Ariaz
  * December 16, 2018
- * MainUIForm class manages all main user-interface components, and stores the current network
- * and logged-in person.
+ * MainUIForm class manages all main user-interface components, including functionality to change interests,
+ * befriend friend recommendations, send and browse invitations, and manage friends. The class 
+ * stores the current network and logged-in user to be able to interact with them.
  */
 using System;
 using System.Collections.Generic;
@@ -20,15 +21,19 @@ namespace RudyAriazHeadEssay
     {
         // The current network
         private Network network;
-        // Logged in user
+        // The logged-in user
         private Person user;
-        // Labels displaying friends
+        // A list of labels displaying friends
         private List<Label> friendLabelList;
 
-
-        enum RecommendationType { FriendsOfFriendsSameInterest, SameCity, SameCitySameInterest };
-        // The current type of recommendations shown, initialized to show
-        // friends of friends by default
+        // The possible friend recommendations that can be shown
+        enum RecommendationType
+        {
+            FriendsOfFriendsSameInterest,
+            SameCity,
+            SameCitySameInterest
+        };
+        // The current type of recommendations shown, initialized to show friends of friends by default
         private RecommendationType recommendationState = RecommendationType.FriendsOfFriendsSameInterest;
         // The index of the currently shown recommendation
         private int recommendationIndex = 0;
@@ -45,12 +50,20 @@ namespace RudyAriazHeadEssay
         private int invitationIndex = 0;
         // The currently selected recipients for an invitation
         private List<Person> invitedRecipients = new List<Person>();
-        // The types of invitations to display
-        enum InvitationType { Incoming, Outgoing };
-        // The type of invitation shown, intialized to show incoming invitations
+        // The possible types of invitations to display
+        enum InvitationType
+        {
+            Incoming,
+            Outgoing
+        };
+        // The type of invitation currently shown, intialized to show incoming invitations
         private InvitationType invitationState = InvitationType.Outgoing;
         
-
+        /// <summary>
+        /// Constructs a new MainUIForm object with the given network and logged-in user.
+        /// </summary>
+        /// <param name="network">The network that the main UI interacts with.</param>
+        /// <param name="user">The currently logged-in user.</param>
         public MainUIForm(Network network, Person user)
         {
             InitializeComponent();
@@ -63,32 +76,44 @@ namespace RudyAriazHeadEssay
             lblFullName.Text = $"{ user.FirstName } { user.LastName }";
             // Initialize the label list displaying friends 
             CreateFriendLabelList();
+            // Populate all UI lists
             PopulateAllLists();
-            // Invitation creation UI should be hidden at first
+            // Hide invitation creation UI at first
             SetInvitationUIVisibility(visible: false);
         }
         
-
-        // Create a list to store the friend labels
+        /// <summary>
+        /// Initializes a list of 5 labels that can display the user's friends.
+        /// </summary>
         private void CreateFriendLabelList()
         {
+            // Initialize the list with the existing labels
             friendLabelList = new List<Label> { lblFriend1, lblFriend2, lblFriend3, lblFriend4, lblFriend5 };
         }
-
-        // Populate the user's information label lists
+        
+        /// <summary>
+        /// Populates the user's information label lists.
+        /// </summary>
         private void PopulateAllLists()
         {
-            // Populate the interest
+            // Populate the currently displayed interest
             PopulateInterest();
-            // Populate the user's friends
+            // Populate the user's currently displayed friends
             PopulateFriendsList();
-            // Populate the recommendation
+            // Populate the user's currently displayed friend recommendation
             PopulateRecommendation();
-            // Populate the invitation
+            // Populate the user's currently displayed invitation
             PopulateInvitation();
         }
-
-        // Disables or enables up/down buttons for scrolling depending on list position
+        
+        /// <summary>
+        /// Disables or enables up and down buttons for scrolling through a given list depending on the current list position.
+        /// </summary>
+        /// <typeparam name="T">The type of element in the information list.</typeparam>
+        /// <param name="btnDown">The "scroll down" button.</param>
+        /// <param name="btnUp">The "scroll up" button</param>
+        /// <param name="itemIndex">The index that the currently displayed subset of the list begins from.</param>
+        /// <param name="scrolledList">The list to be scrolled with the up and down buttons.</param>
         private void SetScrollButtonActivity<T>(Button btnDown, Button btnUp, int itemIndex, List<T> scrolledList)
         {
             // If there are no earlier items, disable the up button 
@@ -286,21 +311,21 @@ namespace RudyAriazHeadEssay
             if (recommendationState == RecommendationType.FriendsOfFriendsSameInterest)
             {
                 // Find the recommendations
-                network.FindFriendsOfFriendsWithSameInterest(user);
+                network.UpdateFriendsOfFriendsWithSameInterest(user);
                 // Get the recommendations
                 recommendations = user.GetFriendsOfFriendsSameInterest();
             }
             else if (recommendationState == RecommendationType.SameCity)
             {
                 // Find the recommendations
-                network.FindSameCity(user);
+                network.UpdateSameCity(user);
                 // Get the recommendations
                 recommendations = user.GetSameCity();
             }
             else
             {
                 // Find the recommendations
-                network.FindSameCitySameInterest(user);
+                network.UpdateSameCitySameInterest(user);
                 // Get the recommendations
                 recommendations = user.GetSameCitySameInterest();
             }

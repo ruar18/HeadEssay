@@ -227,7 +227,7 @@ namespace RudyAriazHeadEssay
         /// <remarks>
         /// This method need not be commutative. It only checks if this Person has friended "other", not vice-versa.
         /// </remarks>
-        /// <param name="other">The Person to check for friendship.</param>
+        /// <param name="other">The Person to check for being the user's friend.</param>
         /// <returns>True if "other" is a friend of this Person, false otherwise.</returns>
         public bool IsFriend(Person other)
         {

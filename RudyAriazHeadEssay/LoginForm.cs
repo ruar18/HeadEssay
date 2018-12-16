@@ -64,7 +64,6 @@ namespace RudyAriazHeadEssay
                     // Display the user interface
                     frmUI.ShowDialog();
                     // Close the login form
-                    this.Dispose();
                     this.Close();
                 }
                 // Otherwise, the user was not found in the network, so display an appropriate error message
