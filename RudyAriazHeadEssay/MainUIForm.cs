@@ -116,7 +116,7 @@ namespace RudyAriazHeadEssay
         /// <param name="scrolledList">The list to be scrolled with the up and down buttons.</param>
         private void SetScrollButtonActivity<T>(Button btnDown, Button btnUp, int itemIndex, List<T> scrolledList)
         {
-            // If there are no earlier items, disable the up button 
+            // If there are no earlier items to view (the value at the first index is already shown), disable the up button 
             if(itemIndex == 0)
             {
                 btnUp.Enabled = false;
@@ -127,7 +127,7 @@ namespace RudyAriazHeadEssay
                 btnUp.Enabled = true;
             }
 
-            // If there are no later items, disable the down button
+            // If there are no later items to view (the value at the last index is already shown), disable the down button
             if(itemIndex >= scrolledList.Count - 1)
             {
                 btnDown.Enabled = false;
@@ -139,81 +139,49 @@ namespace RudyAriazHeadEssay
             }
         }
 
-        // Populate the user's friends list
-        private void PopulateFriendsList()
+        /// <summary>
+        /// Returns a given list index, restricted to within the list lower bound and upper bound indices.
+        /// </summary>
+        /// <param name="index">The index to compare to the list indices.</param>
+        /// <param name="listLength">The length of the list indexed.</param>
+        /// <returns>The original index, if it does not exceed the list bounds, or 
+        /// the lower or upper bounds of the list indices if it does.</returns>
+        private int RestrictWithinBounds(int index, int listLength)
         {
-            // Get the user's friends
-            List<Person> friendsList = user.GetAllFriends();
-
-            // If the index of the first friend to be displayed exceeds the top bound of the list,
-            // set it to the last index of the list, unless the list is empty and the index should be set to 0.
-            friendsIndex = Math.Max(0, Math.Min(friendsIndex, friendsList.Count - 1));
-
-            // Disable or enable the friend up or down buttons according to list position
-            SetScrollButtonActivity(btnFriendDown, btnFriendUp, friendsIndex, friendsList);
-
-            // Determine the exclusive upper bound of the indices of friends to display
-            int upperBound = Math.Min(user.GetAllFriends().Count, friendsIndex + 5);
-
-            // Loop through the friends and display their usernames
-            for(int i = friendsIndex; i < upperBound; i++)
-            {
-                friendLabelList[i - friendsIndex].Text = friendsList[i].Username;
-            }
-            // If not all labels have been filled, add placeholders
-            for(int i = upperBound; i < friendsIndex + 5; i++)
-            {
-                friendLabelList[i - friendsIndex].Text = "No friend";
-            }
-
-            // If there are no friends displayed or the top friend has already been invited,
-            // disable the invite button
-            if (!friendsList.Any() || invitedRecipients.Contains(friendsList[friendsIndex]))
-            {
-                btnInviteFriend.Enabled = false;
-            }
-            // Otherwise, enable the button
-            else
-            {
-                btnInviteFriend.Enabled = true;
-            }
-
-            // The remove friend button should be disabled if there is no friend to remove, and vice versa
-            btnRemoveFriend.Enabled = friendsList.Any();
+            // If the index exceeds the list upper bound, the last index of the list will be returned.
+            // If the list is empty, the last index is effectively 0.
+            return Math.Max(0, Math.Min(index, listLength - 1));
         }
-
-        // Shows the current selected interest
-        // TODO: try a class to temporarily store the information, a mediator
-        // between the user and the interface 
+        
+        /// <summary>
+        /// Displays the current selected interest in a label.
+        /// </summary>
         private void PopulateInterest()
         {
             // Get the user's interests
             List<string> interests = user.GetAllInterests();
-
-            // If the index of the interest to be displayed exceeds the top bound of the list,
-            // set it to the last index of the list, unless the list is empty and the index should be set to 0.
-            interestIndex = Math.Max(0, Math.Min(interestIndex, interests.Count - 1));
-
+            // Ensure that the index of the interest to be displayed is within bounds
+            interestIndex = RestrictWithinBounds(interestIndex, interests.Count);
             // Disable or enable the interest up or down buttons according to list position
             SetScrollButtonActivity(btnInterestDown, btnInterestUp, interestIndex, interests);
 
             // If there are no interests in the list, display a placeholder
-            if (user.GetAllInterests().Count == 0)
+            if (!interests.Any())
             {
+                // Display the placeholder in the label
                 lblInterest.Text = "No interests";
                 // Disable the remove interest button since there is no interest to remove
                 btnRemoveInterest.Enabled = false;
             }
+            // Otherwise, display the selected interest
             else
             {
+                // Display the interest in a label
                 lblInterest.Text = interests[interestIndex];
                 // Enable the remove interest button 
                 btnRemoveInterest.Enabled = true;
             }
         }
-
-
-        
 
         // Go to the previous interest in the list 
         private void btnInterestUp_Click(object sender, EventArgs e)
@@ -232,42 +200,11 @@ namespace RudyAriazHeadEssay
             // Repopulate the interest 
             PopulateInterest();
         }
-
-        
-
-        private void btnFriendUp_Click(object sender, EventArgs e)
-        {
-            // Decrement the index
-            friendsIndex--;
-            // Repopulate the friends
-            PopulateFriendsList();
-        }
-
-        private void btnFriendDown_Click(object sender, EventArgs e)
-        {
-            // Increment the index
-            friendsIndex++;
-            // Repopulate the friends
-            PopulateFriendsList();
-        }
-
-        // Delete a friend
-        private void btnDeleteFriend_Click(object sender, EventArgs e)
-        {
-            // TODO: remove by index
-            // Removes the friend at the current displayed index
-            user.RemoveFriend(user.GetAllFriends()[friendsIndex]);
-            // Repopulate recommendations
-            PopulateRecommendation();
-            // Repopulate friends
-            PopulateFriendsList();
-        }
-
         // Adds an interest to the user's interest list
         private void btnAddInterest_Click(object sender, EventArgs e)
         {
             // If no interest was entered, display an appropriate error message
-            if(txtAddInterest.Text == "")
+            if (txtAddInterest.Text == "")
             {
                 MessageBox.Show("Please enter an interest.");
             }
@@ -300,6 +237,80 @@ namespace RudyAriazHeadEssay
             // Repopulate recommendations to adjust to the removed interest
             PopulateRecommendation();
         }
+
+
+        // Populate the user's friends list
+        private void PopulateFriendsList()
+        {
+            // Get the user's friends
+            List<Person> friendsList = user.GetAllFriends();
+
+            // If the index of the first friend to be displayed exceeds the top bound of the list,
+            // set it to the last index of the list, unless the list is empty and the index should be set to 0.
+            friendsIndex = Math.Max(0, Math.Min(friendsIndex, friendsList.Count - 1));
+
+            // Disable or enable the friend up or down buttons according to list position
+            SetScrollButtonActivity(btnFriendDown, btnFriendUp, friendsIndex, friendsList);
+
+            // Determine the exclusive upper bound of the indices of friends to display
+            int upperBound = Math.Min(user.GetAllFriends().Count, friendsIndex + 5);
+
+            // Loop through the friends and display their usernames
+            for (int i = friendsIndex; i < upperBound; i++)
+            {
+                friendLabelList[i - friendsIndex].Text = friendsList[i].Username;
+            }
+            // If not all labels have been filled, add placeholders
+            for (int i = upperBound; i < friendsIndex + 5; i++)
+            {
+                friendLabelList[i - friendsIndex].Text = "No friend";
+            }
+
+            // If there are no friends displayed or the top friend has already been invited,
+            // disable the invite button
+            if (!friendsList.Any() || invitedRecipients.Contains(friendsList[friendsIndex]))
+            {
+                btnInviteFriend.Enabled = false;
+            }
+            // Otherwise, enable the button
+            else
+            {
+                btnInviteFriend.Enabled = true;
+            }
+
+            // The remove friend button should be disabled if there is no friend to remove, and vice versa
+            btnRemoveFriend.Enabled = friendsList.Any();
+        }
+
+        private void btnFriendUp_Click(object sender, EventArgs e)
+        {
+            // Decrement the index
+            friendsIndex--;
+            // Repopulate the friends
+            PopulateFriendsList();
+        }
+
+        private void btnFriendDown_Click(object sender, EventArgs e)
+        {
+            // Increment the index
+            friendsIndex++;
+            // Repopulate the friends
+            PopulateFriendsList();
+        }
+
+        // Delete a friend
+        private void btnDeleteFriend_Click(object sender, EventArgs e)
+        {
+            // TODO: remove by index
+            // Removes the friend at the current displayed index
+            user.RemoveFriend(user.GetAllFriends()[friendsIndex]);
+            // Repopulate recommendations
+            PopulateRecommendation();
+            // Repopulate friends
+            PopulateFriendsList();
+        }
+
+        
 
         // Populate the currently shown recommendation 
         // TODO: optimize with dictionaries 
