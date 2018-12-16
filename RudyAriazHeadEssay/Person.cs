@@ -148,16 +148,17 @@ namespace RudyAriazHeadEssay
         }
 
         /// <summary>
-        /// Removes a given friend from the user's friends list.
+        /// Removes a friend at the given index from the user's friends list.
         /// </summary>
         /// <remarks>
         /// One-directional unfriending only.
         /// </remarks>
-        /// <param name="friend">A non-null Person to be unfriended.</param>
-        public void RemoveFriend(Person friend)
+        /// <param name="friendIndex">An index of the friend to be removed. The index must be within the
+        /// bounds of the friends list.</param>
+        public void RemoveFriendAt(int friendIndex)
         {
-            // Remove the friend from the friends list
-            friends.Remove(friend);
+            // Remove the friend at friendIndex from the friends list
+            friends.RemoveAt(friendIndex);
         }
 
         /// <summary>

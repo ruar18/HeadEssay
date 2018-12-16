@@ -39,6 +39,10 @@ namespace RudyAriazHeadEssay
         private int recommendationIndex = 0;
         // The currently shown recommendation
         private Person currentRecommendation;
+        // Strings to display as descriptions for the types of recommendations shown
+        private string[] recommendationDescriptions = new string[3] { "Friends of Friends with Same Interest",
+                                                                      "Same City",
+                                                                      "Same City, Same Interest" };
 
         // The index of the currently shown interest 
         private int interestIndex = 0;
@@ -83,15 +87,6 @@ namespace RudyAriazHeadEssay
         }
         
         /// <summary>
-        /// Initializes a list of 5 labels that can display the user's friends.
-        /// </summary>
-        private void CreateFriendLabelList()
-        {
-            // Initialize the list with the existing labels
-            friendLabelList = new List<Label> { lblFriend1, lblFriend2, lblFriend3, lblFriend4, lblFriend5 };
-        }
-        
-        /// <summary>
         /// Populates the user's information label lists.
         /// </summary>
         private void PopulateAllLists()
@@ -106,6 +101,7 @@ namespace RudyAriazHeadEssay
             PopulateInvitation();
         }
         
+        /*** UTILITY METHODS ***/
         /// <summary>
         /// Disables or enables up and down buttons for scrolling through a given list depending on the current list position.
         /// </summary>
@@ -140,6 +136,20 @@ namespace RudyAriazHeadEssay
         }
 
         /// <summary>
+        /// Scrolls a given UI list up or down.
+        /// </summary>
+        /// <param name="index">Index of list to change when scrolling.</param>
+        /// <param name="populateMethod">Method to use for repopulating the list while scrolling.</param>
+        /// <param name="direction">Direction of scrolling. 1 for down, -1 for up.</param>
+        private void ScrollList(ref int index, Action populateMethod, int direction)
+        {
+            // Change the index for scrolling
+            index += direction;
+            // Repopulate the UI list
+            populateMethod();
+        }
+
+        /// <summary>
         /// Returns a given list index, restricted to within the list lower bound and upper bound indices.
         /// </summary>
         /// <param name="index">The index to compare to the list indices.</param>
@@ -152,7 +162,9 @@ namespace RudyAriazHeadEssay
             // If the list is empty, the last index is effectively 0.
             return Math.Max(0, Math.Min(index, listLength - 1));
         }
-        
+
+
+        /*** INTERESTS METHODS ***/
         /// <summary>
         /// Displays the current selected interest in a label.
         /// </summary>
@@ -182,97 +194,106 @@ namespace RudyAriazHeadEssay
                 btnRemoveInterest.Enabled = true;
             }
         }
-
-        // Go to the previous interest in the list 
-        private void btnInterestUp_Click(object sender, EventArgs e)
-        {
-            // Decrement the index
-            interestIndex--;
-            // Repopulate the interest
-            PopulateInterest();
-        }
-
-        // Go to the next interest in the list 
-        private void btnInterestDown_Click(object sender, EventArgs e)
-        {
-            // Increment the index
-            interestIndex++;
-            // Repopulate the interest 
-            PopulateInterest();
-        }
-        // Adds an interest to the user's interest list
+        
+        /// <summary>
+        /// Adds an interest to the user's interests list. Runs when the "Add Interest" button is pressed.
+        /// </summary>
         private void btnAddInterest_Click(object sender, EventArgs e)
         {
             // If no interest was entered, display an appropriate error message
             if (txtAddInterest.Text == "")
             {
+                // Show the error message in a MessageBox
                 MessageBox.Show("Please enter an interest.");
             }
-            // If the interest entered is a duplicate, display an appropriate error message
+            // If the interest entered is a duplicate for the user, display an appropriate error message
             else if (user.GetAllInterests().Contains(txtAddInterest.Text))
             {
-                // Show the error message
+                // Show the error message in a MessageBox
                 MessageBox.Show("This interest was already added. Please enter a different one.");
             }
-            // Otherwise, add the interest
+            // Otherwise, add the interest to the user's list
             else
             {
-                // Add the interest
+                // Add the interest to the list
                 user.AddInterest(txtAddInterest.Text);
-                // Clear the add interest textbox
+                // Clear the "Add Interest" textbox for future use
                 txtAddInterest.Clear();
-                // Display the interests again
+                // Repopulate the interests list
                 PopulateInterest();
-                // Repopulate recommendations to adjust to the added interest
+                // Repopulate recommendations to account for the added interest
                 PopulateRecommendation();
             }
         }
 
+        /// <summary>
+        /// Removes an interest from the user's interests list. Runs when the "Remove Interest" button is pressed.
+        /// </summary>
         private void btnRemoveInterest_Click(object sender, EventArgs e)
         {
-            // Remove the interest
+            // Remove the currently shown interest
             user.RemoveInterest(lblInterest.Text);
-            // Display the interests again
+            // Repopulate the current interest shown 
             PopulateInterest();
-            // Repopulate recommendations to adjust to the removed interest
+            // Repopulate recommendations to account for the removed interest
             PopulateRecommendation();
         }
 
+        /// <summary>
+        /// Scrolls one interest up the interests list. Runs when the up button of the interest list is pressed.
+        /// </summary>
+        private void btnInterestUp_Click(object sender, EventArgs e)
+        {
+            // Scroll the interests list in the upwards direction
+            ScrollList(ref interestIndex, PopulateInterest, -1);
+        }
 
-        // Populate the user's friends list
+        /// <summary>
+        /// Scrolls one interest down the interests list. Runs when the down button of the interest list is pressed.
+        /// </summary>
+        private void btnInterestDown_Click(object sender, EventArgs e)
+        {
+            // Scroll the interests list in the downwards direction
+            ScrollList(ref interestIndex, PopulateInterest, 1);
+        }
+
+
+        /*** FRIENDS METHODS ***/
+        /// <summary>
+        /// Displays up to 5 friends' usernames at a time in a list of labels. Manages UI elements
+        /// associated with this display of friends.
+        /// </summary>
         private void PopulateFriendsList()
         {
             // Get the user's friends
             List<Person> friendsList = user.GetAllFriends();
-
-            // If the index of the first friend to be displayed exceeds the top bound of the list,
-            // set it to the last index of the list, unless the list is empty and the index should be set to 0.
-            friendsIndex = Math.Max(0, Math.Min(friendsIndex, friendsList.Count - 1));
-
+            // Ensure that the first index of the friends to be displayed is within bounds
+            friendsIndex = RestrictWithinBounds(friendsIndex, friendsList.Count);
             // Disable or enable the friend up or down buttons according to list position
             SetScrollButtonActivity(btnFriendDown, btnFriendUp, friendsIndex, friendsList);
-
             // Determine the exclusive upper bound of the indices of friends to display
             int upperBound = Math.Min(user.GetAllFriends().Count, friendsIndex + 5);
 
-            // Loop through the friends and display their usernames
+            // Iterate through the friends that should be displayed
             for (int i = friendsIndex; i < upperBound; i++)
             {
+                // Display the username of the friend in a label
+                // i - friendsIndex is within the interval [0, 5) in order to index into a label in the label list
                 friendLabelList[i - friendsIndex].Text = friendsList[i].Username;
             }
-            // If not all labels have been filled, add placeholders
+            // If not all labels have been filled, display placeholders
             for (int i = upperBound; i < friendsIndex + 5; i++)
             {
+                // Display the placeholder text in a label
                 friendLabelList[i - friendsIndex].Text = "No friend";
             }
 
-            // If there are no friends displayed or the top friend has already been invited,
-            // disable the invite button
+            // If there are no friends displayed or the top friend has already been invited, disable the invite button
             if (!friendsList.Any() || invitedRecipients.Contains(friendsList[friendsIndex]))
             {
                 btnInviteFriend.Enabled = false;
             }
-            // Otherwise, enable the button
+            // Otherwise, enable the button so that the top friend can be invited
             else
             {
                 btnInviteFriend.Enabled = true;
@@ -282,14 +303,41 @@ namespace RudyAriazHeadEssay
             btnRemoveFriend.Enabled = friendsList.Any();
         }
 
-        private void btnFriendUp_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Initializes a list of 5 labels that can display the user's friends.
+        /// </summary>
+        private void CreateFriendLabelList()
         {
-            // Decrement the index
-            friendsIndex--;
-            // Repopulate the friends
+            // Initialize the list with the existing labels
+            friendLabelList = new List<Label> { lblFriend1, lblFriend2, lblFriend3, lblFriend4, lblFriend5 };
+        }
+        
+        /// <summary>
+        /// Removes the friend whose username is displayed at the top of the friends list from the user's 
+        /// friends list. Runs when the "Remove Friend" button is pressed.
+        /// </summary>
+        private void btnRemoveFriend_Click(object sender, EventArgs e)
+        {
+            // Removes the friend at the current top index
+            user.RemoveFriendAt(friendsIndex);
+            // Repopulate recommendations to account for the friend change
+            PopulateRecommendation();
+            // Repopulate friends to display the friend change
             PopulateFriendsList();
         }
 
+        /// <summary>
+        /// Scrolls one friend up the friends list. Runs when the up button of the friends list is pressed.
+        /// </summary>
+        private void btnFriendUp_Click(object sender, EventArgs e)
+        {
+            // Scroll the friends list in the upwards direction
+            ScrollList(ref friendsIndex, PopulateFriendsList, -1);
+        }
+
+        /// <summary>
+        /// Scrolls one friend down the friends list. Runs when the down button of the friends list is pressed.
+        /// </summary>
         private void btnFriendDown_Click(object sender, EventArgs e)
         {
             // Increment the index
@@ -298,20 +346,8 @@ namespace RudyAriazHeadEssay
             PopulateFriendsList();
         }
 
-        // Delete a friend
-        private void btnDeleteFriend_Click(object sender, EventArgs e)
-        {
-            // TODO: remove by index
-            // Removes the friend at the current displayed index
-            user.RemoveFriend(user.GetAllFriends()[friendsIndex]);
-            // Repopulate recommendations
-            PopulateRecommendation();
-            // Repopulate friends
-            PopulateFriendsList();
-        }
 
-        
-
+        /*** RECOMMENDATIONS METHODS ***/
         // Populate the currently shown recommendation 
         // TODO: optimize with dictionaries 
         private void PopulateRecommendation()
@@ -362,42 +398,14 @@ namespace RudyAriazHeadEssay
                 btnInviteRecommendation.Enabled = false;
             }            
         }
-
-        private void btnRecommendationUp_Click(object sender, EventArgs e)
-        {
-            // Decrement the index
-            recommendationIndex--;
-            // Repopulate the recommendation
-            PopulateRecommendation();
-        }
-
-        private void btnRecommendationDown_Click(object sender, EventArgs e)
-        {
-            // Increment the index
-            recommendationIndex++;
-            // Repopulate the recommendation
-            PopulateRecommendation();
-        }
-
+        
         // Go to the next type of recommendation
         private void btnNextRecommendationList_Click(object sender, EventArgs e)
         {
-            if (recommendationState == RecommendationType.FriendsOfFriendsSameInterest)
-            {
-                recommendationState = RecommendationType.SameCity;
-                lblRecommendationList.Text = "Same City";
-            }
-            else if (recommendationState == RecommendationType.SameCity)
-            {
-                recommendationState = RecommendationType.SameCitySameInterest;
-                lblRecommendationList.Text = "Same City, Same Interest";
-            }
-            else
-            {
-                recommendationState = RecommendationType.FriendsOfFriendsSameInterest;
-                lblRecommendationList.Text = "Friends of Friends with Same Interest";
-            }
-
+            recommendationState = (RecommendationType)((int)(recommendationState + 1) % 3);
+            lblRecommendationList.Text = recommendationDescriptions[(int)recommendationState];
+            // Reset the recommendation index to 0 for viewing the next recommendation list
+            recommendationIndex = 0;
             // Repopulate the recommendation to accomodate for the change in type
             PopulateRecommendation();
         }
@@ -412,37 +420,30 @@ namespace RudyAriazHeadEssay
             // Repopulate friends to display the change
             PopulateFriendsList();
         }
-        
 
-        // Hide or show the invitation creation UI
-        private void SetInvitationUIVisibility(bool visible)
+        /// <summary>
+        /// Scrolls one recommendation up the recommendations list. Runs when the up button of the recommendations list is pressed.
+        /// </summary>
+        private void btnRecommendationUp_Click(object sender, EventArgs e)
         {
-            // Set visibility for labels
-            lblInvitationCreation.Visible = visible;
-            lblPromptLifetime.Visible = visible;
-            lblPromptRecipients.Visible = visible;
-            lblPromptInterest.Visible = visible;
+            // Scroll the recommendations list in the upwards direction
+            ScrollList(ref recommendationIndex, PopulateRecommendation, -1);
+        }
 
-            // Set visibility for textboxes
-            txtInvitationLifetime.Visible = visible;
-            txtInvitationRecipients.Visible = visible;
-            txtInvitationInterest.Visible = visible;
-
-            // Set visibility for buttons
-            btnSendInvitation.Visible = visible;
-            btnCancelInvitation.Visible = visible;
-            btnInviteRecommendation.Visible = visible;
-            btnInviteFriend.Visible = visible;
-
-            // When the invitation creation UI is visible, the New Invitation button should be disabled
-            // and vice versa
-            btnNewInvitation.Enabled = !visible;
-            // The remove friend button should be disabled during invitation creation
-            btnRemoveFriend.Enabled = !visible;
+        /// <summary>
+        /// Scrolls one recommendation down the recommendations list. Runs when the down button of the recommendations list is pressed.
+        /// </summary>
+        private void btnRecommendationDown_Click(object sender, EventArgs e)
+        {
+            // Increment the index
+            recommendationIndex++;
+            // Repopulate the recommendation
+            PopulateRecommendation();
         }
 
 
 
+        /*** INVITATIONS METHODS ***/
         // TODO: store the current invitations?
         // TODO: refactor this to make it simpler
         private void PopulateInvitation()
@@ -531,25 +532,35 @@ namespace RudyAriazHeadEssay
                 btnInvitationDown.Enabled = true;
             }
         }
+
+        // Hide or show the invitation creation UI
+        private void SetInvitationUIVisibility(bool visible)
+        {
+            // Set visibility for labels
+            lblInvitationCreation.Visible = visible;
+            lblPromptLifetime.Visible = visible;
+            lblPromptRecipients.Visible = visible;
+            lblPromptInterest.Visible = visible;
+
+            // Set visibility for textboxes
+            txtInvitationLifetime.Visible = visible;
+            txtInvitationRecipients.Visible = visible;
+            txtInvitationInterest.Visible = visible;
+
+            // Set visibility for buttons
+            btnSendInvitation.Visible = visible;
+            btnCancelInvitation.Visible = visible;
+            btnInviteRecommendation.Visible = visible;
+            btnInviteFriend.Visible = visible;
+
+            // When the invitation creation UI is visible, the New Invitation button should be disabled
+            // and vice versa
+            btnNewInvitation.Enabled = !visible;
+            // The remove friend button should be disabled during invitation creation
+            btnRemoveFriend.Enabled = !visible;
+        }
         
-
-        // TODO: implement
-        private void btnInvitationUp_Click(object sender, EventArgs e)
-        {
-            // Decrement the invitation index
-            invitationIndex--;
-            // Repopulate the invitation
-            PopulateInvitation();
-        }
-
-        // TODO: implement
-        private void btnInvitationDown_Click(object sender, EventArgs e)
-        {
-            // Increment the invitation index
-            invitationIndex++;
-            // Repopulate the invitation
-            PopulateInvitation();
-        }
+       
 
         // Add a recommended friend to the current invitation recipients
         private void btnInviteRecommendation_Click(object sender, EventArgs e)
@@ -655,7 +666,7 @@ namespace RudyAriazHeadEssay
                 // Show a status update
                 MessageBox.Show("Invitation sent!");
                 // Close the invitation creation UI
-                CloseInvitationUI();
+                CloseCreationInvitationUI();
 
                 // Enable the invitation button for a new invitation
                 btnInviteFriend.Enabled = true;
@@ -670,7 +681,7 @@ namespace RudyAriazHeadEssay
         }
 
         // Clear and close the invitation creation UI
-        private void CloseInvitationUI()
+        private void CloseCreationInvitationUI()
         {
             // Clear the text of all fields
             txtInvitationLifetime.Text = "";
@@ -687,7 +698,7 @@ namespace RudyAriazHeadEssay
         // Cancel the invitation and close the creation UI
         private void btnCancelInvitation_Click(object sender, EventArgs e)
         {
-            CloseInvitationUI();
+            CloseCreationInvitationUI();
         }
 
         
@@ -741,13 +752,26 @@ namespace RudyAriazHeadEssay
         }
 
 
-
-        private void MainUIForm_FormClosed(object sender, FormClosedEventArgs e)
+        /// <summary>
+        /// Scrolls one invitation up the invitations list. Runs when the up button of the invitations list is pressed.
+        /// </summary>
+        private void btnInvitationUp_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            // Scroll the invitations list in the upwards direction
+            ScrollList(ref invitationIndex, PopulateInvitation, -1);
         }
 
-        
+        /// <summary>
+        /// Scrolls one invitation down the invitations list. Runs when the down button of the invitations list is pressed.
+        /// </summary>
+        private void btnInvitationDown_Click(object sender, EventArgs e)
+        {
+            // Increment the invitation index
+            invitationIndex++;
+            // Repopulate the invitation
+            PopulateInvitation();
+        }
+
 
         // Logs user out
         private void btnLogOut_Click(object sender, EventArgs e)
@@ -758,6 +782,11 @@ namespace RudyAriazHeadEssay
             frmLogin.ShowDialog();
             // Close the current UI form
             this.Close();
-        }        
+        }
+
+        private void MainUIForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

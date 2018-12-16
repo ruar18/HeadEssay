@@ -338,7 +338,7 @@
             this.btnRemoveFriend.TabIndex = 38;
             this.btnRemoveFriend.Text = "Remove Friend";
             this.btnRemoveFriend.UseVisualStyleBackColor = true;
-            this.btnRemoveFriend.Click += new System.EventHandler(this.btnDeleteFriend_Click);
+            this.btnRemoveFriend.Click += new System.EventHandler(this.btnRemoveFriend_Click);
             // 
             // btnAddInterest
             // 
