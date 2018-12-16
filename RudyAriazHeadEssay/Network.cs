@@ -38,6 +38,10 @@ namespace RudyAriazHeadEssay
             users[1].AddFriend(users[3]);
             users[0].AddInterest("swimming");
             users[3].AddInterest("swimming");
+            for(int i = 0; i < 20; i++)
+            {
+                users.Add(new Person("test", "testtt", "Toronto", i + "test", "hi"));
+            }
         }
 
         /// <summary>

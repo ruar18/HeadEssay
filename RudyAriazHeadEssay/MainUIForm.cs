@@ -67,7 +67,7 @@ namespace RudyAriazHeadEssay
         // Indicates whether or not an invitation is currently being created by the user. Initially false.
         private bool ongoingInvitation = false;
 
-        
+
         /// <summary>
         /// Constructs a new MainUIForm object with the given network and logged-in user.
         /// </summary>
@@ -90,7 +90,7 @@ namespace RudyAriazHeadEssay
             // Hide invitation creation UI at first
             SetInvitationCreationUIVisibility(visible: false);
         }
-        
+
         /// <summary>
         /// Populates the user's information label lists.
         /// </summary>
@@ -105,7 +105,7 @@ namespace RudyAriazHeadEssay
             // Populate the user's currently displayed invitation
             PopulateInvitation();
         }
-        
+
         /*** UTILITY METHODS ***/
         /// <summary>
         /// Disables or enables up and down buttons for scrolling through a given list depending on the current list position.
@@ -118,7 +118,7 @@ namespace RudyAriazHeadEssay
         private void SetScrollButtonActivity<T>(Button btnDown, Button btnUp, int itemIndex, List<T> scrolledList)
         {
             // If there are no earlier items to view (the value at the first index is already shown), disable the up button 
-            if(itemIndex == 0)
+            if (itemIndex == 0)
             {
                 btnUp.Enabled = false;
             }
@@ -129,7 +129,7 @@ namespace RudyAriazHeadEssay
             }
 
             // If there are no later items to view (the value at the last index is already shown), disable the down button
-            if(itemIndex >= scrolledList.Count - 1)
+            if (itemIndex >= scrolledList.Count - 1)
             {
                 btnDown.Enabled = false;
             }
@@ -169,6 +169,7 @@ namespace RudyAriazHeadEssay
         }
 
 
+
         /*** INTERESTS METHODS ***/
         /// <summary>
         /// Displays the current selected interest in a label.
@@ -199,7 +200,7 @@ namespace RudyAriazHeadEssay
                 btnRemoveInterest.Enabled = true;
             }
         }
-        
+
         /// <summary>
         /// Adds an interest to the user's interests list. Runs when the "Add Interest" button is pressed.
         /// </summary>
@@ -263,6 +264,7 @@ namespace RudyAriazHeadEssay
         }
 
 
+
         /*** FRIENDS METHODS ***/
         /// <summary>
         /// Displays up to 5 friends' usernames at a time in a list of labels. Manages UI elements
@@ -279,7 +281,7 @@ namespace RudyAriazHeadEssay
             // Determine the exclusive upper bound of the indices of friends to display
             int upperBound = Math.Min(user.GetAllFriends().Count, friendsIndex + 5);
             // Set the current top friend if it exists, or null if it does not
-            currentTopFriend = friendsList.Any()? friendsList[friendsIndex] : null;
+            currentTopFriend = friendsList.Any() ? friendsList[friendsIndex] : null;
 
             // Iterate through the friends that should be displayed
             for (int i = friendsIndex; i < upperBound; i++)
@@ -323,7 +325,7 @@ namespace RudyAriazHeadEssay
             // Initialize the list with the existing labels
             friendLabelList = new List<Label> { lblFriend1, lblFriend2, lblFriend3, lblFriend4, lblFriend5 };
         }
-        
+
         /// <summary>
         /// Removes the friend whose username is displayed at the top of the friends list from the user's 
         /// friends list. Runs when the "Remove Friend" button is pressed.
@@ -356,7 +358,7 @@ namespace RudyAriazHeadEssay
             ScrollList(ref friendsIndex, PopulateFriendsList, 1);
         }
 
-        
+
 
         /*** RECOMMENDATIONS METHODS ***/
         /// <summary>
@@ -543,7 +545,7 @@ namespace RudyAriazHeadEssay
                 if (invitationState == InvitationType.Incoming)
                 {
                     // Check if the user has accepted the invitation
-                    if(selectedInvitation.InvitationStateOfRecipient(user) == InvitationStatus.Accepted)
+                    if (selectedInvitation.InvitationStateOfRecipient(user) == InvitationStatus.Accepted)
                     {
                         // Set the invitation font to bold to show that it has been accepted
                         txtInvitation.Font = new Font(Font, FontStyle.Bold);
@@ -596,9 +598,9 @@ namespace RudyAriazHeadEssay
             btnNewInvitation.Enabled = !visible;
             // When the invitation creation UI is visible, the "Remove Friend" button should be disabled
             btnRemoveFriend.Enabled = !visible;
-            
+
         }
-        
+
         /// <summary>
         /// Adds the currently selected recommended friend to the current invitation recipients while managing related
         /// UI components. Runs when the "Invite" button of the recommendation UI is pressed.
@@ -638,7 +640,7 @@ namespace RudyAriazHeadEssay
             // Get the invitee's username
             string username = invitee.Username;
             // Check if this is the first recipient for proper formatting
-            if(txtInvitationRecipients.Text == "")
+            if (txtInvitationRecipients.Text == "")
             {
                 // Set the text of the textbox to display the username
                 txtInvitationRecipients.Text = username;
@@ -676,7 +678,7 @@ namespace RudyAriazHeadEssay
             // Show the invitation creation UI
             SetInvitationCreationUIVisibility(visible: true);
         }
-        
+
         /// <summary>
         /// Sends a newly-created outgoing invitation if all fields have been filled.
         /// </summary>
@@ -688,11 +690,11 @@ namespace RudyAriazHeadEssay
             string interest = txtInvitationInterest.Text;
 
             // Perform error checking for missing information, stopping at the earliest error
-            // Check if there is no valid lifetime set (non-numerical or non-positive)
-            if(!double.TryParse(txtInvitationLifetime.Text, out lifeTime) || lifeTime <= 0)
+            // Check if there is no valid life-time set (non-numerical or non-positive)
+            if (!double.TryParse(txtInvitationLifetime.Text, out lifeTime) || lifeTime <= 0)
             {
                 // Show an appropriate error message in a MessageBox
-                MessageBox.Show("Please set a positive invitation life-time.");
+                MessageBox.Show("Please set a positive invitation life-time (smaller than 2E300)");
             }
             // Check if there are no recipients selected
             else if (!invitedRecipients.Any())
@@ -701,7 +703,7 @@ namespace RudyAriazHeadEssay
                 MessageBox.Show("Please select at least 1 recipient.");
             }
             // Check if there is no interest set
-            else if(interest == "")
+            else if (interest == "")
             {
                 // Show an appropriate error message in a MessageBox
                 MessageBox.Show("Please enter an interest");
@@ -712,11 +714,11 @@ namespace RudyAriazHeadEssay
                 // Create a dictionary of recipient states with the given recipients
                 // No recipients have accepted the invitation yet, so set the invitation status as "Pending" for all recipients
                 // Precondition: invited recipients are unique
-                Dictionary<Person, InvitationStatus> recipientStates = 
+                Dictionary<Person, InvitationStatus> recipientStates =
                     invitedRecipients.ToDictionary(person => person, person => InvitationStatus.Pending);
 
                 // Create the invitation with the given information
-                Invitation newInvitation = new Invitation(user, recipientStates, interest, 
+                Invitation newInvitation = new Invitation(user, recipientStates, interest,
                                                           Environment.TickCount, lifeTime);
                 // Send the invitation
                 network.DeliverInvitation(newInvitation);
@@ -732,7 +734,7 @@ namespace RudyAriazHeadEssay
                 PopulateInvitation();
             }
         }
-        
+
         /// <summary>
         /// Clears and close the invitation creation UI.
         /// </summary>
@@ -742,7 +744,7 @@ namespace RudyAriazHeadEssay
             txtInvitationLifetime.Text = "";
             txtInvitationRecipients.Text = "";
             txtInvitationInterest.Text = "";
-            
+
             // Hide the invitation creation UI
             SetInvitationCreationUIVisibility(visible: false);
         }
@@ -768,9 +770,9 @@ namespace RudyAriazHeadEssay
             // Close the invitation created
             CloseInvitationCreation();
         }
-        
+
         /// <summary>
-        /// Adds a pending incoming invitation to the accepted list.
+        /// Adds a pending incoming invitation to the accepted list. Runs when the "Accept Invitation" button is pressed.
         /// </summary>
         private void btnAcceptInvitation_Click(object sender, EventArgs e)
         {
@@ -779,47 +781,55 @@ namespace RudyAriazHeadEssay
             // If the invitation has expired, display an appropriate error message
             if (!selectedInvitation.IsActive())
             {
+                // Display the error message in a MessageBox
                 MessageBox.Show("Invitation has already expired.");
             }
             // Otherwise, the invitation is accepted by the user
             else
             {
+                // Add the invitation to the user's accepted invitations list
                 user.AcceptInvitation(selectedInvitation);
             }
-            // Repopulate the invitation information
+            // Repopulate the invitation information to reflect the acceptance 
             PopulateInvitation();
         }
 
-
-        // Delete an incoming or outgoing invitation
-        // TODO: treat differently based on outgoing/incoming
+        /// <summary>
+        /// Deletes the currently selected incoming or outgoing invitation. Runs when the "Delete Invitation" button is pressed.
+        /// </summary>
         private void btnDeleteInvitation_Click(object sender, EventArgs e)
         {
-            // Will store the current displayed invitation
+            // Will store the currently displayed invitation
             Invitation selectedInvitation = null;
 
-            // Get the invitation
+            // Check if the invitation is an outgoing one
             if (invitationState == InvitationType.Outgoing)
             {
+                // Get the outgoing invitation
                 selectedInvitation = user.GetOutgoingInvitations()[invitationIndex];
+                // Deactivate the invitation. It will be deleted from the network upon updating the invitations.
                 selectedInvitation.Deactivate();
             }
+            // Otherwise, it is an incoming invitation
             else
             {
+                // Get the incoming invitation
                 selectedInvitation = user.GetIncomingInvitations()[invitationIndex];
+                // Delete the invitation from the user's lists only
                 user.DeleteIncomingInvitation(selectedInvitation);
             }
-            
-            // Repopulate the current invitation
+            // Repopulate the invitation list to reflect the deletion
             PopulateInvitation();
         }
 
-        // Allow the user to directly refresh invitation information
+        /// <summary>
+        /// Directly refreshes the invitation information displayed. Runs when the "Refresh Invitations" button is pressed.
+        /// </summary>
         private void btnRefreshInvitations_Click(object sender, EventArgs e)
         {
+            // Repopulate the invitation shown
             PopulateInvitation();
         }
-
 
         /// <summary>
         /// Scrolls one invitation up the invitations list. Runs when the up button of the invitations list is pressed.
@@ -840,10 +850,13 @@ namespace RudyAriazHeadEssay
         }
 
 
-        // Logs user out
+
+        /// <summary>
+        /// Logs the user out (redirects to the Login form). Runs when the "Log Out" button is pressed.
+        /// </summary>
         private void btnLogOut_Click(object sender, EventArgs e)
         {
-            // Create a new login form, passing in the current network
+            // Create a new login form, passing in the current network for reference
             LoginForm frmLogin = new LoginForm(network);
             // Show the new form
             frmLogin.ShowDialog();
@@ -851,8 +864,12 @@ namespace RudyAriazHeadEssay
             this.Close();
         }
 
+        /// <summary>
+        /// Closes the application (to avoid background processes) when the form is closed by the user.
+        /// </summary>
         private void MainUIForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            // Close the application
             Application.Exit();
         }
     }

@@ -49,8 +49,8 @@ namespace RudyAriazHeadEssay
         /// <param name="interest">A string storing the interest used in the invitation.</param>
         /// <param name="timeCreated">An integer storing the number of milliseconds elapsed since the computer started.</param>
         /// <param name="lifeTime">A double storing the life-time of the invitation in minutes.</param>
-        public Invitation(Person creator, Dictionary<Person, InvitationStatus> recipients, 
-                          string interest, int timeCreated, double lifeTime )
+        public Invitation(Person creator, Dictionary<Person, InvitationStatus> recipients,
+                          string interest, int timeCreated, double lifeTime)
         {
             // Set the invitation's fields to the given arguments
             Creator = creator;
@@ -85,9 +85,9 @@ namespace RudyAriazHeadEssay
             double unRounded = lifeTime - (Environment.TickCount - timeCreated) / (1.0 * MS_IN_MINUTE);
             // Round the remaining life-time to 1 decimal place, unless there is less than 0.1 minutes
             // in which case round to a higher-precision double (3 decimal places). Return this value.
-            return unRounded >= 0.1? Math.Round(unRounded, 1) : Math.Round(unRounded, 3);
+            return unRounded >= 0.1 ? Math.Round(unRounded, 1) : Math.Round(unRounded, 3);
         }
-        
+
         /// <summary>
         /// Updates the recipient dictionary to reflect that user has accepted or rejected the invitation.
         /// Precondition: "user" is a recipient of this invitation.
@@ -110,7 +110,7 @@ namespace RudyAriazHeadEssay
             return new List<Person>(this.recipientStates.Keys);
         }
 
-        
+
         /// <summary>
         /// Builds and returns a string representation of the invitation content.
         /// </summary>
@@ -125,7 +125,7 @@ namespace RudyAriazHeadEssay
             StringBuilder invitationSB = new StringBuilder($"Interest: { Interest }\r\n");
 
             // Add creator information if the user is not the creator
-            if(user != Creator)
+            if (user != Creator)
             {
                 // Add the formatted creator information
                 invitationSB.Append($"Creator: { Creator.Username }\r\n");
@@ -139,7 +139,7 @@ namespace RudyAriazHeadEssay
 
             // Iterate through every (recipient, status) pair in the recipientStates dictionary in order to
             // add all recipients to the invitation description
-            foreach(KeyValuePair<Person, InvitationStatus> recipient in recipientStates)
+            foreach (KeyValuePair<Person, InvitationStatus> recipient in recipientStates)
             {
                 // Format the InvitationStatus value in a user-friendly manner stored in the "status" string
                 switch (recipient.Value)
@@ -154,7 +154,7 @@ namespace RudyAriazHeadEssay
                         status = "Pending";
                         break;
                 }
-                
+
                 // Add the recipient username and their invitation status to the description
                 invitationSB.Append($"{ recipient.Key.Username }- { status }, ");
             }
@@ -164,7 +164,7 @@ namespace RudyAriazHeadEssay
 
             // Add information about time remaining for the invitation to the description
             invitationString += $"\r\n{ this.TimeLeft() } minutes left";
-            
+
             // Return the string
             return invitationString;
         }
